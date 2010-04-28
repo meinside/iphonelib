@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.02.06.
+//  last update: 10.04.28.
 //
 
 #import "SqliteWrapper.h"
@@ -46,7 +46,7 @@
 #pragma mark -
 #pragma mark initializer
 
-- (id)initWithFileNamed:(NSString*)filePath
+- (id)initWithFilepath:(NSString*)filePath
 {
 	sqlite3* db;
 	int error;

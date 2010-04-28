@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.02.24.
+//  last update: 10.04.28.
 //
 
 #import "SqliteResultRow.h"
@@ -102,6 +102,98 @@
 		DebugLog(@"no such column with name: %@", name);
 	
 	return column;
+}
+
+- (int)intValueAtColumnWithIndex:(int)index ifNull:(int)defaultValue
+{
+	if(index >= [columnsArray count])
+	{
+		DebugLog(@"no such column with index: %d", index);
+		return -1;
+	}
+	
+	return [[columnsArray objectAtIndex:index] intValueIfNull:defaultValue];
+}
+
+- (float)floatValueAtColumnWithIndex:(int)index ifNull:(float)defaultValue
+{
+	if(index >= [columnsArray count])
+	{
+		DebugLog(@"no such column with index: %d", index);
+		return -1.0f;
+	}
+	
+	return [[columnsArray objectAtIndex:index] floatValueIfNull:defaultValue];
+}
+
+- (NSData*)blobValueAtColumnWithIndex:(int)index ifNull:(NSData*)defaultValue
+{
+	if(index >= [columnsArray count])
+	{
+		DebugLog(@"no such column with index: %d", index);
+		return nil;
+	}
+	
+	return [[columnsArray objectAtIndex:index] blobValueIfNull:defaultValue];
+}
+
+- (NSString*)textValueAtColumnWithIndex:(int)index ifNull:(NSString*)defaultValue
+{
+	if(index >= [columnsArray count])
+	{
+		DebugLog(@"no such column with index: %d", index);
+		return nil;
+	}
+
+	return [[columnsArray objectAtIndex:index] textValueIfNull:defaultValue];
+}
+
+- (int)intValueAtColumnWithName:(NSString*)name ifNull:(int)defaultValue
+{
+	SqliteQueryParameter* column = [columnsDictionary objectForKey:name];
+	if(!column)
+	{
+		DebugLog(@"no such column with name: %@", name);
+		return -1;
+	}
+	
+	return [column intValueIfNull:defaultValue];
+}
+
+- (float)floatValueAtColumnWithName:(NSString*)name ifNull:(float)defaultValue
+{
+	SqliteQueryParameter* column = [columnsDictionary objectForKey:name];
+	if(!column)
+	{
+		DebugLog(@"no such column with name: %@", name);
+		return -1.0f;
+	}
+	
+	return [column floatValueIfNull:defaultValue];
+}
+
+- (NSData*)blobValueAtColumnWithName:(NSString*)name ifNull:(NSData*)defaultValue
+{
+	SqliteQueryParameter* column = [columnsDictionary objectForKey:name];
+	if(!column)
+	{
+		DebugLog(@"no such column with name: %@", name);
+		return nil;
+	}
+	
+	return [column blobValueIfNull:defaultValue];
+}
+
+- (NSString*)textValueAtColumnWithName:(NSString*)name ifNull:(NSString*)defaultValue
+{
+	SqliteQueryParameter* column = [columnsDictionary objectForKey:name];
+	if(!column)
+	{
+		DebugLog(@"no such column with name: %@", name);
+		return nil;
+	}
+	
+	return [column textValueIfNull:defaultValue];
 }
 
 #pragma mark -

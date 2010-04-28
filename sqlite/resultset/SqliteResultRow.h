@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.02.24.
+//  last update: 10.04.28.
 //
 
 #pragma once
@@ -62,5 +62,21 @@
 - (SqliteQueryParameter*)columnAtIndex:(int)index;
 
 - (SqliteQueryParameter*)columnWithName:(NSString*)name;
+
+- (int)intValueAtColumnWithIndex:(int)index ifNull:(int)defaultValue;
+
+- (float)floatValueAtColumnWithIndex:(int)index ifNull:(float)defaultValue;
+
+- (NSData*)blobValueAtColumnWithIndex:(int)index ifNull:(NSData*)defaultValue;
+
+- (NSString*)textValueAtColumnWithIndex:(int)index ifNull:(NSString*)defaultValue;
+
+- (int)intValueAtColumnWithName:(NSString*)name ifNull:(int)defaultValue;
+
+- (float)floatValueAtColumnWithName:(NSString*)name ifNull:(float)defaultValue;
+
+- (NSData*)blobValueAtColumnWithName:(NSString*)name ifNull:(NSData*)defaultValue;
+
+- (NSString*)textValueAtColumnWithName:(NSString*)name ifNull:(NSString*)defaultValue;
 
 @end

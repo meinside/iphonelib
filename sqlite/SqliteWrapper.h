@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.02.06.
+//  last update: 10.04.28.
 //
 
 #pragma once
@@ -59,7 +59,7 @@
 	NSString* lastErrorMessage;
 }
 
-- (id)initWithFileNamed:(NSString*)filePath;
+- (id)initWithFilepath:(NSString*)filePath;
 
 - (bool)createTableWithQueryString:(NSString*)query;
 
