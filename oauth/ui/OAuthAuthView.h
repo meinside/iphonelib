@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.02.21.
+//  last update: 10.05.03.
 //
 
 #import <UIKit/UIKit.h>
@@ -63,5 +63,7 @@
 - (void)loadAuthPage;
 
 - (NSString*)html;
+
+- (void)setOAuthProvider:(OAuthProvider*)provider;
 
 @end

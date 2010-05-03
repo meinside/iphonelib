@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.02.21.
+//  last update: 10.05.03.
 //
 
 #import "OAuthAuthView.h"
@@ -53,11 +53,13 @@
 	
 	//activity indicator
 	indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	indicator.center = self.center;
+	CGRect selfBounds = self.bounds;
+	indicator.center = CGPointMake(selfBounds.size.width / 2, selfBounds.size.height / 2);
 	indicator.hidesWhenStopped = YES;
-	
+
 	//dimmer
-	CGRect outerBounds = [[UIScreen mainScreen] bounds];	//to cover whole screen even after the device is rotated
+	//(to cover whole screen even after the device is rotated)
+	CGRect outerBounds = [[UIScreen mainScreen] bounds];
 	if(outerBounds.size.width > outerBounds.size.height)
 		outerBounds.size.height = outerBounds.size.width;
 	else if(outerBounds.size.height > outerBounds.size.width)
@@ -77,17 +79,38 @@
 #pragma mark -
 #pragma mark initializers
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	if(self = [super initWithCoder:aDecoder])
+	{
+		// Initialization code
+		[self doSetup];
+		oauth = nil;
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+	if (self = [super initWithFrame:frame]) 
+	{
+		// Initialization code
+		[self doSetup];
+		oauth = nil;
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame 
 		oauthProvider:(OAuthProvider*)oauthProvider
 {
-    if (self = [super initWithFrame:frame]) 
+	if (self = [super initWithFrame:frame]) 
 	{
-        // Initialization code
+		// Initialization code
 		[self doSetup];
 		oauth = [oauthProvider retain];
     }
-    return self;
-	
+    return self;	
 }
 
 - (id)initWithFrame:(CGRect)frame 
@@ -97,9 +120,9 @@
 	 accessTokenUrl:(NSString*)accessTokenUrl 
 	   authorizeUrl:(NSString*)authorizeUrl
 {
-    if (self = [super initWithFrame:frame]) 
+	if (self = [super initWithFrame:frame]) 
 	{
-        // Initialization code
+		// Initialization code
 		[self doSetup];
 		oauth = [[OAuthProvider alloc] initWithConsumerKey:consumerKey 
 											consumerSecret:consumerSecret 
@@ -111,26 +134,50 @@
     return self;
 }
 
+- (void)setOAuthProvider:(OAuthProvider*)provider
+{
+	oauth = [provider retain];
+}
+
 #pragma mark -
 #pragma mark open authorize url
 
 - (void)loadAuthPage
 {
 	NSString* userAuthUrl = [oauth userAuthUrl];
-	[self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:userAuthUrl]]];
+	
+	if(userAuthUrl)
+	{
+		DebugLog(@"loading auth url: %@", userAuthUrl);
+
+		[self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:userAuthUrl]]];
+	}
+	else
+	{
+		DebugLog(@"user auth url is nil");
+		
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+														message:@"Auth URL is not proper" 
+													   delegate:self 
+											  cancelButtonTitle:@"OK" 
+											  otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+	}
 }
 
 #pragma mark -
 #pragma mark overriden methods
 
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
+	// Drawing code
 }
 
 - (void)layoutSubviews
 {
 	//change indicator's location
-	indicator.center = self.center;
+	CGRect selfBounds = self.bounds;
+	indicator.center = CGPointMake(selfBounds.size.width / 2, selfBounds.size.height / 2);
 }
 
 
@@ -146,7 +193,7 @@
 {	
 	dimmer.alpha = 0.0f;
 	[indicator stopAnimating];
-	
+
 	[self setUserInteractionEnabled:YES];
 }
 
@@ -156,8 +203,8 @@
 	[indicator stopAnimating];
 
 	[self setUserInteractionEnabled:YES];
-	
-	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"page load error" 
+
+	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Page Load Error" 
 													message:[error localizedFailureReason] 
 												   delegate:self 
 										  cancelButtonTitle:@"OK" 
@@ -178,8 +225,8 @@
 	[oauth release];
 	[dimmer release];
 	[indicator release];
-	
-    [super dealloc];
+
+	[super dealloc];
 }
 
 
