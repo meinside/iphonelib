@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.02.06.
+//  last update: 10.05.03.
 //
 
 #pragma once
@@ -43,7 +43,16 @@
 #import "XMLParsedElement.h"
 #import "Logging.h"
 
+#ifndef __IPHONE_4_0
+
 @interface XMLParser : NSObject {
+	
+#else
+
+//since __IPHONE_4_0
+@interface XMLParser : NSObject <NSXMLParserDelegate> {
+	
+#endif
 
 	NSXMLParser* parser;
 	NSMutableString* currentElementValue;
@@ -76,6 +85,8 @@
 
 @end
 
+
+#ifndef __IPHONE_4_0
 
 @interface XMLParser (XMLParserDelegate)
 
@@ -132,7 +143,7 @@
 - (void)parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock;
 // this reports a CDATA block to the delegate as an NSData.
 
-//- (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID;
+- (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID;
 //// this gives the delegate an opportunity to resolve an external entity itself and reply with the resulting data.
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError;
@@ -140,6 +151,7 @@
 
 - (void)parser:(NSXMLParser *)parser validationErrorOccurred:(NSError *)validationError;
 // If validation is on, this will report a fatal validation error to the delegate. The parser will stop parsing.
-
+	
 @end
 
+#endif

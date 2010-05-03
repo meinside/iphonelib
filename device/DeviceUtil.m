@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.02.22.
+//  last update: 10.05.03.
 //
 
 #import "DeviceUtil.h"
@@ -125,10 +125,14 @@
 
 + (BOOL)compassSupported
 {
+#ifdef __IPHONE_4_0
+	return [CLLocationManager headingAvailable];
+#else	//location.headingAvailable deprecated
 	CLLocationManager* location = [[CLLocationManager alloc] init];
 	BOOL supported = location.headingAvailable;
 	[location release];
 	return supported;
+#endif
 }
 
 @end

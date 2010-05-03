@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.02.06.
+//  last update: 10.05.03.
 //
 
 #import "XMLParser.h"
@@ -198,12 +198,17 @@
 	[super dealloc];
 }
 
-@end
 
 #pragma mark -
 #pragma mark XMLParserDelegate functions
 
+#ifndef __IPHONE_4_0
+
+@end
+
 @implementation XMLParser (XMLParserDelegate)
+
+#endif
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
@@ -329,10 +334,11 @@
 	//ignore
 }
 
-//- (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID
-//{
-//	
-//}
+- (NSData *)parser:(NSXMLParser *)parser resolveExternalEntityName:(NSString *)name systemID:(NSString *)systemID
+{
+	//ignore
+	return nil;
+}
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
