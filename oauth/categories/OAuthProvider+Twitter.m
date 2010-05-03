@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.02.06.
+//  last update: 10.05.03.
 //
 
 #import "OAuthProvider+Twitter.h"
@@ -44,7 +44,33 @@
 #pragma mark -
 #pragma mark Twitter API functions
 
+- (NSDictionary*)updateStatus:(NSString*)status
+					inReplyTo:(NSString*)statusId
+					 latitude:(NSString*)latitude
+					longitude:(NSString*)longitude
+					  placeId:(NSString*)placeId
+			displayCoordinate:(BOOL)displayCoordinate
+{
+	if(!self.authorized)
+		return NO;
+
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	if(status)
+		[params setObject:status forKey:@"status"];
+	if(latitude)
+		[params setObject:latitude forKey:@"lat"];
+	if(longitude)
+		[params setObject:longitude forKey:@"long"];
+	if(placeId)
+		[params setObject:placeId forKey:@"place_id"];
+	if(!displayCoordinate)
+		[params setObject:@"false" forKey:@"display_coordinates"];
+
+	return [self post:TWITTER_STATUSES_UPDATE_URL parameters:params];
+}
+
 //TODO - ...
+
 
 #pragma mark -
 #pragma mark Yfrog API functions
@@ -101,7 +127,7 @@
 	
 	NSURLResponse* response;
 	NSError* error;
-	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:@"http://yfrog.com/api/upload"] 
+	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:YFROG_UPLOAD_URL] 
 													 parameters:params 
 										 additionalHeaderFields:nil 
 												timeoutInterval:0.0
@@ -159,7 +185,7 @@
 	
 	NSURLResponse* response;
 	NSError* error;
-	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:@"http://yfrog.com/api/upload"] 
+	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:YFROG_UPLOAD_URL] 
 													 parameters:params 
 										 additionalHeaderFields:nil 
 												timeoutInterval:0.0

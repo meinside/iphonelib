@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.02.22.
+//  last update: 10.05.03.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -110,19 +110,27 @@
 
 /**
  * (after authorization) retrieve protected resources from the service provider using GET method
+ * 
+ * returns: NSDictionary with keys: kOAUTH_RESPONSE_STATUSCODE(http status code), kOAUTH_RESPONSE_RESULT(result string)
  */
-- (id)get:(NSString*)url parameters:(NSDictionary*)parameters;
+- (NSDictionary*)get:(NSString*)url 
+		  parameters:(NSDictionary*)parameters;
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method
+ * 
+ * returns: NSDictionary with keys: kOAUTH_RESPONSE_STATUSCODE(http status code), kOAUTH_RESPONSE_RESULT(result string)
  */
-- (id)post:(NSString*)url parameters:(NSDictionary*)parameters;
+- (NSDictionary*)post:(NSString*)url 
+		   parameters:(NSDictionary*)parameters;
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method (when including multipart/form-data)
+ * 
+ * returns: NSDictionary with keys: kOAUTH_RESPONSE_STATUSCODE(http status code), kOAUTH_RESPONSE_RESULT(result string)
  */
-- (id)postMultipart:(NSString*)url 
-		 parameters:(HTTPParamList*)parameters;
+- (NSDictionary*)postMultipart:(NSString*)url 
+					parameters:(HTTPParamList*)parameters;
 
 + (NSString*)timestamp;
 + (NSString*)nonce;

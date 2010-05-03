@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.01.16.
+//  last update: 10.05.03.
 //
 
 
@@ -45,6 +45,11 @@
 #import "XMLParser.h"
 
 
+#define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"
+
+#define YFROG_UPLOAD_URL @"http://yfrog.com/api/upload"
+
+
 @interface OAuthProvider (OAuthProviderTwitterExtension)
 
 /*
@@ -52,13 +57,22 @@
  * - http://apiwiki.twitter.com/Twitter-API-Documentation
  */
 
-//TODO - ...
+//http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0update
+- (NSDictionary*)updateStatus:(NSString*)status	//status text
+					inReplyTo:(NSString*)statusId	//existing status' id that this update replies to (nil if none)
+					 latitude:(NSString*)latitude	//latitude: -90.0 ~ +90.0 (nil if none)
+					longitude:(NSString*)longitude	//longitude: -180.0 ~ +180.0 (nil if none)
+					  placeId:(NSString*)placeId		//place id that this update will be attached to (nil if none)
+			displayCoordinate:(BOOL)displayCoordinate;
 
 
 /*
  * functions for yfrog service
  * - http://code.google.com/p/imageshackapi/wiki/TwitterAuthentication
  * - http://code.google.com/p/imageshackapi/wiki/YFROGupload
+ * 
+ * returns media url
+ * 
  */
 
 - (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey

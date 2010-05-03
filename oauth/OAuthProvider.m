@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.02.22.
+//  last update: 10.05.03.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -366,7 +366,8 @@
 /**
  * (after authorization) retrieve protected resources from the service provider using GET method
  */
-- (id)get:(NSString*)url parameters:(NSDictionary*)parameters
+- (NSDictionary*)get:(NSString*)url 
+		  parameters:(NSDictionary*)parameters
 {
 	if(!self.authorized)
 		return nil;
@@ -390,27 +391,25 @@
 	
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-	if([httpResponse statusCode] == 200)
-	{
-		NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:200], resultString, nil];
-		NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
-		[resultString release];
-		return [NSDictionary dictionaryWithObjects:values
-										   forKeys:keys];
-	}
-	else
-	{
-		DebugLog(@"get error: %d\n%@", [httpResponse statusCode], resultString);
-		[resultString release];
-	}
 	
-	return nil;
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
+	
+	if([httpResponse statusCode] != 200)
+	{
+		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
+	}
+	[resultString release];
+	
+	return [NSDictionary dictionaryWithObjects:values
+									   forKeys:keys];
 }
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method
  */
-- (id)post:(NSString*)url parameters:(NSDictionary*)parameters
+- (NSDictionary*)post:(NSString*)url 
+		   parameters:(NSDictionary*)parameters
 {
 	if(!self.authorized)
 		return nil;
@@ -445,28 +444,26 @@
 	
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-	if([httpResponse statusCode] == 200)
+
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
+
+	if([httpResponse statusCode] != 200)
 	{
-		NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:200], resultString, nil];
-		NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
-		[resultString release];
-		return [NSDictionary dictionaryWithObjects:values
-										   forKeys:keys];
+		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
 	}
-	else
-	{
-		DebugLog(@"post error: %d\n%@", [httpResponse statusCode], resultString);
-		[resultString release];
-	}
+	[resultString release];
 	
-	return nil;
+	return [NSDictionary dictionaryWithObjects:values
+									   forKeys:keys];
 }
 
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method (when including multipart/form-data)
  */
-- (id)postMultipart:(NSString*)url parameters:(HTTPParamList*)parameters
+- (NSDictionary*)postMultipart:(NSString*)url 
+					parameters:(HTTPParamList*)parameters
 {
 	if(!self.authorized)
 		return nil;
@@ -490,21 +487,18 @@
 	
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-	if([httpResponse statusCode] == 200)
-	{
-		NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:200], resultString, nil];
-		NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
-		[resultString release];
-		return [NSDictionary dictionaryWithObjects:values
-										   forKeys:keys];
-	}
-	else
-	{
-		DebugLog(@"post error: %d\n%@", [httpResponse statusCode], resultString);
-		[resultString release];
-	}
 	
-	return nil;
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
+	
+	if([httpResponse statusCode] != 200)
+	{
+		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
+	}
+	[resultString release];
+	
+	return [NSDictionary dictionaryWithObjects:values
+									   forKeys:keys];
 }
 
 #pragma mark -
