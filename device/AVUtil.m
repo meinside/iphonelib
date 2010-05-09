@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.02.03.
+//  last update: 10.05.09.
 //
 
 #import "AVUtil.h"
@@ -62,7 +62,10 @@
 + (NSTimeInterval)estimatedDurationOfAudioFile:(NSString*)filepath
 {
 	if(!filepath)
+	{
+		DebugLog(@"filepath is nil");
 		return 0;
+	}
 	
 	NSTimeInterval seconds;
 	UInt32 propertySize = sizeof(seconds);
@@ -71,7 +74,10 @@
 	
 	NSURL* baseURL = [NSURL fileURLWithPath:filepath isDirectory:NO];
 	if(!baseURL)
+	{
+		DebugLog(@"base url is nil with filepath: %@", filepath);
 		return 0;
+	}
 
 	err = AudioFileOpenURL((CFURLRef)baseURL, kAudioFileReadPermission, 0 /* kAudioFile*Type */, &audioFileId);
 	
@@ -81,7 +87,12 @@
 		AudioFileClose(audioFileId);
 		if(err == noErr)
 			return seconds;
+		else
+			DebugLog(@"error with AudioFileGetProperty()");
 	}
+	else
+		DebugLog(@"error with AudioFileOpenURL()");
+
 	return 0;
 }
 

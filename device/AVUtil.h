@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.02.03.
+//  last update: 10.05.09.
 //
 
 #pragma once
@@ -44,6 +44,8 @@
 
 //needs: AudioToolbox.framework
 #import <AudioToolbox/AudioToolbox.h>
+
+#import "Logging.h"
 
 
 @interface AVUtil : NSObject {
