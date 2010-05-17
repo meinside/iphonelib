@@ -205,10 +205,7 @@
 			}
 			else
 			{
-				NSString* code = [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"code"];
-				NSString* msg = [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"msg"];
-
-				DebugLog(@"error: (%@) %@", code, msg);
+				DebugLog(@"error: (%@) %@", [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"code"], [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"msg"]);
 			}
 
 		}
