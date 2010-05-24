@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.05.09.
+//  last update: 10.05.22.
 //
 
 #pragma once
@@ -93,5 +93,6 @@
 + (BOOL)setAudioSessionCategory:(NSString*)category;
 
 + (NSTimeInterval)estimatedDurationOfAudioFile:(NSString*)filepath;
++ (NSTimeInterval)estimatedDurationOfAudioFileurl:(NSURL*)url;
 
 @end
