@@ -194,8 +194,8 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//alter sampling rate
 		if(multiplier > 0.0f && multiplier != 1.0f)
 		{
+			DebugLog(@"sampling rate changed from: %f to: %f", dataFormat.mSampleRate, dataFormat.mSampleRate * multiplier);
 			dataFormat.mSampleRate *= multiplier;
-			DebugLog(@"new sampling rate = %f", dataFormat.mSampleRate);
 		}
 		
 		//new audio queue for output
