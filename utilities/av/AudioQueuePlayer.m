@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.05.23.
+//  last update: 10.05.28.
 //
 
 #import "AudioQueuePlayer.h"
@@ -413,17 +413,13 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 - (void)seekTo:(Float64)seconds
 {
 	@synchronized(self)
-	{
-		if(!isRunning)
-		{
-			DebugLog(@"not running yet");
-			return;
-		}
+	{		
+		if(isRunning)
+			[self stop:YES];
 		
-		DebugLog(@"seeking to: %f", seconds);
-
-		[self stop:YES];
 		currentPacket = dataFormat.mSampleRate / dataFormat.mFramesPerPacket * seconds;
+		DebugLog(@"seeking to: %f seconds (packet: %d)", seconds, currentPacket);
+		
 		[self play:YES];
 	}
 }
