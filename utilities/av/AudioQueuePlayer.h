@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.05.24.
+//  last update: 10.05.28.
 //
 
 #pragma once
@@ -97,7 +97,7 @@
 - (void)setStartTime:(AudioTimeStamp*)timestamp;
 
 - (NSTimeInterval)duration;
-- (float)currentTime;
+- (Float64)currentTime;
 
 - (float)volume;
 - (void)setVolume:(float)volume;

@@ -329,7 +329,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 	return [AVUtil estimatedDurationOfAudioFileurl:_url];
 }
 
-- (float)currentTime
+- (Float64)currentTime
 {
 	AudioTimeStamp timestamp;
 	AudioQueueTimelineRef timeline;
