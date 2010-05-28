@@ -27,75 +27,95 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 //
-//  AudioQueuePlayerPool.h
+//  AudioQueuePlayerWrapper.h
 //  iPhoneLib,
 //  Helper Functions and Classes for Ordinary Application Development on iPhone
 //
-//  Created by meinside on 10. 05. 20.
+//  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.05.23.
+//  last update: 10.05.28.
 //
 
 #pragma once
 
 #import <Foundation/Foundation.h>
 
+#import "FileUtil.h"
 #import "AudioQueuePlayer.h"
 
 
-@protocol AudioQueuePlayerPoolDelegate;
+@interface AudioQueuePlayerWrapper : NSObject {
 
-@interface AudioQueuePlayerPool : NSObject <AudioQueuePlayerDelegate> {
-
-	NSMutableArray* audioQueues;
+	NSURL* currentURL;
+	float currentSamplingRateMultiplier;
 	
-	unsigned int currentPlayingCount;
+	AudioQueuePlayer* player;
 	
-	id<AudioQueuePlayerPoolDelegate> delegate;
+	Float64 lastTime;
+	Float64 lastSeekTime;
 }
 
-- (id)initWithFilepaths:(NSArray*)filepaths;
-- (id)initWithFilepaths:(NSArray*)filepaths 
-		   samplingRate:(float)multiplier;
+/**
+ * using singleton pattern
+ */
++ (AudioQueuePlayerWrapper*)instance;
 
-- (void)setDelegate:(id<AudioQueuePlayerPoolDelegate>)newDelegate;
-- (id<AudioQueuePlayerPoolDelegate>)delegate;
-
-- (uint)numAudioQueues;
-- (AudioQueuePlayer*)audioQueuePlayerAtIndex:(NSUInteger)index;
-
-- (BOOL)isPlayingAtIndex:(NSUInteger)index;
-- (unsigned int)currentPlayingCount;
-
-- (BOOL)didAllStartPlaying;
-- (BOOL)didAllStopPlaying;
-
-- (float)durationAtIndex:(NSUInteger)index;
-
-- (float)currentTimeAtIndex:(NSUInteger)index;
-
-- (float)volumeAtIndex:(NSUInteger)index;
-- (void)setVolume:(float)volume 
-		  atIndex:(NSUInteger)index;
-
-- (void)playAll;
-- (void)playAllAtTimestamp:(AudioTimeStamp)timestamp;
-- (void)stopAll;
-
-- (void)audioQueuePlayer:(AudioQueuePlayer*)player did:(AudioQueuePlayerAction)what;
-
-@end
+/**
+ * dispose it when unused
+ */
+- (void)dispose;
 
 
 /**
- * AudioQueuePlayerPool's delegate
+ * set audio file with sampling rate multiplier
  */
-@protocol AudioQueuePlayerPoolDelegate<NSObject>
+- (void)setFileNamed:(NSString*)filename withSamplingRateMultiplier:(float)multiplier;
 
 /**
- * called when all AudioQueuePlayers stopped playing
- * 
+ * change samping rate (can be changed while playing)
  */
-- (void)allStoppedPlaying;
+- (void)changeSamplingRateMultiplierTo:(float)multiplier;
+
+
+/**
+ * get current time (sampling rate applied)
+ */
+- (Float64)currentTime;
+
+/**
+ * check if it's playing or not
+ */
+- (BOOL)isPlaying;
+
+/**
+ * get duration of audio file (sampling rate applied)
+ */
+- (NSTimeInterval)duration;
+
+
+/**
+ * start playing
+ */
+- (void)play;
+
+/**
+ * stop playing
+ */
+- (void)stop;
+
+/**
+ * resume playing
+ */
+- (void)resume;
+
+/**
+ * jump to given timeline position
+ */
+- (void)seekTo:(Float64)seconds;
+
+/**
+ * jump to given timeline position (based on original file's timeline)
+ */
+- (void)seekToOriginal:(Float64)seconds;
 
 @end
