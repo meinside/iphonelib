@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.05.28.
+//  last update: 10.06.13.
 //
 
 
@@ -106,7 +106,7 @@ static AudioQueuePlayerWrapper* _manager;
 		currentSamplingRateMultiplier = multiplier;
 		
 		currentURL = [[NSURL fileURLWithPath:[FileUtil pathOfFile:filename 
-													   atPathType:PathTypeResource]] retain];
+													 withPathType:PathTypeResource]] retain];
 		
 		player = [[AudioQueuePlayer alloc] initWithURL:currentURL 
 										  samplingRate:currentSamplingRateMultiplier];
