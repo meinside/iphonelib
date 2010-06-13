@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.02.22.
+//  last update: 10.06.13.
 //
 
 #import "FileUtil.h"
@@ -73,7 +73,7 @@
 	return nil;
 }
 
-+ (NSString*)pathOfFile:(NSString*)filename atPathType:(PathType)type
++ (NSString*)pathOfFile:(NSString*)filename withPathType:(PathType)type
 {
 	return [[self pathForPathType:type] stringByAppendingPathComponent:filename];
 }

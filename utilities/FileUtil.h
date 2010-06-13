@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.02.22.
+//  last update: 10.06.13.
 //
 
 #pragma once
@@ -55,7 +55,7 @@ typedef enum _PathType {
 
 + (NSString*)pathForPathType:(PathType)type;
 
-+ (NSString*)pathOfFile:(NSString*)filename atPathType:(PathType)type;
++ (NSString*)pathOfFile:(NSString*)filename withPathType:(PathType)type;
 
 + (BOOL)fileExistsAtPath:(NSString*)path;
 
