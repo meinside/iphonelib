@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.05.28.
+//  last update: 10.06.14.
 //
 
 #pragma once
@@ -44,26 +44,39 @@
 #import "AudioQueuePlayer.h"
 
 
-@interface AudioQueuePlayerWrapper : NSObject {
+@protocol AudioQueuePlayerWrapperDelegate;
+
+@interface AudioQueuePlayerWrapper : NSObject<AudioQueuePlayerDelegate> {
 
 	NSURL* currentURL;
 	float currentSamplingRateMultiplier;
 	
 	AudioQueuePlayer* player;
 	
+	id<AudioQueuePlayerWrapperDelegate> delegate;
+	
 	Float64 lastTime;
 	Float64 lastSeekTime;
+	
+	BOOL initialized;
 }
+
+/**
+ * initializers
+ */
+- (id)init;
+- (id)initWithFilename:(NSString*)filename andSamplingRateMultiplier:(float)multiplier;
+- (BOOL)isInitialized;
 
 /**
  * using singleton pattern
  */
-+ (AudioQueuePlayerWrapper*)instance;
++ (AudioQueuePlayerWrapper*)sharedInstance;
 
 /**
  * dispose it when unused
  */
-- (void)dispose;
++ (void)disposeSharedInstance;
 
 
 /**
@@ -117,5 +130,26 @@
  * jump to given timeline position (based on original file's timeline)
  */
 - (void)seekToOriginal:(Float64)seconds;
+
+
+/**
+ * delegate functionis
+ */
+- (id<AudioQueuePlayerWrapperDelegate>)delegate;
+- (void)setDelegate:(id<AudioQueuePlayerWrapperDelegate>)newDelegate;
+
+@end
+
+
+/**
+ * AudioQueuePlayerWrapper's delegate
+ */
+@protocol AudioQueuePlayerWrapperDelegate<NSObject>
+
+/**
+ * called when AudioQueuePlayerWrapper stopped playing
+ * 
+ */
+- (void)audioQueuePlayerWrapper:(AudioQueuePlayerWrapper*)wrapper did:(AudioQueuePlayerAction)what;
 
 @end

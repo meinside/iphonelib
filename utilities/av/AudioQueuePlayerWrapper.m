@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.06.13.
+//  last update: 10.06.14.
 //
 
 
@@ -55,11 +55,26 @@ static AudioQueuePlayerWrapper* _manager;
 		lastTime = 0.0f;
 		lastSeekTime = 0.0f;
 		currentSamplingRateMultiplier = 1.0f;
+		
+		initialized = NO;
 	}
 	return self;
 }
 
-+ (AudioQueuePlayerWrapper*)instance
+- (id)initWithFilename:(NSString*)filename andSamplingRateMultiplier:(float)multiplier
+{
+	AudioQueuePlayerWrapper* initee = [[AudioQueuePlayerWrapper alloc] init];
+	[initee setFileNamed:filename withSamplingRateMultiplier:multiplier];
+
+	return initee;
+}
+
+- (BOOL)isInitialized
+{
+	return initialized;
+}
+
++ (AudioQueuePlayerWrapper*)sharedInstance
 {
 	if(!_manager)
 	{
@@ -69,7 +84,7 @@ static AudioQueuePlayerWrapper* _manager;
 	return _manager;
 }
 
-- (void)dispose
++ (void)disposeSharedInstance
 {
 	if(_manager)
 	{
@@ -83,6 +98,8 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)setFileNamed:(NSString*)filename withSamplingRateMultiplier:(float)multiplier
 {
+	DebugLog(@"initializing...");
+
 	@synchronized(self)
 	{
 		if(player)
@@ -93,6 +110,8 @@ static AudioQueuePlayerWrapper* _manager;
 				
 				[player stop:YES];
 			}
+			[player setDelegate:nil];
+
 			[player release];
 			player = nil;
 		}
@@ -107,14 +126,23 @@ static AudioQueuePlayerWrapper* _manager;
 		
 		currentURL = [[NSURL fileURLWithPath:[FileUtil pathOfFile:filename 
 													 withPathType:PathTypeResource]] retain];
-		
+
 		player = [[AudioQueuePlayer alloc] initWithURL:currentURL 
 										  samplingRate:currentSamplingRateMultiplier];
+		[player setDelegate:self];
+
+		initialized = (player != nil);
 	}
 }
 
 - (void)changeSamplingRateMultiplierTo:(float)multiplier
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+	
+	if(currentSamplingRateMultiplier == multiplier)
+		return;	//not changed
+
 	if(multiplier <= 0.0f)
 	{
 		DebugLog(@"sampling rate multiplier must be bigger than 0");
@@ -127,6 +155,8 @@ static AudioQueuePlayerWrapper* _manager;
 		
 		if(player)
 		{
+			[player setDelegate:nil];	//not to call 'stopped' delegate function
+
 			wasPlaying = player.isRunning;
 			lastTime = [self currentTime];
 			if(wasPlaying)
@@ -146,6 +176,8 @@ static AudioQueuePlayerWrapper* _manager;
 			lastSeekTime = lastTime * oldSamplingRateMultiplier / currentSamplingRateMultiplier;
 			[player seekTo:lastSeekTime];
 		}
+		
+		[player setDelegate:self];
 	}
 }
 
@@ -154,6 +186,9 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (Float64)currentTime
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		if(!player)
@@ -170,6 +205,9 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (NSTimeInterval)duration
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		return [player duration] / currentSamplingRateMultiplier;
@@ -178,6 +216,9 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (BOOL)isPlaying
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		if(!player)
@@ -192,14 +233,23 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)play
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
+		lastSeekTime = 0.0f;
+		lastTime = 0.0f;
+		
 		[player play:NO];
 	}
 }
 
 - (void)stop
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		lastTime = [self currentTime];
@@ -209,6 +259,9 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)resume
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		[player play:YES];
@@ -217,6 +270,9 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)seekTo:(Float64)seconds
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		lastSeekTime = seconds;
@@ -226,12 +282,39 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)seekToOriginal:(Float64)seconds
 {
+	if(!initialized)
+		DebugLog(@"not initialized yet");
+
 	@synchronized(self)
 	{
 		lastSeekTime = seconds / currentSamplingRateMultiplier;
 		[player seekTo:lastSeekTime];
 	}
 }
+
+
+#pragma mark -
+#pragma mark delegate functions
+
+- (id<AudioQueuePlayerWrapperDelegate>)delegate
+{
+	return delegate;
+}
+
+- (void)setDelegate:(id<AudioQueuePlayerWrapperDelegate>)newDelegate
+{
+	[delegate release];
+	delegate = nil;
+	
+	delegate = [newDelegate retain];
+}
+
+- (void)audioQueuePlayer:(AudioQueuePlayer*)player did:(AudioQueuePlayerAction)what
+{
+	[delegate audioQueuePlayerWrapper:self 
+								  did:what];
+}
+
 
 #pragma mark -
 #pragma mark memory management
@@ -241,6 +324,8 @@ static AudioQueuePlayerWrapper* _manager;
 	if(player && player.isRunning)
 		[player stop:YES];
 	[player release];
+	
+	[delegate release];
 
 	[currentURL release];
 	
