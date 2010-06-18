@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.18.
 //
 
 #pragma once
@@ -43,7 +43,7 @@
 #import "SQLiteResultRow.h"
 
 
-@interface SQLiteResultSet : NSObject {
+@interface SQLiteResultSet : NSObject <NSFastEnumeration> {
 
 	NSMutableArray* rows;
 }

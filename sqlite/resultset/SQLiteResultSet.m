@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.18.
 //
 
 #import "SQLiteResultSet.h"
@@ -89,6 +89,14 @@
 - (SQLiteQueryParameter*)valueAtRow:(int)rowIndex columnName:(NSString*)columnName
 {
 	return [[self rowAtIndex:rowIndex] columnWithName:columnName];
+}
+
+#pragma mark -
+#pragma mark for fast enumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+{
+	return [rows countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark -
