@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.27.
 //
 
 #import "SQLiteWrapper.h"
+
+#import "FileUtil.h"
 
 
 @implementation SQLiteWrapper
@@ -65,6 +67,18 @@
 	}
 	
 	return self;
+}
+
+- (id)initWithResourceFilename:(NSString*)filename
+{
+	return [self initWithFilepath:[FileUtil pathOfFile:filename 
+										  withPathType:PathTypeResource]];
+}
+
+- (id)initWithDocumentFilename:(NSString*)filename
+{
+	return [self initWithFilepath:[FileUtil pathOfFile:filename 
+										  withPathType:PathTypeDocument]];
 }
 
 #pragma mark -

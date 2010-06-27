@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.27.
 //
 
 #pragma once
@@ -60,6 +60,10 @@
 }
 
 - (id)initWithFilepath:(NSString*)filePath;
+
+- (id)initWithResourceFilename:(NSString*)filename;
+
+- (id)initWithDocumentFilename:(NSString*)filename;
 
 - (bool)createTableWithQueryString:(NSString*)query;
 
