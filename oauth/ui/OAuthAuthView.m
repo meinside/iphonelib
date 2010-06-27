@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.05.03.
+//  last update: 10.06.27.
 //
 
 #import "OAuthAuthView.h"
@@ -136,7 +136,24 @@
 
 - (void)setOAuthProvider:(OAuthProvider*)provider
 {
+	if(oauth)
+	{
+		[oauth release];
+		oauth = nil;
+	}
+	
 	oauth = [provider retain];
+}
+
+- (void)setOAuthAuthViewDelegate:(id<OAuthAuthViewDelegate>)newDelegate
+{
+	if(oauthAuthViewdelegate)
+	{
+		[oauthAuthViewdelegate release];
+		oauthAuthViewdelegate = nil;
+	}
+	
+	oauthAuthViewdelegate = [newDelegate retain];
 }
 
 #pragma mark -
@@ -187,6 +204,9 @@
 	
 	dimmer.alpha = DIMMER_ALPHA_VALUE;
 	[indicator startAnimating];
+	
+	//call delegate function
+	[oauthAuthViewdelegate oauthAuthView:self did:OAuthAuthViewDidStartLoading];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
@@ -195,6 +215,9 @@
 	[indicator stopAnimating];
 
 	[self setUserInteractionEnabled:YES];
+	
+	//call delegate function
+	[oauthAuthViewdelegate oauthAuthView:self did:OAuthAuthViewDidStopLoading];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -203,6 +226,9 @@
 	[indicator stopAnimating];
 
 	[self setUserInteractionEnabled:YES];
+	
+	//call delegate function
+	[oauthAuthViewdelegate oauthAuthView:self did:OAuthAuthViewDidStopWithError];
 
 	UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Page Load Error" 
 													message:[error localizedFailureReason] 
@@ -222,6 +248,9 @@
 }
 
 - (void)dealloc {
+	
+	[oauthAuthViewdelegate release];
+	
 	[oauth release];
 	[dimmer release];
 	[indicator release];

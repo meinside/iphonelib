@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.05.03.
+//  last update: 10.06.27.
 //
 
 #import <UIKit/UIKit.h>
@@ -43,11 +43,15 @@
 #define DIMMER_ALPHA_VALUE 0.5f
 
 
+@protocol OAuthAuthViewDelegate;
+
 @interface OAuthAuthView : UIWebView <UIWebViewDelegate> {
 
 	OAuthProvider* oauth;
 	UIView* dimmer;
 	UIActivityIndicatorView* indicator;
+	
+	id<OAuthAuthViewDelegate> oauthAuthViewdelegate;
 }
 
 - (id)initWithFrame:(CGRect)frame 
@@ -65,5 +69,27 @@
 - (NSString*)html;
 
 - (void)setOAuthProvider:(OAuthProvider*)provider;
+
+- (void)setOAuthAuthViewDelegate:(id<OAuthAuthViewDelegate>)newDelegate;
+
+@end
+
+
+/**
+ * OAuthAuthView's delegate
+ */
+@protocol OAuthAuthViewDelegate<NSObject>
+
+typedef enum _OAuthAuthViewAction {
+	OAuthAuthViewDidStartLoading,
+	OAuthAuthViewDidStopLoading,
+	OAuthAuthViewDidStopWithError,
+} OAuthAuthViewAction;
+
+/**
+ * called when the WebView did something
+ * 
+ */
+- (void)oauthAuthView:(OAuthAuthView*)view did:(OAuthAuthViewAction)what;
 
 @end
