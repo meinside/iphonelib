@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.28.
 //
 
 #pragma once
@@ -47,6 +47,8 @@
 	NSString* query;
 	NSMutableArray* values;
 }
+
++ (SQLiteQuery*)queryWithQueryString:(NSString*)aQuery;
 
 - (id)initWithQueryString:(NSString*)aQuery;
 

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.05.04.
+//  last update: 10.06.28.
 //
 
 #import "SQLiteQuery.h"
@@ -53,6 +53,11 @@
 	}
 	
 	return self;
+}
+
++ (SQLiteQuery*)queryWithQueryString:(NSString*)aQuery
+{
+	return [[[SQLiteQuery alloc] initWithQueryString:aQuery] autorelease];
 }
 
 #pragma mark -
