@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.06.27.
+//  last update: 10.06.29.
 //
 
 #import <UIKit/UIKit.h>
@@ -50,6 +50,8 @@
 	OAuthProvider* oauth;
 	UIView* dimmer;
 	UIActivityIndicatorView* indicator;
+	
+	NSTimeInterval timeout;
 	
 	id<OAuthAuthViewDelegate> oauthAuthViewdelegate;
 }
@@ -71,6 +73,8 @@
 - (void)setOAuthProvider:(OAuthProvider*)provider;
 
 - (void)setOAuthAuthViewDelegate:(id<OAuthAuthViewDelegate>)newDelegate;
+
+- (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval;
 
 @end
 

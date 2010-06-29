@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.05.03.
+//  last update: 10.06.29.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -46,6 +46,8 @@
 
 #define kOAUTH_RESPONSE_STATUSCODE @"statusCode"
 #define kOAUTH_RESPONSE_RESULT @"result"
+
+#define DEFAULT_TIMEOUT_INTERVAL 2.0
 
 
 @interface OAuthProvider : NSObject {
@@ -60,6 +62,8 @@
 	
 	NSMutableDictionary* accessToken;
 	NSMutableDictionary* oauthToken;
+	
+	NSTimeInterval timeout;
 	
 @public
 	bool authorized;
@@ -134,6 +138,8 @@
 
 + (NSString*)timestamp;
 + (NSString*)nonce;
+
+- (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval;
 
 @property (copy, nonatomic) NSString* consumerKey;
 @property (copy, nonatomic) NSString* consumerSecret;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.05.03.
+//  last update: 10.06.29.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -81,6 +81,8 @@
 		self.requestTokenUrl = aRequestTokenUrl;
 		self.accessTokenUrl = anAccessTokenUrl;
 		self.authorizeUrl = anAuthorizeUrl;
+		
+		timeout = DEFAULT_TIMEOUT_INTERVAL;	//set default timeout value here
 		
 		self.oauthToken = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"", @"", nil]
 													  forKeys:[NSArray arrayWithObjects:@"oauth_token", @"oauth_token_secret", nil]];
@@ -259,7 +261,7 @@
 	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:self.requestTokenUrl] 
 													 parameters:nil 
 										 additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
-												timeoutInterval:0.0
+												timeoutInterval:timeout
 													   response:&response 
 														  error:&error];
 	
@@ -296,7 +298,7 @@
 	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:self.accessTokenUrl] 
 													 parameters:nil 
 										 additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
-												timeoutInterval:0.0
+												timeoutInterval:timeout
 													   response:&response 
 														  error:&error];
 	
@@ -385,7 +387,7 @@
 	NSData* result = [HTTPUtil dataResultFromGetRequestWithURL:[NSURL URLWithString:url] 
 													parameters:parameters 
 										additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
-											   timeoutInterval:0.0
+											   timeoutInterval:timeout
 													  response:&response 
 														 error:&error];
 	
@@ -438,7 +440,7 @@
 	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:url] 
 													 parameters:paramList 
 										 additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
-												timeoutInterval:0.0
+												timeoutInterval:timeout
 													   response:&response 
 														  error:&error];
 	
@@ -481,7 +483,7 @@
 	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:url] 
 													 parameters:parameters 
 										 additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
-												timeoutInterval:0.0
+												timeoutInterval:timeout
 													   response:&response 
 														  error:&error];
 	
@@ -525,6 +527,12 @@
 
 #pragma mark -
 #pragma mark etc.
+
+- (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval
+{
+	if(timeoutInterval > 0.0)
+		timeout = timeoutInterval;
+}
 
 - (NSString*)generateSignatureWithMethod:(NSString*)method 
 									 url:(NSString*)url 

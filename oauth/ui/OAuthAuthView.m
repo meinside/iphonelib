@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.06.27.
+//  last update: 10.06.29.
 //
 
 #import "OAuthAuthView.h"
@@ -74,6 +74,9 @@
 	
 	//set delegate
 	[self setDelegate:self];
+	
+	//timeout value
+	timeout = DEFAULT_TIMEOUT_INTERVAL;
 }
 
 #pragma mark -
@@ -156,6 +159,12 @@
 	oauthAuthViewdelegate = [newDelegate retain];
 }
 
+- (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval
+{
+	if(timeoutInterval > 0.0)
+		timeout = timeoutInterval;
+}
+
 #pragma mark -
 #pragma mark open authorize url
 
@@ -167,7 +176,9 @@
 	{
 		DebugLog(@"loading auth url: %@", userAuthUrl);
 
-		[self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:userAuthUrl]]];
+		[self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:userAuthUrl] 
+										   cachePolicy:NSURLRequestUseProtocolCachePolicy 
+									   timeoutInterval:timeout]];
 	}
 	else
 	{
