@@ -39,7 +39,32 @@
 #import <UIKit/UIKit.h>
 
 
-#define DIVIDER_FOR_DAY_FONT_SIZE 3.5	//divider for font size of day number label
+#define DAY_FONT @"Helvetica-Bold"	//font for day number labels
+#define DIVIDER_FOR_DAY_FONT_SIZE 3.5	//divider for font size of day number labels
+
+#define CELL_BG_COLOR_R 1.0f
+#define CELL_BG_COLOR_G 1.0f
+#define CELL_BG_COLOR_B 1.0f
+#define CELL_EXTRA_BG_COLOR_R 0.9f
+#define CELL_EXTRA_BG_COLOR_G 0.9f
+#define CELL_EXTRA_BG_COLOR_B 0.9f
+#define CELL_SELECTED_BG_COLOR_R 0.8f
+#define CELL_SELECTED_BG_COLOR_G 0.8f
+#define CELL_SELECTED_BG_COLOR_B 0.95f
+
+#define CELL_FG_COLOR_R 0.4f
+#define CELL_FG_COLOR_G 0.4f
+#define CELL_FG_COLOR_B 0.4f
+#define CELL_EXTRA_FG_COLOR_R 0.6f
+#define CELL_EXTRA_FG_COLOR_G 0.6f
+#define CELL_EXTRA_FG_COLOR_B 0.6f
+#define CELL_SELECTED_FG_COLOR_R 0.0f
+#define CELL_SELECTED_FG_COLOR_G 0.0f
+#define CELL_SELECTED_FG_COLOR_B 0.0f
+
+#define CELL_BORDER_LINE_COLOR_R 0.8f
+#define CELL_BORDER_LINE_COLOR_G 0.8f
+#define CELL_BORDER_LINE_COLOR_B 0.8f
 
 typedef enum _CalendarCellType
 {

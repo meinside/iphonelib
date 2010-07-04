@@ -54,7 +54,10 @@
         // Initialization code
 		
 		//set background color
-		CGColorRef bgColor = [QuartzHelper createColorRefWithR:0.25f G:0.25f B:0.25f A:1.0f];
+		CGColorRef bgColor = [QuartzHelper createColorRefWithR:CALENDAR_BG_COLOR_R 
+															 G:CALENDAR_BG_COLOR_G 
+															 B:CALENDAR_BG_COLOR_B 
+															 A:1.0f];
 		[self setBackgroundColor:[UIColor colorWithCGColor:bgColor]];
 		CGColorRelease(bgColor);
 
@@ -67,23 +70,33 @@
 		
 		//add prev/next month button
 		previousMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[previousMonthButton setTitle:@"<" forState:UIControlStateNormal];
+		[previousMonthButton setTitle:@"<" 
+							 forState:UIControlStateNormal];
 		previousMonthButton.frame = CGRectMake(leftMargin + BUTTON_SPACE, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-		[previousMonthButton addTarget:self action:@selector(previousMonth:) forControlEvents:UIControlEventTouchUpInside];
+		[previousMonthButton addTarget:self 
+								action:@selector(previousMonth:) 
+					  forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:previousMonthButton];
 		nextMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[nextMonthButton setTitle:@">" forState:UIControlStateNormal];
+		[nextMonthButton setTitle:@">" 
+						 forState:UIControlStateNormal];
 		nextMonthButton.frame = CGRectMake(width - BUTTON_SPACE - BUTTON_WIDTH, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-		[nextMonthButton addTarget:self action:@selector(nextMonth:) forControlEvents:UIControlEventTouchUpInside];
+		[nextMonthButton addTarget:self 
+							action:@selector(nextMonth:) 
+				  forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:nextMonthButton];
 		
 		//add month label
 		monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - MONTH_LABEL_WIDTH) / 2, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - MONTH_LABEL_HEIGHT) / 2, MONTH_LABEL_WIDTH, MONTH_LABEL_HEIGHT)];
 		monthLabel.text = [NSString stringWithFormat:@"%04d / %02d", 1981, 6];
 		monthLabel.textAlignment = UITextAlignmentCenter;
-		monthLabel.textColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
-		monthLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:MONTH_LABEL_FONT_SIZE];
-		monthLabel.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.0f];
+		monthLabel.textColor = [UIColor colorWithRed:MONTH_LABEL_FG_COLOR_R 
+											   green:MONTH_LABEL_FG_COLOR_G 
+												blue:MONTH_LABEL_FG_COLOR_B 
+											   alpha:1.0f];
+		monthLabel.font = [UIFont fontWithName:MONTH_LABEL_FONT 
+										  size:MONTH_LABEL_FONT_SIZE];
+		monthLabel.backgroundColor = [UIColor clearColor];	//transparent
 		[self addSubview:monthLabel];
 		
 		//add weekday header labels
@@ -96,20 +109,30 @@
 																		 CALENDAR_WEEKDAY_HEADER_HEIGHT)];
 			weekday.text = [weekDays objectAtIndex:i];
 			weekday.textAlignment = UITextAlignmentRight;
-			weekday.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.0f];
+			weekday.backgroundColor = [UIColor clearColor];
 			switch(i)
 			{
 				case 0:	//Sunday
-					weekday.textColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f];
+					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SUNDAY_COLOR_R 
+														green:WEEKDAY_LABEL_SUNDAY_COLOR_G 
+														 blue:WEEKDAY_LABEL_SUNDAY_COLOR_B 
+														alpha:1.0f];
 					break;
 				case 6:	//Saturday
-					weekday.textColor = [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.0f];
+					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SATURDAY_COLOR_R 
+														green:WEEKDAY_LABEL_SATURDAY_COLOR_G 
+														 blue:WEEKDAY_LABEL_SATURDAY_COLOR_B 
+														alpha:1.0f];
 					break;
 				default:
-					weekday.textColor = [UIColor colorWithWhite:1.0f alpha:1.0f];
+					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_OTHERDAY_COLOR_R 
+														green:WEEKDAY_LABEL_OTHERDAY_COLOR_G 
+														 blue:WEEKDAY_LABEL_OTHERDAY_COLOR_B 
+														alpha:1.0f];
 					break;
 			}
-			weekday.font = [UIFont fontWithName:@"Helvetica" size:WEEKDAY_LABEL_FONT_SIZE];
+			weekday.font = [UIFont fontWithName:WEEKDAY_LABEL_FONT 
+										   size:WEEKDAY_LABEL_FONT_SIZE];
 			[self addSubview:weekday];
 			[weekday release];
 		}

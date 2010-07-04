@@ -56,14 +56,32 @@
 		day = 0; oldDay = day;
 
 		//background colors
-		bgColor = [QuartzHelper createColorRefWithR:1.0f G:1.0f B:1.0f A:1.0f];
-		bgColorExtra = [QuartzHelper createColorRefWithR:0.9f G:0.9f B:0.9f A:1.0f];
-		bgColorSelected = [QuartzHelper createColorRefWithR:0.8f G:0.8f B:0.95f A:1.0f];
+		bgColor = [QuartzHelper createColorRefWithR:CELL_BG_COLOR_R 
+												  G:CELL_BG_COLOR_G 
+												  B:CELL_BG_COLOR_B 
+												  A:1.0f];
+		bgColorExtra = [QuartzHelper createColorRefWithR:CELL_EXTRA_BG_COLOR_R 
+													   G:CELL_EXTRA_BG_COLOR_G 
+													   B:CELL_EXTRA_BG_COLOR_B 
+													   A:1.0f];
+		bgColorSelected = [QuartzHelper createColorRefWithR:CELL_SELECTED_BG_COLOR_R 
+														  G:CELL_SELECTED_BG_COLOR_G 
+														  B:CELL_SELECTED_BG_COLOR_B 
+														  A:1.0f];
 		
 		//foreground colors
-		fgColor = [QuartzHelper createColorRefWithR:0.4f G:0.4f B:0.4f A:1.0f];
-		fgColorExtra = [QuartzHelper createColorRefWithR:0.6f G:0.6f B:0.6f A:1.0f];
-		fgColorSelected = [QuartzHelper createColorRefWithR:0.0f G:0.0f B:0.0f A:1.0f];
+		fgColor = [QuartzHelper createColorRefWithR:CELL_FG_COLOR_R 
+												  G:CELL_FG_COLOR_G 
+												  B:CELL_FG_COLOR_B 
+												  A:1.0f];
+		fgColorExtra = [QuartzHelper createColorRefWithR:CELL_EXTRA_FG_COLOR_R 
+													   G:CELL_EXTRA_FG_COLOR_G 
+													   B:CELL_EXTRA_FG_COLOR_B 
+													   A:1.0f];
+		fgColorSelected = [QuartzHelper createColorRefWithR:CELL_SELECTED_FG_COLOR_R 
+														  G:CELL_SELECTED_FG_COLOR_G 
+														  B:CELL_SELECTED_FG_COLOR_B 
+														  A:1.0f];
     }
     return self;
 }
@@ -92,7 +110,11 @@
 	CGContextFillRect(context, rect);
 	
 	//draw border lines
-	[QuartzHelper setStrokeColorOfContext:context withR:0.8f G:0.8f B:0.8f A:1.0f];
+	[QuartzHelper setStrokeColorOfContext:context 
+									withR:CELL_BORDER_LINE_COLOR_R 
+										G:CELL_BORDER_LINE_COLOR_G 
+										B:CELL_BORDER_LINE_COLOR_B 
+										A:1.0f];
 	CGContextStrokeRect(context, rect);
 
 	//draw text
@@ -100,7 +122,7 @@
 	{
 		[QuartzHelper setFillColorOfContext:context withColor:fgColor];
 		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
-													withFont:[UIFont fontWithName:@"Helvetica-Bold" size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
+													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
 											   lineBreakMode:UILineBreakModeWordWrap 
 												   alignment:UITextAlignmentRight];
 	}
