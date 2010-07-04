@@ -153,29 +153,39 @@
 #pragma mark -
 #pragma mark calendar-manipulating functions
 
+- (NSDateComponents*)dateCompWithMonthAdded:(int)monthAdded toYear:(uint)year month:(uint)month day:(uint)day
+{
+	//get date from last selected date
+	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
+	NSDateComponents* dateComp = [[NSDateComponents alloc] init];
+	[dateComp setYear:year];
+	[dateComp setMonth:month];
+	[dateComp setDay:day];
+	
+	//get date from newly selected date
+	NSDate* selectedDate = [calendar dateFromComponents:dateComp];
+	[dateComp release];
+	dateComp = [[NSDateComponents alloc] init];
+	[dateComp setMonth:monthAdded];
+	NSDate* addedMonth = [calendar dateByAddingComponents:dateComp 
+												   toDate:selectedDate 
+												  options:0];
+	[dateComp release];
+	
+	//move to previous month & selected day
+	return [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
+					   fromDate:addedMonth];
+}
+
 - (void)previousMonth:(id)sender
 {
 	//DebugLog(@"previous month!");
 
-	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
-
-	//calculate previous month
-	NSDateComponents* dateComp = [[NSDateComponents alloc] init];
-	[dateComp setYear:selectedYear];
-	[dateComp setMonth:selectedMonth];
-	[dateComp setDay:selectedDay];
-	NSDate* oldDay = [calendar dateFromComponents:dateComp];
-	[dateComp release];
-	dateComp = [[NSDateComponents alloc] init];
-	[dateComp setMonth:-1];
-	NSDate* previousMonth = [calendar dateByAddingComponents:dateComp 
-													  toDate:oldDay 
-													 options:0];
-	[dateComp release];
-
 	//refresh
-	dateComp = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
-						   fromDate:previousMonth];
+	NSDateComponents* dateComp = [self dateCompWithMonthAdded:-1 
+													   toYear:selectedYear 
+														month:selectedMonth 
+														  day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -184,26 +194,12 @@
 - (void)nextMonth:(id)sender
 {
 	//DebugLog(@"next month!");
-	
-	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
-	
-	//calculate next month
-	NSDateComponents* dateComp = [[NSDateComponents alloc] init];
-	[dateComp setYear:selectedYear];
-	[dateComp setMonth:selectedMonth];
-	[dateComp setDay:selectedDay];
-	NSDate* oldDay = [calendar dateFromComponents:dateComp];
-	[dateComp release];
-	dateComp = [[NSDateComponents alloc] init];
-	[dateComp setMonth:+1];
-	NSDate* nextMonth = [calendar dateByAddingComponents:dateComp 
-												  toDate:oldDay 
-												 options:0];
-	[dateComp release];
-	
+
 	//refresh
-	dateComp = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit
-						   fromDate:nextMonth];
+	NSDateComponents* dateComp = [self dateCompWithMonthAdded:+1 
+													   toYear:selectedYear 
+														month:selectedMonth 
+														  day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -310,30 +306,6 @@
 #pragma mark -
 #pragma mark functions for event processing
 
-- (NSDateComponents*)dateCompWithMonthAdded:(uint)monthAdded toYear:(uint)year month:(uint)month day:(uint)day
-{
-	//get date from last selected date
-	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
-	NSDateComponents* dateComp = [[NSDateComponents alloc] init];
-	[dateComp setYear:year];
-	[dateComp setMonth:month];
-	[dateComp setDay:day];
-	
-	//get date from newly selected date
-	NSDate* selectedDate = [calendar dateFromComponents:dateComp];
-	[dateComp release];
-	dateComp = [[NSDateComponents alloc] init];
-	[dateComp setMonth:monthAdded];
-	NSDate* addedMonth = [calendar dateByAddingComponents:dateComp 
-												   toDate:selectedDate 
-												  options:0];
-	[dateComp release];
-	
-	//move to previous month & selected day
-	return [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
-					   fromDate:addedMonth];
-}
-
 - (void)cellPressed:(id)sender
 {
 	//DebugLog(@"cell pressed: %@", sender);
@@ -343,7 +315,7 @@
 		NSDateComponents* dateComp = [self dateCompWithMonthAdded:-1 
 														   toYear:selectedYear 
 															month:selectedMonth 
-															  day:[sender day]];
+															  day:1];
 		
 		//move to previous month & selected day
 		[self refreshWithYear:[dateComp year] 
@@ -355,7 +327,7 @@
 		NSDateComponents* dateComp = [self dateCompWithMonthAdded:+1 
 														   toYear:selectedYear 
 															month:selectedMonth 
-															  day:[sender day]];
+															  day:1];
 		
 		//move to next month & selected day
 		[self refreshWithYear:[dateComp year] 
