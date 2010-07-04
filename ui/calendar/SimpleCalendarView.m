@@ -51,118 +51,133 @@
 #pragma mark -
 #pragma mark UIView
 
+//setup calendar with given frame
+- (void)setupWithFrame:(CGRect)frame
+{
+	//set background color
+	CGColorRef bgColor = [QuartzHelper createColorRefWithR:CALENDAR_BG_COLOR_R 
+														 G:CALENDAR_BG_COLOR_G 
+														 B:CALENDAR_BG_COLOR_B 
+														 A:1.0f];
+	[self setBackgroundColor:[UIColor colorWithCGColor:bgColor]];
+	CGColorRelease(bgColor);
+	
+	CGFloat height = frame.size.height;
+	CGFloat width = frame.size.width;
+	CGFloat cellWidth = width / CALENDAR_COLUMN_COUNT;
+	CGFloat cellHeight = (height - CALENDAR_HEADER_HEIGHT) / CALENDAR_ROW_COUNT;
+	CGFloat leftMargin = (width - cellWidth * CALENDAR_COLUMN_COUNT) / 2;
+	CGFloat topMargin = (height - CALENDAR_HEADER_HEIGHT - cellHeight * CALENDAR_ROW_COUNT) / 2;
+	
+	//add prev/next month button
+	previousMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	[previousMonthButton setTitle:@"<" 
+						 forState:UIControlStateNormal];
+	previousMonthButton.frame = CGRectMake(leftMargin + BUTTON_SPACE, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+	[previousMonthButton addTarget:self 
+							action:@selector(gotoPreviousMonth:) 
+				  forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:previousMonthButton];
+	nextMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	[nextMonthButton setTitle:@">" 
+					 forState:UIControlStateNormal];
+	nextMonthButton.frame = CGRectMake(width - BUTTON_SPACE - BUTTON_WIDTH, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+	[nextMonthButton addTarget:self 
+						action:@selector(gotoNextMonth:) 
+			  forControlEvents:UIControlEventTouchUpInside];
+	[self addSubview:nextMonthButton];
+	
+	//add month label
+	monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - MONTH_LABEL_WIDTH) / 2, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - MONTH_LABEL_HEIGHT) / 2, MONTH_LABEL_WIDTH, MONTH_LABEL_HEIGHT)];
+	monthLabel.text = [NSString stringWithFormat:@"%04d / %02d", 1981, 6];
+	monthLabel.textAlignment = UITextAlignmentCenter;
+	monthLabel.textColor = [UIColor colorWithRed:MONTH_LABEL_FG_COLOR_R 
+										   green:MONTH_LABEL_FG_COLOR_G 
+											blue:MONTH_LABEL_FG_COLOR_B 
+										   alpha:1.0f];
+	monthLabel.font = [UIFont fontWithName:MONTH_LABEL_FONT 
+									  size:MONTH_LABEL_FONT_SIZE];
+	monthLabel.backgroundColor = [UIColor clearColor];	//transparent
+	[self addSubview:monthLabel];
+	
+	//add weekday header labels
+	NSArray* weekDays = [NSArray arrayWithObjects:WEEKDAY_LABEL_SUNDAY, WEEKDAY_LABEL_MONDAY, WEEKDAY_LABEL_TUESDAY, WEEKDAY_LABEL_WEDNESDAY, WEEKDAY_LABEL_THURSDAY, WEEKDAY_LABEL_FRIDAY, WEEKDAY_LABEL_SATURDAY, nil];
+	for(int i=0; i<CALENDAR_COLUMN_COUNT; i++)
+	{
+		UILabel* weekday = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + (i * cellWidth), 
+																	 CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT + topMargin, 
+																	 cellWidth, 
+																	 CALENDAR_WEEKDAY_HEADER_HEIGHT)];
+		weekday.text = [weekDays objectAtIndex:i];
+		weekday.textAlignment = UITextAlignmentRight;
+		weekday.backgroundColor = [UIColor clearColor];
+		switch(i)
+		{
+			case 0:	//Sunday
+				weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SUNDAY_COLOR_R 
+													green:WEEKDAY_LABEL_SUNDAY_COLOR_G 
+													 blue:WEEKDAY_LABEL_SUNDAY_COLOR_B 
+													alpha:1.0f];
+				break;
+			case 6:	//Saturday
+				weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SATURDAY_COLOR_R 
+													green:WEEKDAY_LABEL_SATURDAY_COLOR_G 
+													 blue:WEEKDAY_LABEL_SATURDAY_COLOR_B 
+													alpha:1.0f];
+				break;
+			default:
+				weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_OTHERDAY_COLOR_R 
+													green:WEEKDAY_LABEL_OTHERDAY_COLOR_G 
+													 blue:WEEKDAY_LABEL_OTHERDAY_COLOR_B 
+													alpha:1.0f];
+				break;
+		}
+		weekday.font = [UIFont fontWithName:WEEKDAY_LABEL_FONT 
+									   size:WEEKDAY_LABEL_FONT_SIZE];
+		[self addSubview:weekday];
+		[weekday release];
+	}
+	
+	//add calendar cell views
+	cells = [[NSMutableArray alloc] init];
+	for(int i=0; i<CALENDAR_ROW_COUNT; i++)
+	{
+		for(int j=0; j<CALENDAR_COLUMN_COUNT; j++)
+		{
+			SimpleCalendarCellView* cell = [[SimpleCalendarCellView alloc] initWithFrame:CGRectMake(leftMargin + (j * cellWidth), 
+																									CALENDAR_HEADER_HEIGHT + topMargin + (i * cellHeight), 
+																									cellWidth, 
+																									cellHeight)];
+			
+			//add target
+			[cell addTarget:self action:@selector(cellPressed:) forControlEvents:UIControlEventTouchUpInside];
+			
+			[cells addObject:cell];
+			[self addSubview:cell];
+			[cell release];
+		}
+	}
+	
+	//set delegate
+	delegate = nil;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+	if((self = [super initWithCoder:aDecoder]))
+	{
+        // Initialization code
+		[self setupWithFrame:self.frame];
+	}
+	return self;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     if ((self = [super initWithFrame:frame]))
 	{
         // Initialization code
-		
-		//set background color
-		CGColorRef bgColor = [QuartzHelper createColorRefWithR:CALENDAR_BG_COLOR_R 
-															 G:CALENDAR_BG_COLOR_G 
-															 B:CALENDAR_BG_COLOR_B 
-															 A:1.0f];
-		[self setBackgroundColor:[UIColor colorWithCGColor:bgColor]];
-		CGColorRelease(bgColor);
-
-		CGFloat height = frame.size.height;
-		CGFloat width = frame.size.width;
-		CGFloat cellWidth = width / CALENDAR_COLUMN_COUNT;
-		CGFloat cellHeight = (height - CALENDAR_HEADER_HEIGHT) / CALENDAR_ROW_COUNT;
-		CGFloat leftMargin = (width - cellWidth * CALENDAR_COLUMN_COUNT) / 2;
-		CGFloat topMargin = (height - CALENDAR_HEADER_HEIGHT - cellHeight * CALENDAR_ROW_COUNT) / 2;
-		
-		//add prev/next month button
-		previousMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[previousMonthButton setTitle:@"<" 
-							 forState:UIControlStateNormal];
-		previousMonthButton.frame = CGRectMake(leftMargin + BUTTON_SPACE, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-		[previousMonthButton addTarget:self 
-								action:@selector(gotoPreviousMonth:) 
-					  forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:previousMonthButton];
-		nextMonthButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[nextMonthButton setTitle:@">" 
-						 forState:UIControlStateNormal];
-		nextMonthButton.frame = CGRectMake(width - BUTTON_SPACE - BUTTON_WIDTH, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-		[nextMonthButton addTarget:self 
-							action:@selector(gotoNextMonth:) 
-				  forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:nextMonthButton];
-		
-		//add month label
-		monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - MONTH_LABEL_WIDTH) / 2, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - MONTH_LABEL_HEIGHT) / 2, MONTH_LABEL_WIDTH, MONTH_LABEL_HEIGHT)];
-		monthLabel.text = [NSString stringWithFormat:@"%04d / %02d", 1981, 6];
-		monthLabel.textAlignment = UITextAlignmentCenter;
-		monthLabel.textColor = [UIColor colorWithRed:MONTH_LABEL_FG_COLOR_R 
-											   green:MONTH_LABEL_FG_COLOR_G 
-												blue:MONTH_LABEL_FG_COLOR_B 
-											   alpha:1.0f];
-		monthLabel.font = [UIFont fontWithName:MONTH_LABEL_FONT 
-										  size:MONTH_LABEL_FONT_SIZE];
-		monthLabel.backgroundColor = [UIColor clearColor];	//transparent
-		[self addSubview:monthLabel];
-		
-		//add weekday header labels
-		NSArray* weekDays = [NSArray arrayWithObjects:WEEKDAY_LABEL_SUNDAY, WEEKDAY_LABEL_MONDAY, WEEKDAY_LABEL_TUESDAY, WEEKDAY_LABEL_WEDNESDAY, WEEKDAY_LABEL_THURSDAY, WEEKDAY_LABEL_FRIDAY, WEEKDAY_LABEL_SATURDAY, nil];
-		for(int i=0; i<CALENDAR_COLUMN_COUNT; i++)
-		{
-			UILabel* weekday = [[UILabel alloc] initWithFrame:CGRectMake(leftMargin + (i * cellWidth), 
-																		 CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT + topMargin, 
-																		 cellWidth, 
-																		 CALENDAR_WEEKDAY_HEADER_HEIGHT)];
-			weekday.text = [weekDays objectAtIndex:i];
-			weekday.textAlignment = UITextAlignmentRight;
-			weekday.backgroundColor = [UIColor clearColor];
-			switch(i)
-			{
-				case 0:	//Sunday
-					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SUNDAY_COLOR_R 
-														green:WEEKDAY_LABEL_SUNDAY_COLOR_G 
-														 blue:WEEKDAY_LABEL_SUNDAY_COLOR_B 
-														alpha:1.0f];
-					break;
-				case 6:	//Saturday
-					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_SATURDAY_COLOR_R 
-														green:WEEKDAY_LABEL_SATURDAY_COLOR_G 
-														 blue:WEEKDAY_LABEL_SATURDAY_COLOR_B 
-														alpha:1.0f];
-					break;
-				default:
-					weekday.textColor = [UIColor colorWithRed:WEEKDAY_LABEL_OTHERDAY_COLOR_R 
-														green:WEEKDAY_LABEL_OTHERDAY_COLOR_G 
-														 blue:WEEKDAY_LABEL_OTHERDAY_COLOR_B 
-														alpha:1.0f];
-					break;
-			}
-			weekday.font = [UIFont fontWithName:WEEKDAY_LABEL_FONT 
-										   size:WEEKDAY_LABEL_FONT_SIZE];
-			[self addSubview:weekday];
-			[weekday release];
-		}
-
-		//add calendar cell views
-		cells = [[NSMutableArray alloc] init];
-		for(int i=0; i<CALENDAR_ROW_COUNT; i++)
-		{
-			for(int j=0; j<CALENDAR_COLUMN_COUNT; j++)
-			{
-				SimpleCalendarCellView* cell = [[SimpleCalendarCellView alloc] initWithFrame:CGRectMake(leftMargin + (j * cellWidth), 
-																										CALENDAR_HEADER_HEIGHT + topMargin + (i * cellHeight), 
-																										cellWidth, 
-																										cellHeight)];
-
-				//add target
-				[cell addTarget:self action:@selector(cellPressed:) forControlEvents:UIControlEventTouchUpInside];
-
-				[cells addObject:cell];
-				[self addSubview:cell];
-				[cell release];
-			}
-		}
-		
-		//set delegate
-		delegate = nil;
+		[self setupWithFrame:frame];
     }
     return self;
 }
