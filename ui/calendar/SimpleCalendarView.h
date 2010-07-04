@@ -108,8 +108,12 @@
 	id<SimpleCalendarViewDelegate> delegate;
 }
 
-- (void)previousMonth:(id)sender;
-- (void)nextMonth:(id)sender;
+- (void)gotoPreviousDay:(id)sender;
+- (void)gotoNextDay:(id)sender;
+- (void)gotoPreviousMonth:(id)sender;
+- (void)gotoNextMonth:(id)sender;
+- (void)gotoPreviousYear:(id)sender;
+- (void)gotoNextYear:(id)sender;
 
 - (void)refresh;	//refresh calendar for today
 - (void)refreshWithYear:(int)year month:(int)month day:(int)day;
