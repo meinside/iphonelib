@@ -118,6 +118,10 @@
 
 - (void)setDelegate:(id<SimpleCalendarViewDelegate>)newDelegate;
 
+@property (nonatomic, readonly) uint selectedYear;
+@property (nonatomic, readonly) uint selectedMonth;
+@property (nonatomic, readonly) uint selectedDay;
+
 @end
 
 @protocol SimpleCalendarViewDelegate<NSObject>

@@ -44,6 +44,10 @@
 
 @implementation SimpleCalendarView
 
+@synthesize selectedYear;
+@synthesize selectedMonth;
+@synthesize selectedDay;
+
 #pragma mark -
 #pragma mark UIView
 
