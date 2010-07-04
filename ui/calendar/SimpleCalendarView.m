@@ -195,7 +195,7 @@
 #pragma mark -
 #pragma mark calendar-manipulating functions
 
-- (NSDateComponents*)dateCompWithDayAdded:(int)dayAdded toYear:(uint)year month:(uint)month day:(uint)day
++ (NSDateComponents*)dateCompWithDayAdded:(int)dayAdded toYear:(uint)year month:(uint)month day:(uint)day
 {
 	//get date from last selected date
 	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
@@ -219,7 +219,7 @@
 					   fromDate:addedDay];
 }
 
-- (NSDateComponents*)dateCompWithMonthAdded:(int)monthAdded toYear:(uint)year month:(uint)month day:(uint)day
++ (NSDateComponents*)dateCompWithMonthAdded:(int)monthAdded toYear:(uint)year month:(uint)month day:(uint)day
 {
 	//get date from last selected date
 	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
@@ -243,7 +243,7 @@
 					   fromDate:addedMonth];
 }
 
-- (NSDateComponents*)dateCompWithYearAdded:(int)yearAdded toYear:(uint)year month:(uint)month day:(uint)day
++ (NSDateComponents*)dateCompWithYearAdded:(int)yearAdded toYear:(uint)year month:(uint)month day:(uint)day
 {
 	//get date from last selected date
 	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
@@ -272,10 +272,10 @@
 	//DebugLog(@"previous day!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithDayAdded:-1 
-													 toYear:selectedYear 
-													  month:selectedMonth 
-														day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithDayAdded:-1 
+																   toYear:selectedYear 
+																	month:selectedMonth 
+																	  day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -286,10 +286,10 @@
 	//DebugLog(@"next day!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithDayAdded:+1 
-													 toYear:selectedYear 
-													  month:selectedMonth 
-														day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithDayAdded:+1 
+																   toYear:selectedYear 
+																	month:selectedMonth 
+																	  day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -300,10 +300,10 @@
 	//DebugLog(@"previous month!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithMonthAdded:-1 
-													   toYear:selectedYear 
-														month:selectedMonth 
-														  day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithMonthAdded:-1 
+																	 toYear:selectedYear 
+																	  month:selectedMonth 
+																		day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -314,10 +314,10 @@
 	//DebugLog(@"next month!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithMonthAdded:+1 
-													   toYear:selectedYear 
-														month:selectedMonth 
-														  day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithMonthAdded:+1 
+																	 toYear:selectedYear 
+																	  month:selectedMonth 
+																		day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -328,10 +328,10 @@
 	//DebugLog(@"previous year!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithYearAdded:-1 
-													  toYear:selectedYear 
-													   month:selectedMonth 
-														 day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithYearAdded:-1 
+																	toYear:selectedYear 
+																	 month:selectedMonth 
+																	   day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -342,10 +342,10 @@
 	//DebugLog(@"next year!");
 	
 	//refresh
-	NSDateComponents* dateComp = [self dateCompWithYearAdded:+1 
-													  toYear:selectedYear 
-													   month:selectedMonth 
-														 day:selectedDay];
+	NSDateComponents* dateComp = [SimpleCalendarView dateCompWithYearAdded:+1 
+																	toYear:selectedYear 
+																	 month:selectedMonth 
+																	   day:selectedDay];
 	[self refreshWithYear:[dateComp year] 
 					month:[dateComp month] 
 					  day:[dateComp day]];
@@ -458,10 +458,10 @@
 
 	if([sender cellType] == CalendarCellTypePreviousMonth)
 	{
-		NSDateComponents* dateComp = [self dateCompWithMonthAdded:-1 
-														   toYear:selectedYear 
-															month:selectedMonth 
-															  day:1];
+		NSDateComponents* dateComp = [SimpleCalendarView dateCompWithMonthAdded:-1 
+																		 toYear:selectedYear 
+																		  month:selectedMonth 
+																			day:1];
 		
 		//move to previous month & selected day
 		[self refreshWithYear:[dateComp year] 
@@ -470,10 +470,10 @@
 	}
 	else if([sender cellType] == CalendarCellTypeNextMonth)
 	{
-		NSDateComponents* dateComp = [self dateCompWithMonthAdded:+1 
-														   toYear:selectedYear 
-															month:selectedMonth 
-															  day:1];
+		NSDateComponents* dateComp = [SimpleCalendarView dateCompWithMonthAdded:+1 
+																		 toYear:selectedYear 
+																		  month:selectedMonth 
+																			day:1];
 		
 		//move to next month & selected day
 		[self refreshWithYear:[dateComp year] 

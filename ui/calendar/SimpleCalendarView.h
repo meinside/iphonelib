@@ -108,6 +108,10 @@
 	id<SimpleCalendarViewDelegate> delegate;
 }
 
++ (NSDateComponents*)dateCompWithDayAdded:(int)dayAdded toYear:(uint)year month:(uint)month day:(uint)day;
++ (NSDateComponents*)dateCompWithMonthAdded:(int)monthAdded toYear:(uint)year month:(uint)month day:(uint)day;
++ (NSDateComponents*)dateCompWithYearAdded:(int)yearAdded toYear:(uint)year month:(uint)month day:(uint)day;
+
 - (void)gotoPreviousDay:(id)sender;
 - (void)gotoNextDay:(id)sender;
 - (void)gotoPreviousMonth:(id)sender;
