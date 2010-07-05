@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.07.04.
+//  last update: 10.07.05.
 //
 
 #import "SimpleCalendarCellView.h"
@@ -120,7 +120,18 @@
 	//draw text
 	if(day > 0)
 	{
-		[QuartzHelper setFillColorOfContext:context withColor:fgColor];
+		if(cellStatus == CalendarCellStatusSelected)
+		{
+			[QuartzHelper setFillColorOfContext:context withColor:fgColorSelected];
+		}
+		else if(cellType != CalendarCellTypeCurrentMonth)
+		{
+			[QuartzHelper setFillColorOfContext:context withColor:fgColorExtra];
+		}
+		else
+		{
+			[QuartzHelper setFillColorOfContext:context withColor:fgColor];
+		}
 		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
 													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
 											   lineBreakMode:UILineBreakModeWordWrap 
