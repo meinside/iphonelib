@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.01.04.
+//  last update: 10.07.09.
 //
 
 #pragma once
@@ -53,7 +53,7 @@
 
 - (id) initWithName:(NSString*)aName value:(NSString*)nilIfNone;
 
-- (void)addAttributeWithKey:(NSString*)aKey AndValue:(NSString*)aValue;
+- (void)addAttributeWithKey:(NSString*)aKey andValue:(NSString*)aValue;
 - (void)addChild:(id)aChild;
 - (BOOL)hasChild;
 - (id)childWithName:(NSString*)aName;

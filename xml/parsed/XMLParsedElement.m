@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.01.04.
+//  last update: 10.07.09.
 //
 
 #import "XMLParsedElement.h"
@@ -67,7 +67,7 @@
 #pragma mark -
 #pragma mark attribute functions
 
-- (void)addAttributeWithKey:(NSString*)aKey AndValue:(NSString*)aValue
+- (void)addAttributeWithKey:(NSString*)aKey andValue:(NSString*)aValue
 {
 	[attributes setValue:aValue forKey:aKey];
 }
@@ -91,7 +91,7 @@
 	return YES;
 }
 
-- (id)childWithName:(NSString*)aName;
+- (id)childWithName:(NSString*)aName
 {
 	if([self hasChild])
 	{
