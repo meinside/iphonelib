@@ -33,10 +33,13 @@
 //
 //  Created by meinside on 10. 3. 5.
 //
-//  last update: 10.03.07.
+//  last update: 10.07.21.
 //
 
 #import "UIImage+Extension.h"
+
+#import "Logging.h"
+#import "GraphicFilter.h"	//from: http://www.gdargaud.net/Hack/SourceCode.html
 
 
 @implementation UIImage (UIImageExtension)

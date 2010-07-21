@@ -33,14 +33,12 @@
 //
 //  Created by meinside on 10. 02. 6.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #pragma once
 
 #import <Foundation/Foundation.h>
-
-#import "Logging.h"
 
 
 @interface Stopwatch : NSObject {

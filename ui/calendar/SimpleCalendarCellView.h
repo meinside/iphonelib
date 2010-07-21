@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.07.04.
+//  last update: 10.07.21.
 //
 
 #import <UIKit/UIKit.h>
@@ -52,9 +52,9 @@
 #define CELL_SELECTED_BG_COLOR_G 0.5f
 #define CELL_SELECTED_BG_COLOR_B 0.7f
 
-#define CELL_FG_COLOR_R 0.2f
-#define CELL_FG_COLOR_G 0.2f
-#define CELL_FG_COLOR_B 0.2f
+#define CELL_FG_COLOR_R 0.0f
+#define CELL_FG_COLOR_G 0.0f
+#define CELL_FG_COLOR_B 0.0f
 #define CELL_EXTRA_FG_COLOR_R 0.5f
 #define CELL_EXTRA_FG_COLOR_G 0.5f
 #define CELL_EXTRA_FG_COLOR_B 0.5f
@@ -62,9 +62,9 @@
 #define CELL_SELECTED_FG_COLOR_G 0.0f
 #define CELL_SELECTED_FG_COLOR_B 0.0f
 
-#define CELL_BORDER_LINE_COLOR_R 0.8f
-#define CELL_BORDER_LINE_COLOR_G 0.8f
-#define CELL_BORDER_LINE_COLOR_B 0.8f
+#define CELL_BORDER_LINE_COLOR_R 0.0f
+#define CELL_BORDER_LINE_COLOR_G 0.0f
+#define CELL_BORDER_LINE_COLOR_B 0.0f
 
 typedef enum _CalendarCellType
 {

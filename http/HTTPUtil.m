@@ -33,10 +33,13 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #import "HTTPUtil.h"
+
+#include "NSString+Extension.h"
+#include "Logging.h"
 
 
 @implementation HTTPUtil

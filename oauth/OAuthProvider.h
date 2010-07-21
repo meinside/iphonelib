@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.06.29.
+//  last update: 10.07.21.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -41,8 +41,8 @@
 #pragma once
 #import <Foundation/Foundation.h>
 
-#import "HTTPUtil.h"
-#import "Logging.h"
+#import "HTTPParamList.h"
+
 
 #define kOAUTH_RESPONSE_STATUSCODE @"statusCode"
 #define kOAUTH_RESPONSE_RESULT @"result"

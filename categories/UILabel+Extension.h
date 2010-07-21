@@ -33,14 +33,12 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.07.16.
+//  last update: 10.07.21.
 //
-
 
 #pragma once
 #import <Foundation/Foundation.h>
 
-#import "Logging.h"
 
 @interface UILabel (UILabelExtension)
 

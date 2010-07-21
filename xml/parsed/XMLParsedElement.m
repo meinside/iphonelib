@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.09.
+//  last update: 10.07.21.
 //
 
 #import "XMLParsedElement.h"
+
+#import "Logging.h"
 
 
 @implementation XMLParsedElement

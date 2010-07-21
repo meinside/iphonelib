@@ -33,12 +33,15 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.06.27.
+//  last update: 10.07.21.
 //
 
 #import "SQLiteWrapper.h"
 
 #import "FileUtil.h"
+#import "SQLiteQueryParameter.h"
+#import "SQLiteResultRow.h"
+#import "Logging.h"
 
 
 @implementation SQLiteWrapper

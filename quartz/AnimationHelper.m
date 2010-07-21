@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 07. 25.
 //
-//  last update: 10.01.04.
+//  last update: 10.07.21.
 //
 
 #import "AnimationHelper.h"
+
+#import "Logging.h"
 
 
 @implementation AnimationHelper

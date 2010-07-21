@@ -33,10 +33,13 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.06.28.
+//  last update: 10.07.21.
 //
 
 #import "SQLiteQuery.h"
+
+#import "SQLiteQueryParameter.h"
+#import "Logging.h"
 
 
 @implementation SQLiteQuery

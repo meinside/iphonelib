@@ -33,12 +33,10 @@
 //
 //  Created by meinside on 10. 05. 25.
 //
-//  last update: 10.05.25.
+//  last update: 10.07.21.
 //
 
 #pragma once
-
-
 #import <Foundation/Foundation.h>
 
 

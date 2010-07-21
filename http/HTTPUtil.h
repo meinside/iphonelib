@@ -33,15 +33,13 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 
 #include "HTTPParamList.h"
-#include "NSString+Extension.h"
-#include "Logging.h"
 
 #define kHTTP_ASYNC_RESULT_CODE @"code"
 #define kHTTP_ASYNC_RESULT_CONTENTTYPE @"mime"

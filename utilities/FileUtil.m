@@ -38,6 +38,8 @@
 
 #import "FileUtil.h"
 
+#import "Logging.h"
+
 
 @implementation FileUtil
 

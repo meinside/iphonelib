@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 07. 12.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #import "QuartzHelper.h"
+
+#import "Logging.h"
 
 
 @implementation QuartzHelper

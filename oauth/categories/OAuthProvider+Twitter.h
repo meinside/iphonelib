@@ -33,16 +33,13 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.05.03.
+//  last update: 10.07.21.
 //
-
 
 #pragma once
 #import <Foundation/Foundation.h>
 
-#import "HTTPUtil.h"
 #import "OAuthProvider.h"
-#import "XMLParser.h"
 
 
 #define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"

@@ -33,15 +33,12 @@
 //
 //  Created by meinside on 09. 10. 11.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonHMAC.h>
-
-#import "Base64Transcoder.h"
-#import "Logging.h"
 
 
 @interface NSString (NSStringExtension)

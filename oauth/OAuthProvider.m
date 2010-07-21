@@ -33,12 +33,16 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.06.29.
+//  last update: 10.07.21.
 //
 //	(based on OAuth 1.0 revision A)
 //
 
 #import "OAuthProvider.h"
+
+#import "HTTPUtil.h"
+#import "Logging.h"
+#import "NSString+Extension.h"
 
 
 @implementation OAuthProvider

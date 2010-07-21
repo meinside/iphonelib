@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.06.18.
+//  last update: 10.07.21.
 //
 
 #import "SQLiteResultSet.h"
+
+#import "Logging.h"
 
 
 @implementation SQLiteResultSet

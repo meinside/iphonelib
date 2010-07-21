@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.05.03.
+//  last update: 10.07.21.
 //
 
 #pragma once
@@ -41,7 +41,6 @@
 
 #import "XMLParsedTree.h"
 #import "XMLParsedElement.h"
-#import "Logging.h"
 
 #ifndef __IPHONE_4_0
 

@@ -33,10 +33,14 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.05.17.
+//  last update: 10.07.21.
 //
 
 #import "OAuthProvider+Twitter.h"
+
+#import "HTTPUtil.h"
+#import "XMLParser.h"
+#import "Logging.h"
 
 
 @implementation OAuthProvider (OAuthProviderTwitterExtension)

@@ -33,10 +33,12 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.05.03.
+//  last update: 10.07.21.
 //
 
 #import "DeviceUtil.h"
+
+#import "Logging.h"
 
 
 @implementation DeviceUtil

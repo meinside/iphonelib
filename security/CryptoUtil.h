@@ -33,16 +33,13 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 
 //needs: Security.framework
-
-#import "KeychainUtil.h"
-#import "Logging.h"
 
 
 @interface CryptoUtil : NSObject {

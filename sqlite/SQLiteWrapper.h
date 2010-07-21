@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.06.27.
+//  last update: 10.07.21.
 //
 
 #pragma once
@@ -42,13 +42,10 @@
 //needs: libsqlite3.dylib
 #import <sqlite3.h>
 
-#import "SQLiteQueryParameter.h"
 #import "SQLiteInsertQuery.h"
 #import "SQLiteQuery.h"
 #import "SQLiteResultSet.h"
-#import "SQLiteResultRow.h"
-#import "NSString+Extension.h"
-#import "Logging.h"
+
 
 #define SQLITE_STRING_NO_ERROR @"no error"
 

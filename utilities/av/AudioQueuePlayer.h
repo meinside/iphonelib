@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.05.28.
+//  last update: 10.07.21.
 //
 
 #pragma once
@@ -43,8 +43,6 @@
 //needs: AudioToolbox.framework
 #import <AudioToolbox/AudioToolbox.h>
 
-#import "Logging.h"
-#import "AVUtil.h"
 
 #define NUMBER_OF_BUFFERS 4	//FIXXX: what's the optimal number of audio queue buffer???
 #define BUFFER_DURATION 0.5	//FIXXX: what's the optimal number of buffer duration seconds???

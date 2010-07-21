@@ -33,15 +33,12 @@
 //
 //  Created by meinside on 09. 12. 4.
 //
-//  last update: 10.02.06.
+//  last update: 10.07.21.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonCryptor.h>
-
-#import "Base64Transcoder.h"
-#import "Logging.h"
 
 
 @interface NSData (NSDataExtension) 
