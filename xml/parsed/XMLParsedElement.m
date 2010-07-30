@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.21.
+//  last update: 10.07.30.
 //
 
 #import "XMLParsedElement.h"
@@ -52,7 +52,7 @@
 #pragma mark -
 #pragma mark initializer
 
-- (id) initWithName:(NSString*)aName value:(NSString*)nilIfNone
+- (id)initWithName:(NSString*)aName value:(NSString*)nilIfNone
 {
 	if(self = [super init])
 	{
@@ -77,7 +77,7 @@
 #pragma mark -
 #pragma mark child functions
 
-- (void)addChild:(id)aChild
+- (void)addChild:(XMLParsedElement*)aChild
 {
 	[children addObject:aChild];
 	if(![childrenNameIndex valueForKey:[aChild name]])
@@ -93,7 +93,7 @@
 	return YES;
 }
 
-- (id)childWithName:(NSString*)aName
+- (XMLParsedElement*)childWithName:(NSString*)aName
 {
 	if([self hasChild])
 	{

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.21.
+//  last update: 10.07.30.
 //
 
 #pragma once
@@ -75,9 +75,9 @@
 - (BOOL)parse;
 - (BOOL)parsed;
 
-+ (id)XMLParsedTreeFromURL:(NSURL*)url;
-+ (id)XMLParsedTreeFromURLString:(NSString*)path;
-+ (id)XMLParsedTreeFromData:(NSData*)data;
++ (XMLParsedTree*)XMLParsedTreeFromURL:(NSURL*)url;
++ (XMLParsedTree*)XMLParsedTreeFromURLString:(NSString*)path;
++ (XMLParsedTree*)XMLParsedTreeFromData:(NSData*)data;
 
 @property (retain, nonatomic) XMLParsedElement* rootElement;
 @property (retain, nonatomic) XMLParsedTree* parsedTree;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.21.
+//  last update: 10.07.30.
 //
 
 #import "XMLParser.h"
@@ -139,7 +139,7 @@
 	return parsed;
 }
 
-+ (id)XMLParsedTreeFromURL:(NSURL*)url
++ (XMLParsedTree*)XMLParsedTreeFromURL:(NSURL*)url
 {
 	XMLParser* parser = [[XMLParser alloc] initWithURL:url];
 	if([parser parse])
@@ -152,7 +152,7 @@
 	return nil;
 }
 
-+ (id)XMLParsedTreeFromURLString:(NSString*)path
++ (XMLParsedTree*)XMLParsedTreeFromURLString:(NSString*)path
 {
 	XMLParser* parser = [[XMLParser alloc] initWithURLString:path];
 	if([parser parse])
@@ -165,7 +165,7 @@
 	return nil;
 }
 
-+ (id)XMLParsedTreeFromData:(NSData*)data
++ (XMLParsedTree*)XMLParsedTreeFromData:(NSData*)data
 {
 	XMLParser* parser = [[XMLParser alloc] initWithData:data];
 	if([parser parse])

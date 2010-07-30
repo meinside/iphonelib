@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.09.
+//  last update: 10.07.30.
 //
 
 #pragma once
@@ -51,12 +51,12 @@
 	NSMutableDictionary* childrenNameIndex;
 }
 
-- (id) initWithName:(NSString*)aName value:(NSString*)nilIfNone;
+- (id)initWithName:(NSString*)aName value:(NSString*)nilIfNone;
 
 - (void)addAttributeWithKey:(NSString*)aKey andValue:(NSString*)aValue;
-- (void)addChild:(id)aChild;
+- (void)addChild:(XMLParsedElement*)aChild;
 - (BOOL)hasChild;
-- (id)childWithName:(NSString*)aName;
+- (XMLParsedElement*)childWithName:(NSString*)aName;
 - (NSString*)valueOfChildWithName:(NSString*)aName;
 
 - (NSString*)stringRepresentationWithTab:(NSInteger)tabSize;

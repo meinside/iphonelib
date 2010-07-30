@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.21.
+//  last update: 10.07.30.
 //
 
 #import "XMLParsedTree.h"
@@ -85,12 +85,12 @@
 #pragma mark -
 #pragma mark getter functions
 
-- (id)elementAtPath:(NSString*)path
+- (XMLParsedElement*)elementAtPath:(NSString*)path
 {
 	return [self traverse:[path componentsSeparatedByString:@"/"] nameIndex:0 element:root];
 }
 
-- (id)parsedTreeAtPath:(NSString*)path
+- (XMLParsedTree*)parsedTreeAtPath:(NSString*)path
 {
 	XMLParsedElement* element = [self elementAtPath:path];
 	if(element)
@@ -99,12 +99,12 @@
 		return nil;
 }
 
-- (id)childrenAtPath:(NSString*)path
+- (NSArray*)childrenAtPath:(NSString*)path
 {
 	return [[self elementAtPath:path] children];
 }
 
-- (id)namesAndValuesOfChildrenAtPath:(NSString*)path
+- (NSDictionary*)namesAndValuesOfChildrenAtPath:(NSString*)path
 {
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	for(XMLParsedElement* child in [[self elementAtPath:path] children])
@@ -114,17 +114,17 @@
 	return [dic autorelease];
 }
 
-- (id)attributesAtPath:(NSString*)path
+- (NSDictionary*)attributesAtPath:(NSString*)path
 {
 	return [[self elementAtPath:path] attributes];
 }
 
-- (id)attributeValueOfName:(NSString*)attributeName atPath:(NSString*)path
+- (NSString*)attributeValueOfName:(NSString*)attributeName atPath:(NSString*)path
 {
 	return [[[self elementAtPath:path] attributes] valueForKey:attributeName];
 }
 
-- (id)valueAtPath:(NSString*)path
+- (NSString*)valueAtPath:(NSString*)path
 {
 	return [[self elementAtPath:path] value];
 }
@@ -149,7 +149,7 @@
 	return [NSString stringWithFormat:@"<?xml version='1.0' encoding='%@'?>\n%@", enc, [root stringRepresentation]];
 }
 
-+ (id)XMLParsedTreeWithRootElement:(XMLParsedElement*)rootElement
++ (XMLParsedTree*)XMLParsedTreeWithRootElement:(XMLParsedElement*)rootElement
 {
 	id parsedTree = [[XMLParsedTree alloc] initWithRootElement:rootElement];
 	if(parsedTree)

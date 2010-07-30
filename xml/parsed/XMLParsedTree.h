@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.01.04.
+//  last update: 10.07.30.
 //
 
 #pragma once
@@ -50,32 +50,24 @@
 
 - (id)traverse:(NSArray*)names nameIndex:(NSInteger)index element:(XMLParsedElement*)element;
 
-//will return: XMLParsedElement*
-- (id)elementAtPath:(NSString*)path;
+- (XMLParsedElement*)elementAtPath:(NSString*)path;
 
-//will return: XMLParsedTree*
-- (id)parsedTreeAtPath:(NSString*)path;
+- (XMLParsedTree*)parsedTreeAtPath:(NSString*)path;
 
-//will return: NSArray*
-- (id)childrenAtPath:(NSString*)path;
+- (NSArray*)childrenAtPath:(NSString*)path;
 
-//will return: NSDictionary*
-- (id)namesAndValuesOfChildrenAtPath:(NSString*)path;
+- (NSDictionary*)namesAndValuesOfChildrenAtPath:(NSString*)path;
 
-//will return: NSDictionary*
-- (id)attributesAtPath:(NSString*)path;
+- (NSDictionary*)attributesAtPath:(NSString*)path;
 
-//will return: NSString*
-- (id)attributeValueOfName:(NSString*)attributeName atPath:(NSString*)path;
+- (NSString*)attributeValueOfName:(NSString*)attributeName atPath:(NSString*)path;
 
-//will return: NSString*
-- (id)valueAtPath:(NSString*)path;
+- (NSString*)valueAtPath:(NSString*)path;
 
 - (NSString*)stringValue;
 - (NSString*)stringValueWithEncoding:(NSStringEncoding)encoding;
 
-//will return: XMLParsedTree*
-+ (id)XMLParsedTreeWithRootElement:(XMLParsedElement*)rootElement;
++ (XMLParsedTree*)XMLParsedTreeWithRootElement:(XMLParsedElement*)rootElement;
 
 @property (retain, nonatomic) XMLParsedElement* root;
 
