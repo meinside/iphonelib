@@ -409,7 +409,7 @@ didReceiveResponse:(NSURLResponse *)response
 		[asyncResultHandler performSelector:asyncResultSelector 
 								 withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
 																				 [NSNumber numberWithInt:statusCode], 
-																				 asyncResultData, 
+																				 asyncResultData == nil ? [NSData data] : asyncResultData, 
 																				 mime == nil ? @"" : mime, 
 																				 encoding == nil ? @"" : encoding, 
 																				 headerFields == nil ? [NSDictionary dictionary] : headerFields,
