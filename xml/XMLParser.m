@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.30.
+//  last update: 10.08.01.
 //
 
 #import "XMLParser.h"
@@ -62,6 +62,8 @@
 		parsedTree = nil;
 		
 		error = nil;
+		
+		verbose = NO;
 	}
 	
 	return self;
@@ -80,6 +82,8 @@
 		parsedTree = nil;
 		
 		error = nil;
+		
+		verbose = NO;
 	}
 	
 	return self;
@@ -98,6 +102,8 @@
 		parsedTree = nil;
 		
 		error = nil;
+		
+		verbose = NO;
 	}
 	
 	return self;
@@ -180,6 +186,11 @@
 
 #pragma mark -
 #pragma mark etc.
+
+- (void)setVerbose:(BOOL)verboseOrNot
+{
+	verbose = verboseOrNot;
+}
 
 - (void)dealloc
 {
@@ -266,7 +277,8 @@
 		self.rootElement = currentElement;
 	}
 	
-	DebugLog(@"%@, %@, %@: %@", elementName, namespaceURI, qName, currentElement.value);
+	if(verbose)
+		DebugLog(@"%@, %@, %@: %@", elementName, namespaceURI, qName, currentElement.value);
 	
 	[currentElementValue release];
 	currentElementValue = nil;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.30.
+//  last update: 10.08.01.
 //
 
 #pragma once
@@ -62,6 +62,8 @@
 	
 	BOOL parsed;
 	NSError* error;
+	
+	BOOL verbose;
 }
 
 - (id)initWithURL:(NSURL*)url;
@@ -71,6 +73,8 @@
 - (void)pushElement:(XMLParsedElement*)element;
 - (XMLParsedElement*)popElement;
 - (XMLParsedElement*)peekElement;
+
+- (void)setVerbose:(BOOL)verboseOrNot;
 
 - (BOOL)parse;
 - (BOOL)parsed;
