@@ -33,13 +33,28 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.02.
 //
 
 #import "DeviceUtil.h"
 
 #import "Logging.h"
 
+#import <sys/types.h>
+#import <sys/socket.h>
+#import <sys/sysctl.h>
+#import <sys/time.h>
+#import <netinet/in.h>
+#import <net/if_dl.h>
+#import <netdb.h>
+#import <errno.h>
+#import <arpa/inet.h>
+#import <unistd.h>
+#import <ifaddrs.h>
+
+#if !defined(IFT_ETHER)
+#define IFT_ETHER 0x6	/* Ethernet CSMACD */
+#endif
 
 @implementation DeviceUtil
 
@@ -93,6 +108,49 @@
 + (NSString*)UDID
 {
 	return [[UIDevice currentDevice] uniqueIdentifier];
+}
+
+//referenced: http://www.iphonedevsdk.com/forum/iphone-sdk-development/4970-iphone-mac-address.html
++ (NSString*)MACAddress
+{
+	NSMutableString* result = [NSMutableString string];
+	
+	BOOL success;
+	struct ifaddrs* addrs;
+	const struct ifaddrs* cursor;
+	const struct sockaddr_dl* dlAddr;
+	const uint8_t * base;
+	int i;
+	
+	success = (getifaddrs(&addrs) == 0);
+	if(success)
+	{
+		cursor = addrs;
+		while(cursor != NULL)
+		{
+			if((cursor->ifa_addr->sa_family == AF_LINK) && (((const struct sockaddr_dl *) cursor->ifa_addr)->sdl_type == IFT_ETHER))
+			{
+				dlAddr = (const struct sockaddr_dl *) cursor->ifa_addr;
+
+				base = (const uint8_t *) &dlAddr->sdl_data[dlAddr->sdl_nlen];
+				
+				for(i=0; i<dlAddr->sdl_alen; i++)
+				{
+					if(i != 0)
+					{
+						[result appendString:@":"];
+					}
+					[result appendFormat:@"%02x", base[i]];
+				}
+			}
+			cursor = cursor->ifa_next;
+		}
+		freeifaddrs(addrs);
+	}
+	
+	DebugLog(@"mac address = %@", result);
+
+	return result;
 }
 
 + (NSString*)name

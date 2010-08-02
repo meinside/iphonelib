@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.02.22.
+//  last update: 10.08.02.
 //
 
 #pragma once
@@ -45,14 +45,6 @@
 //needs: CoreLocation.framework
 #import <CoreLocation/CoreLocation.h>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <errno.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <sys/time.h>
 
 @interface DeviceUtil : NSObject {
 
@@ -66,6 +58,8 @@
 
 
 + (NSString*)UDID;
+
++ (NSString*)MACAddress;
 
 + (NSString*)name;
 

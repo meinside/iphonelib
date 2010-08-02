@@ -33,12 +33,14 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.02.
 //
 
 #import "HTTPParamList.h"
 
 #import "Logging.h"
+
+#import "NSString+Extension.h"
 
 
 @implementation HTTPParamList
@@ -107,6 +109,24 @@
 
 #pragma mark -
 #pragma mark etc.
+
+- (NSString*)hash
+{
+	NSMutableString* string = [NSMutableString string];
+
+	for(NSString* key in [[params allKeys] sortedArrayUsingSelector:@selector(compare:)])
+	{
+		if([string length] > 0)
+			[string appendString:@"&"];
+		[string appendString:key];
+		[string appendString:@"="];
+		[string appendString:[[params valueForKey:key] paramStringValue]];
+	}
+	
+	DebugLog(@"hash of '%@' = '%@'", string, [string md5Digest]);
+	
+	return [string md5Digest];
+}
 
 - (void)dealloc
 {

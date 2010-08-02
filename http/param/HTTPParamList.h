@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.01.04.
+//  last update: 10.08.02.
 //
 
 #pragma once
@@ -54,6 +54,9 @@
 - (id)paramWithName:(NSString*)name;
 
 - (NSArray*)paramsArray;
+
+//sort parameters by their name, append together, and then generate MD5 digest from it
+- (NSString*)hash;
 
 @property (retain, nonatomic) NSMutableDictionary* params;
 @property (assign, nonatomic) BOOL includesFile;
