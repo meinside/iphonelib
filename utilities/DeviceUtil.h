@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.08.02.
+//  last update: 10.08.09.
 //
 
 #pragma once
@@ -68,6 +68,8 @@
 + (NSString*)systemVersion;
 
 + (NSString*)systemName;
+
++ (NSString*)appVersion;
 
 
 + (BOOL)cameraSupported;
