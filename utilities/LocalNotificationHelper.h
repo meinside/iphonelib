@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 25.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.12.
 //
 
 #pragma once
@@ -47,12 +47,16 @@
 //since __IPHONE_4_0
 #ifdef __IPHONE_4_0
 
+
+//interval = 0 when not repeated
+
 + (BOOL)scheduleLocalNotificationWithBody:(NSString*)alertBody 
 								   action:(NSString*)alertAction 
 									sound:(NSString*)soundName 
 									badge:(NSInteger)appIconBadgeNumber 
 								 userInfo:(id)userInfo 
-									after:(NSUInteger)seconds;
+									after:(NSUInteger)seconds
+								 repeated:(NSCalendarUnit)interval;
 
 + (BOOL)scheduleLocalNotificationWithBody:(NSString*)alertBody 
 								   action:(NSString*)alertAction 
@@ -63,14 +67,16 @@
 									month:(NSUInteger)month 
 									  day:(NSUInteger)day 
 									 hour:(NSUInteger)hour 
-								   minute:(NSUInteger)minute;
+								   minute:(NSUInteger)minute
+								 repeated:(NSCalendarUnit)interval;
 
 + (BOOL)scheduleLocalNotificationWithBody:(NSString*)alertBody 
 								   action:(NSString*)alertAction 
 									sound:(NSString*)soundName 
 									badge:(NSInteger)appIconBadgeNumber 
 								 userInfo:(id)userInfo 
-									   on:(NSDate*)date;
+									   on:(NSDate*)date
+								 repeated:(NSCalendarUnit)interval;
 
 + (BOOL)presentLocalNotificationNow:(UILocalNotification*)notification;
 
@@ -78,7 +84,8 @@
 									 action:(NSString*)alertAction 
 									  sound:(NSString*)soundName 
 									  badge:(NSInteger)appIconBadgeNumber 
-								   userInfo:(id)userInfo;
+								   userInfo:(id)userInfo
+								   repeated:(NSCalendarUnit)interval;
 
 + (BOOL)cancelAllLocalNotifications;
 
@@ -91,7 +98,8 @@
 											sound:(NSString*)soundName 
 											badge:(NSInteger)appIconBadgeNumber 
 										 userInfo:(id)userInfo 
-											   on:(NSDate*)date;
+											   on:(NSDate*)date 
+										 repeated:(NSCalendarUnit)interval;
 
 #endif
 

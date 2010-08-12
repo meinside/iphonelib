@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 25.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.12.
 //
 
 #import "LocalNotificationHelper.h"
@@ -55,13 +55,15 @@
 									badge:(NSInteger)appIconBadgeNumber 
 								 userInfo:(id)userInfo 
 									after:(NSUInteger)seconds
+								 repeated:(NSCalendarUnit)interval
 {
 	return [self scheduleLocalNotificationWithBody:alertBody 
 											action:alertAction 
 											 sound:soundName 
 											 badge:appIconBadgeNumber 
 										  userInfo:userInfo 
-												on:[NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval)seconds]];
+												on:[NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval)seconds]
+										  repeated:(NSCalendarUnit)interval];
 }
 
 + (BOOL)scheduleLocalNotificationWithBody:(NSString*)alertBody 
@@ -74,6 +76,7 @@
 									  day:(NSUInteger)day 
 									 hour:(NSUInteger)hour 
 								   minute:(NSUInteger)minute
+								 repeated:(NSCalendarUnit)interval
 {
 	NSCalendar* calendar = [NSCalendar autoupdatingCurrentCalendar];
 	NSDateComponents* dateComp = [[NSDateComponents alloc] init];
@@ -93,7 +96,8 @@
 											 sound:soundName 
 											 badge:appIconBadgeNumber 
 										  userInfo:userInfo 
-												on:date];
+												on:date
+										  repeated:interval];
 }
 
 + (BOOL)scheduleLocalNotificationWithBody:(NSString*)alertBody 
@@ -102,13 +106,15 @@
 									badge:(NSInteger)appIconBadgeNumber 
 								 userInfo:(id)userInfo 
 									   on:(NSDate*)date
+								 repeated:(NSCalendarUnit)interval
 {
 	UILocalNotification* noti = [self localNotificationWithBody:alertBody 
 														 action:alertAction 
 														  sound:soundName 
 														  badge:appIconBadgeNumber 
 													   userInfo:userInfo 
-															 on:date];
+															 on:date
+													   repeated:interval];
 	if(!noti)
 		return NO;
 	
@@ -132,13 +138,15 @@
 									  sound:(NSString*)soundName 
 									  badge:(NSInteger)appIconBadgeNumber 
 								   userInfo:(id)userInfo
+								   repeated:(NSCalendarUnit)interval
 {
 	UILocalNotification* noti = [self localNotificationWithBody:alertBody 
 														 action:alertAction 
 														  sound:soundName 
 														  badge:appIconBadgeNumber 
 													   userInfo:userInfo 
-															 on:nil];
+															 on:nil
+													   repeated:interval];
 	if(!noti)
 		return NO;
 	
@@ -176,6 +184,7 @@
 											badge:(NSInteger)appIconBadgeNumber 
 										 userInfo:(id)userInfo 
 											   on:(NSDate*)date
+										 repeated:(NSCalendarUnit)interval
 {
 	UILocalNotification* noti = [[UILocalNotification alloc] init];
 	if(!noti)
@@ -190,6 +199,7 @@
 	noti.soundName = (soundName ? soundName : UILocalNotificationDefaultSoundName);
 	noti.applicationIconBadgeNumber = appIconBadgeNumber;
 	noti.userInfo = userInfo;
+	noti.repeatInterval = interval;
 
 	return [noti autorelease];
 }
