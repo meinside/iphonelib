@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 13.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 
 #import "HTTPParam.h"
@@ -117,5 +117,39 @@
 	
 	[super dealloc];
 }
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+
+	[description appendFormat:@"paramType = %d", paramType];
+	[description appendString:@", "];
+	[description appendFormat:@"paramName = %@", paramName];
+	[description appendString:@", "];
+	[description appendFormat:@"paramValue = %@", paramValue];
+	[description appendString:@", "];
+	[description appendFormat:@"additionalValues = %@", additionalValues];
+	if([self isFile])
+	{
+		[description appendString:@", "];
+		[description appendFormat:@"fileName = %@", [self fileName]];
+		[description appendString:@", "];
+		[description appendFormat:@"contentType = %@", [self contentType]];
+	}
+	else
+	{
+		[description appendString:@", "];
+		[description appendFormat:@"paramStringValue = %@", [self paramStringValue]];
+	}
+
+	[description appendString:@"}"];	
+	return description;
+}
+
 
 @end

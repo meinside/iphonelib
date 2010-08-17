@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -559,6 +559,35 @@
 	[accessToken release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+
+	[description appendFormat:@"consumerKey = %@", consumerKey];
+	[description appendString:@", "];
+	[description appendFormat:@"consumerSecret = %@", consumerSecret];
+	[description appendString:@", "];
+	[description appendFormat:@"requestTokenUrl = %@", requestTokenUrl];
+	[description appendString:@", "];
+	[description appendFormat:@"accessTokenUrl = %@", accessTokenUrl];
+	[description appendString:@", "];
+	[description appendFormat:@"authorizeUrl = %@", authorizeUrl];
+	[description appendString:@", "];
+	[description appendFormat:@"accessToken = %@", accessToken];
+	[description appendString:@", "];
+	[description appendFormat:@"oauthToken = %@", oauthToken];
+	[description appendString:@", "];
+	[description appendFormat:@"timeout = %lf", timeout];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

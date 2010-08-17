@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 
 #import "SQLiteInsertQuery.h"
@@ -154,6 +154,23 @@
 	[array release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+	
+	[description appendFormat:@"tableName = %@", tableName];
+	[description appendString:@", "];
+	[description appendFormat:@"array = %@", array];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

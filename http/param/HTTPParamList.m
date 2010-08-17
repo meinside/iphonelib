@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.08.02.
+//  last update: 10.08.17.
 //
 
 #import "HTTPParamList.h"
@@ -123,7 +123,7 @@
 		[string appendString:[[params valueForKey:key] paramStringValue]];
 	}
 	
-	DebugLog(@"hash of '%@' = '%@'", string, [string md5Digest]);
+	//DebugLog(@"hash of '%@' = '%@'", string, [string md5Digest]);
 	
 	return [string md5Digest];
 }
@@ -133,6 +133,25 @@
 	[params release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+	
+	[description appendFormat:@"includesFile = %d", includesFile];
+	[description appendString:@", "];
+	[description appendFormat:@"params = %@", params];
+	[description appendString:@", "];
+	[description appendFormat:@"hash = %@", [self hash]];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

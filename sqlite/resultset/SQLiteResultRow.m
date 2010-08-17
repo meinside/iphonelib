@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 
 #import "SQLiteResultRow.h"
@@ -207,6 +207,23 @@
 	[columnsDictionary release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+
+	[description appendFormat:@"columnsArray = %@", columnsArray];
+	[description appendString:@", "];
+	[description appendFormat:@"columnsDictionary = %@", columnsDictionary];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

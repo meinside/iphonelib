@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 
 #import "SQLiteQueryParameter.h"
@@ -167,6 +167,25 @@
 	[value release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+	
+	[description appendFormat:@"type = %d", type];
+	[description appendString:@", "];
+	[description appendFormat:@"name = %@", name];
+	[description appendString:@", "];
+	[description appendFormat:@"value = %@", value];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

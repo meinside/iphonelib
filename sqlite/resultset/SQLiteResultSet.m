@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.17.
 //
 
 #import "SQLiteResultSet.h"
@@ -109,6 +109,26 @@
 	[rows release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+
+	[description appendFormat:@"rows = %@", rows];
+	
+	[description appendString:@"}"];
+	
+	//remove unnecessary escape characters
+	[description replaceOccurrencesOfString:@"\\n" withString:@"\n" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [description length])];
+	[description replaceOccurrencesOfString:@"\\" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [description length])];
+	
+	return description;
 }
 
 @end
