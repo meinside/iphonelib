@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.30.
+//  last update: 10.08.17.
 //
 
 #import "XMLParsedTree.h"
@@ -167,6 +167,26 @@
 	[root release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+	
+	[description appendFormat:@"root = %@", root];
+	
+	[description appendString:@"}"];
+
+	//remove unnecessary escape characters
+	[description replaceOccurrencesOfString:@"\\n" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [description length])];
+	[description replaceOccurrencesOfString:@"\\" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, [description length])];
+	
+	return description;
 }
 
 @end

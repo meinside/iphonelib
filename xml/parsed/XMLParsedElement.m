@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.07.30.
+//  last update: 10.08.17.
 //
 
 #import "XMLParsedElement.h"
@@ -175,6 +175,29 @@
 	[childrenNameIndex release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+
+	[description appendFormat:@"name = %@", name];
+	[description appendString:@", "];
+	[description appendFormat:@"value = %@", value];
+	[description appendString:@", "];
+	[description appendFormat:@"attributes = %@", attributes];
+	[description appendString:@", "];
+	[description appendFormat:@"children = %@", children];
+	[description appendString:@", "];
+	[description appendFormat:@"childrenNameIndex = %@", childrenNameIndex];
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 @end

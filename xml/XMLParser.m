@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.08.01.
+//  last update: 10.08.17.
 //
 
 #import "XMLParser.h"
@@ -209,6 +209,29 @@
 		[parsedTree release];
 	
 	[super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark overriding NSObject's description function
+
+- (NSString *)description
+{
+	NSMutableString* description = [NSMutableString string];
+	[description appendFormat:@"%@ {", [self class]];
+	
+	[description appendFormat:@"verbose = %d", verbose];
+	[description appendString:@", "];
+	[description appendFormat:@"parsed = %d", parsed];
+	
+	if(parsed)
+	{
+		[description appendString:@", "];
+		[description appendFormat:@"parsedTree = %@", parsedTree];
+	}
+	
+	[description appendString:@"}"];	
+	return description;
 }
 
 
