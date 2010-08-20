@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.20.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -47,7 +47,7 @@
 #define kOAUTH_RESPONSE_STATUSCODE @"statusCode"
 #define kOAUTH_RESPONSE_RESULT @"result"
 
-#define DEFAULT_TIMEOUT_INTERVAL 2.0
+#define DEFAULT_TIMEOUT_INTERVAL 10.0	//long timeout value for slow cellular network
 
 
 @interface OAuthProvider : NSObject {

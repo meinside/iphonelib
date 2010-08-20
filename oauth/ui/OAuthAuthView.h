@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.06.29.
+//  last update: 10.08.20.
 //
 
 #import <UIKit/UIKit.h>
@@ -66,7 +66,7 @@
 	 accessTokenUrl:(NSString*)accessTokenUrl 
 	   authorizeUrl:(NSString*)authorizeUrl;
 
-- (void)loadAuthPage;
+- (BOOL)loadAuthPage;
 
 - (NSString*)html;
 

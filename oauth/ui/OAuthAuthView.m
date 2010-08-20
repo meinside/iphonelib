@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 9.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.20.
 //
 
 #import "OAuthAuthView.h"
@@ -170,7 +170,7 @@
 #pragma mark -
 #pragma mark open authorize url
 
-- (void)loadAuthPage
+- (BOOL)loadAuthPage
 {
 	NSString* userAuthUrl = [oauth userAuthUrl];
 	
@@ -181,18 +181,22 @@
 		[self loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:userAuthUrl] 
 										   cachePolicy:NSURLRequestUseProtocolCachePolicy 
 									   timeoutInterval:timeout]];
+		
+		return YES;
 	}
 	else
 	{
 		DebugLog(@"user auth url is nil");
 		
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-														message:@"Auth URL is not proper" 
-													   delegate:self 
-											  cancelButtonTitle:@"OK" 
-											  otherButtonTitles:nil];
-		[alert show];
-		[alert release];
+//		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+//														message:@"Auth URL is not proper" 
+//													   delegate:self 
+//											  cancelButtonTitle:@"OK" 
+//											  otherButtonTitles:nil];
+//		[alert show];
+//		[alert release];
+		
+		return NO;
 	}
 }
 

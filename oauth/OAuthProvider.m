@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.08.17.
+//  last update: 10.08.20.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -331,7 +331,11 @@
 	[self.oauthToken setValue:@"" forKey:@"oauth_token_secret"];
 	
 	self.oauthToken = [self requestOauthToken];
-	return [NSString stringWithFormat:@"%@?oauth_token=%@", self.authorizeUrl, [self.oauthToken valueForKey:@"oauth_token"]];
+
+	if(self.oauthToken)
+		return [NSString stringWithFormat:@"%@?oauth_token=%@", self.authorizeUrl, [self.oauthToken valueForKey:@"oauth_token"]];
+	else
+		return nil;
 }
 
 #pragma mark -
