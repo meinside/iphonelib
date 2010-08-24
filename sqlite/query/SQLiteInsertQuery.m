@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.08.17.
+//  last update: 10.08.24.
 //
 
 #import "SQLiteInsertQuery.h"
@@ -55,6 +55,11 @@
 	}
 	
 	return self;
+}
+
++ (SQLiteInsertQuery*)queryWithTableName:(NSString*)aTableName
+{
+	return [[[SQLiteInsertQuery alloc] initWithTableName:aTableName] autorelease];
 }
 
 #pragma mark add params
