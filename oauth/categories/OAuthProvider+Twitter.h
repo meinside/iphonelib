@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.24.
 //
 
 #pragma once
@@ -42,7 +42,13 @@
 #import "OAuthProvider.h"
 
 
+#define TWITTER_MESSAGE_MAX_LENGTH 140
+
 #define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"
+#define TWITTER_FRIENDSHIP_CHECK_URL @"http://api.twitter.com/1/friendships/exists.xml"
+#define TWITTER_FOLLOW_URL @"http://api.twitter.com/1/friendships/create.xml"
+#define TWITTER_UNFOLLOW_URL @"http://api.twitter.com/1/friendships/destroy.xml"
+#define TWITTER_DIRECT_MESSAGE_WRITE_URL @"http://api.twitter.com/1/direct_messages/new.xml"
 
 #define YFROG_UPLOAD_URL @"http://yfrog.com/api/upload"
 
@@ -51,10 +57,10 @@
 
 /*
  * functions for twitter service
- * - http://apiwiki.twitter.com/Twitter-API-Documentation
+ * - http://dev.twitter.com/doc
  */
 
-//http://apiwiki.twitter.com/Twitter-REST-API-Method%3A-statuses%C2%A0update
+//http://dev.twitter.com/doc/post/statuses/update
 - (NSDictionary*)updateStatus:(NSString*)status	//status text
 					inReplyTo:(NSString*)statusId	//existing status' id that this update replies to (nil if none)
 					 latitude:(NSString*)latitude	//latitude: -90.0 ~ +90.0 (nil if none)
@@ -62,6 +68,25 @@
 					  placeId:(NSString*)placeId		//place id that this update will be attached to (nil if none)
 			displayCoordinate:(BOOL)displayCoordinate;
 
+//http://dev.twitter.com/doc/get/friendships/exists
+- (NSDictionary*)isFollowingUser:(NSString*)user;
+- (NSDictionary*)isFollowedByUser:(NSString*)user;
+
+//http://dev.twitter.com/doc/post/friendships/create
+//if already following given user, HTTP 403 will be returned
+- (NSDictionary*)followUserId:(NSString*)userId;
+- (NSDictionary*)followUser:(NSString*)screenName;
+
+//http://dev.twitter.com/doc/post/friendships/destroy
+- (NSDictionary*)unfollowUserId:(NSString*)userId;
+- (NSDictionary*)unfollowUser:(NSString*)screenName;
+
+//http://dev.twitter.com/doc/post/direct_messages/new
+- (NSDictionary*)sendDirectMessage:(NSString*)message toUserId:(NSString*)userId;
+- (NSDictionary*)sendDirectMessage:(NSString*)message toUser:(NSString*)screenName;
+
+
+/* ---------------------------------------------------------------- */
 
 /*
  * functions for yfrog service

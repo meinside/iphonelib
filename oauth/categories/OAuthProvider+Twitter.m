@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.07.21.
+//  last update: 10.08.25.
 //
 
 #import "OAuthProvider+Twitter.h"
@@ -56,7 +56,13 @@
 			displayCoordinate:(BOOL)displayCoordinate
 {
 	if(!self.authorized)
-		return NO;
+		return nil;
+	
+	if([status length] > TWITTER_MESSAGE_MAX_LENGTH)
+	{
+		DebugLog(@"status is too long (%d)", [status length]);
+		return nil;
+	}
 
 	NSMutableDictionary* params = [NSMutableDictionary dictionary];
 	if(status)
@@ -71,6 +77,110 @@
 		[params setObject:@"false" forKey:@"display_coordinates"];
 
 	return [self post:TWITTER_STATUSES_UPDATE_URL parameters:params];
+}
+
+- (NSDictionary*)isFollowingUser:(NSString*)user
+{
+	if(!self.authorized)
+		return nil;
+
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:[accessToken objectForKey:@"screen_name"] forKey:@"user_a"];
+	[params setObject:user forKey:@"user_b"];
+	
+	return [self get:TWITTER_FRIENDSHIP_CHECK_URL parameters:params];
+}
+
+- (NSDictionary*)isFollowedByUser:(NSString*)user
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:user forKey:@"user_a"];
+	[params setObject:[accessToken objectForKey:@"screen_name"] forKey:@"user_b"];
+	
+	return [self get:TWITTER_FRIENDSHIP_CHECK_URL parameters:params];
+}
+
+- (NSDictionary*)followUserId:(NSString*)userId
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:userId forKey:@"user_id"];
+	
+	return [self post:TWITTER_FOLLOW_URL parameters:params];
+}
+
+- (NSDictionary*)followUser:(NSString*)screenName
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:screenName forKey:@"screen_name"];
+	
+	return [self post:TWITTER_FOLLOW_URL parameters:params];
+}
+
+- (NSDictionary*)unfollowUserId:(NSString*)userId
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:userId forKey:@"user_id"];
+	
+	return [self post:TWITTER_UNFOLLOW_URL parameters:params];
+}
+
+- (NSDictionary*)unfollowUser:(NSString*)screenName
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:screenName forKey:@"screen_name"];
+	
+	return [self post:TWITTER_UNFOLLOW_URL parameters:params];
+}
+
+- (NSDictionary*)sendDirectMessage:(NSString*)message toUserId:(NSString*)userId
+{
+	if(!self.authorized)
+		return nil;
+	
+	if([message length] > TWITTER_MESSAGE_MAX_LENGTH)
+	{
+		DebugLog(@"message is too long (%d)", [message length]);
+		return nil;
+	}
+	
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:userId forKey:@"user_id"];
+	[params setObject:message forKey:@"text"];
+	
+	return [self post:TWITTER_DIRECT_MESSAGE_WRITE_URL parameters:params];
+}
+
+- (NSDictionary*)sendDirectMessage:(NSString*)message toUser:(NSString*)screenName
+{
+	if(!self.authorized)
+		return nil;
+	
+	if([message length] > TWITTER_MESSAGE_MAX_LENGTH)
+	{
+		DebugLog(@"message is too long (%d)", [message length]);
+		return nil;
+	}
+
+	NSMutableDictionary* params = [NSMutableDictionary dictionary];
+	[params setObject:screenName forKey:@"screen_name"];
+	[params setObject:message forKey:@"text"];
+	
+	return [self post:TWITTER_DIRECT_MESSAGE_WRITE_URL parameters:params];
 }
 
 //TODO - ...
