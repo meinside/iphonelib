@@ -33,13 +33,14 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.08.22.
+//  last update: 10.09.07.
 //
 
 #import <Foundation/Foundation.h>
 
 #import <AVFoundation/AVFoundation.h>
 
+@protocol AVAudioPlayerWrapperDelegate;
 
 @interface AVAudioPlayerWrapper : NSObject <AVAudioPlayerDelegate> {
 	
@@ -49,6 +50,10 @@
 	NSTimer* playTimer;
 	
 	float gap;
+	
+	NSString* lastPlayedFilename;
+	
+	id<AVAudioPlayerWrapperDelegate> delegate;
 }
 
 + (AVAudioPlayerWrapper*)sharedInstance;
@@ -58,5 +63,19 @@
 - (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap delay:(float)someDelay;
 
 - (void)stopSound;
+
+- (void)setDelegate:(id<AVAudioPlayerWrapperDelegate>)newDelegate;
+
+@end
+
+@protocol AVAudioPlayerWrapperDelegate <NSObject>
+
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper willStartPlayingFilename:(NSString*)filename;
+
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didStartPlayingFilename:(NSString*)filename;
+
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingFilename:(NSString*)filename;
+
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingSuccessfully:(BOOL)success;
 
 @end
