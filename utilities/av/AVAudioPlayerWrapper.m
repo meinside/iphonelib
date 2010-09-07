@@ -92,6 +92,85 @@ static AVAudioPlayerWrapper* _player;
 	}
 }
 
+- (void)stopAndPlayNextSound:(NSTimer*)timer
+{
+	@synchronized(self)
+	{
+		if([filenames count] <= 0)
+		{
+			DebugLog(@"nothing in the play queue");
+			
+			[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:NO];
+			
+			return;
+		}
+		
+		DebugLog(@"playing next sound");
+
+		NSString* filename = [filenames objectAtIndex:0];
+		
+		[lastPlayedFilename release];
+		lastPlayedFilename = [filename copy];
+		
+		NSString* filepath = [FileUtil pathOfFile:filename withPathType:PathTypeResource];
+		[filenames removeObjectAtIndex:0];
+		
+		if(player)
+		{
+			if([player isPlaying])
+			{
+				[player stop];
+				
+				[delegate audioPlayerWrapper:self didFinishPlayingFilename:lastPlayedFilename];
+				[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:NO];
+			}
+			[player release];
+			player = nil;
+		}
+
+		if(![FileUtil fileExistsAtPath:filepath])
+		{
+			DebugLog(@"given resource file does not exist: %@", filename);
+			
+			[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:NO];
+			
+			return;
+		}
+		
+		[delegate audioPlayerWrapper:self willStartPlayingFilename:filename];
+		
+		NSError* error;
+		player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filepath] 
+														error:&error];
+		[player setDelegate:self];
+		[player play];
+		
+		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
+		
+		[playTimer invalidate];
+		[playTimer release];
+		playTimer = [[NSTimer scheduledTimerWithTimeInterval:gap 
+													  target:self 
+													selector:@selector(stopAndPlayNextSound:) 
+													userInfo:nil 
+													 repeats:NO] retain];
+	}
+}
+
+- (void)stopAndPlay:(NSTimer*)timer
+{
+	@synchronized(self)
+	{
+		[playTimer invalidate];
+		[playTimer release];
+		playTimer = [[NSTimer scheduledTimerWithTimeInterval:0 
+													  target:self 
+													selector:@selector(stopAndPlayNextSound:) 
+													userInfo:nil 
+													 repeats:NO] retain];
+	}
+}
+
 - (id)init
 {
 	if((self = [super init]))
@@ -175,12 +254,14 @@ static AVAudioPlayerWrapper* _player;
 	return YES;
 }
 
-- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap delay:(float)someDelay
+- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay
 {
 	DebugLog(@"playing sound filenames: %@", someFilenames);
-
+	
 	@synchronized(self)
 	{
+		startAfterEachFinish = startAfterPreviousSoundsFinish;
+		
 		gap = someGap;
 		
 		if(playTimer)
@@ -201,10 +282,10 @@ static AVAudioPlayerWrapper* _player;
 			[player release];
 			player = nil;
 		}
-		
+
 		playTimer = [[NSTimer scheduledTimerWithTimeInterval:someDelay 
 													  target:self 
-													selector:@selector(playNextSound:) 
+													selector:(startAfterEachFinish ? @selector(playNextSound:) : @selector(stopAndPlay:))
 													userInfo:nil 
 													 repeats:NO] retain];
 	}
@@ -277,15 +358,18 @@ static AVAudioPlayerWrapper* _player;
 		{
 			if([filenames count] > 0)
 			{
-				DebugLog(@"playing next sound");
-
-				[playTimer invalidate];
-				[playTimer release];
-				playTimer = [[NSTimer scheduledTimerWithTimeInterval:gap 
-															  target:self 
-															selector:@selector(playNextSound:) 
-															userInfo:nil 
-															 repeats:NO] retain];
+				if(startAfterEachFinish)
+				{
+					DebugLog(@"playing next sound");
+					
+					[playTimer invalidate];
+					[playTimer release];
+					playTimer = [[NSTimer scheduledTimerWithTimeInterval:gap 
+																  target:self 
+																selector:@selector(playNextSound:) 
+																userInfo:nil 
+																 repeats:NO] retain];
+				}
 			}
 			else
 			{

@@ -54,13 +54,23 @@
 	NSString* lastPlayedFilename;
 	
 	id<AVAudioPlayerWrapperDelegate> delegate;
+	
+	BOOL startAfterEachFinish;
 }
 
 + (AVAudioPlayerWrapper*)sharedInstance;
 + (void)disposeSharedInstance;
 
 - (BOOL)playSound:(NSString*)filename;
-- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap delay:(float)someDelay;
+
+/**
+ * start a batch play of multiple sound files
+ * 
+ * @someGap: gap between each sound play
+ * @startAfterPreviousSoundsFinish: whether to start next sound after previous one's complete finish, or not
+ * @someDelay: start this batch play after someDelay
+ */
+- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay;
 
 - (void)stopSound;
 
