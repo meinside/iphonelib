@@ -33,12 +33,10 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.09.07.
+//  last update: 10.09.09.
 //
 
 #import "AVAudioPlayerWrapper.h"
-
-#import "FileUtil.h"
 
 #import "Logging.h"
 
@@ -65,7 +63,7 @@ static AVAudioPlayerWrapper* _player;
 		[lastPlayedFilename release];
 		lastPlayedFilename = [filename copy];
 
-		NSString* filepath = [FileUtil pathOfFile:filename withPathType:PathTypeResource];
+		NSString* filepath = [FileUtil pathOfFile:filename withPathType:filePathType];
 		[filenames removeObjectAtIndex:0];
 		
 		[player release];
@@ -73,7 +71,7 @@ static AVAudioPlayerWrapper* _player;
 		
 		if(![FileUtil fileExistsAtPath:filepath])
 		{
-			DebugLog(@"given resource file does not exist: %@", filename);
+			DebugLog(@"given file does not exist: %@", filename);
 
 			[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:NO];
 
@@ -112,7 +110,7 @@ static AVAudioPlayerWrapper* _player;
 		[lastPlayedFilename release];
 		lastPlayedFilename = [filename copy];
 		
-		NSString* filepath = [FileUtil pathOfFile:filename withPathType:PathTypeResource];
+		NSString* filepath = [FileUtil pathOfFile:filename withPathType:filePathType];
 		[filenames removeObjectAtIndex:0];
 		
 		if(player)
@@ -130,7 +128,7 @@ static AVAudioPlayerWrapper* _player;
 
 		if(![FileUtil fileExistsAtPath:filepath])
 		{
-			DebugLog(@"given resource file does not exist: %@", filename);
+			DebugLog(@"given file does not exist: %@", filename);
 			
 			[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:NO];
 			
@@ -205,19 +203,21 @@ static AVAudioPlayerWrapper* _player;
 	}
 }
 
-- (BOOL)playSound:(NSString*)filename
+- (BOOL)playSound:(NSString *)filename pathType:(PathType)pathType
 {
 	DebugLog(@"playing sound filename: %@", filename);
-
+	
+	filePathType = pathType;
+	
 	[lastPlayedFilename release];
 	lastPlayedFilename = [filename copy];
-
+	
 	NSString* filepath = [FileUtil pathOfFile:filename 
-								 withPathType:PathTypeResource];
+								 withPathType:filePathType];
 	
 	if(![FileUtil fileExistsAtPath:filepath])
 	{
-		DebugLog(@"given resource file does not exist: %@", filename);
+		DebugLog(@"given file does not exist: %@", filename);
 		return NO;
 	}
 	
@@ -254,12 +254,20 @@ static AVAudioPlayerWrapper* _player;
 	return YES;
 }
 
-- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay
+- (BOOL)playSound:(NSString*)filename
+{
+	return [self playSound:filename 
+				  pathType:PathTypeResource];
+}
+
+- (void)playSounds:(NSArray*)someFilenames pathType:(PathType)pathType withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay
 {
 	DebugLog(@"playing sound filenames: %@", someFilenames);
 	
 	@synchronized(self)
 	{
+		filePathType = pathType;
+		
 		startAfterEachFinish = startAfterPreviousSoundsFinish;
 		
 		gap = someGap;
@@ -282,13 +290,22 @@ static AVAudioPlayerWrapper* _player;
 			[player release];
 			player = nil;
 		}
-
+		
 		playTimer = [[NSTimer scheduledTimerWithTimeInterval:someDelay 
 													  target:self 
 													selector:(startAfterEachFinish ? @selector(playNextSound:) : @selector(stopAndPlay:))
 													userInfo:nil 
 													 repeats:NO] retain];
 	}
+}
+
+- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay
+{
+	[self playSounds:someFilenames 
+			pathType:PathTypeResource 
+			 withGap:someGap 
+	 afterEachFinish:startAfterEachFinish 
+			   delay:someDelay];
 }
 
 - (void)stopSound
@@ -387,12 +404,18 @@ static AVAudioPlayerWrapper* _player;
 	}
 }
 
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
+{
+	DebugLog(@"playing interruption began");
+	
+	//do what?
+}
+
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)aPlayer
 {
-	DebugLog(@"playing interrupted");
-
+	DebugLog(@"playing interruption ended");
+	
 	//do what?
-//	[delegate audioPlayerWrapper:self didFinishPlayingSuccessfully:YES];
 }
 
 @end

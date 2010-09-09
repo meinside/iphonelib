@@ -27,11 +27,11 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 //
-//  AVAudioPlayerWrapper.h
+//  AVAudioRecorderWrapper.h
 //  iPhoneLib,
 //  Helper Functions and Classes for Ordinary Application Development on iPhone
 //
-//  Created by meinside on 10. 08. 22.
+//  Created by meinside on 10. 09. 09.
 //
 //  last update: 10.09.09.
 //
@@ -40,58 +40,47 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-#import "FileUtil.h"
 
-@protocol AVAudioPlayerWrapperDelegate;
+#define DEFAULT_RECORD_QUALITY AVAudioQualityHigh
+#define DEFAULT_RECORD_NUM_CHANNELS 2
+#define DEFAULT_RECORD_SAMPLING_RATE 44100.0f
 
-@interface AVAudioPlayerWrapper : NSObject <AVAudioPlayerDelegate> {
+@protocol AVAudioRecorderWrapperDelegate;
+
+@interface AVAudioRecorderWrapper : NSObject <AVAudioRecorderDelegate> {
+
+	AVAudioRecorder* recorder;
 	
-	AVAudioPlayer* player;
+	AVAudioQuality quality;
+	int channels;
+	float sampleRate;
 	
-	NSMutableArray* filenames;
-	NSTimer* playTimer;
-	
-	float gap;
-	
-	NSString* lastPlayedFilename;
-	
-	id<AVAudioPlayerWrapperDelegate> delegate;
-	
-	BOOL startAfterEachFinish;
-	
-	PathType filePathType;
+	id<AVAudioRecorderWrapperDelegate> delegate;
 }
 
-+ (AVAudioPlayerWrapper*)sharedInstance;
++ (AVAudioRecorderWrapper*)sharedInstance;
 + (void)disposeSharedInstance;
 
-- (BOOL)playSound:(NSString*)filename;
-- (BOOL)playSound:(NSString *)filename pathType:(PathType)pathType;
+- (BOOL)startRecordingWithFilename:(NSString *)filename;
+- (BOOL)startRecordingWithFilename:(NSString*)filename duration:(NSTimeInterval)duration;
+- (void)stopRecording;
 
-/**
- * start a batch play of multiple sound files
- * 
- * @someGap: gap between each sound play
- * @startAfterPreviousSoundsFinish: whether to start next sound after previous one's complete finish, or not
- * @someDelay: start this batch play after someDelay
- */
-- (void)playSounds:(NSArray*)someFilenames withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay;
-- (void)playSounds:(NSArray*)someFilenames pathType:(PathType)pathType withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay;
+- (NSTimeInterval)currentTime;
+- (BOOL)isRecording;
 
-- (void)stopSound;
+- (void)setDelegate:(id<AVAudioRecorderWrapperDelegate>)newDelegate;
 
-- (void)setDelegate:(id<AVAudioPlayerWrapperDelegate>)newDelegate;
+@property (nonatomic, assign) AVAudioQuality quality;
+@property (nonatomic, assign) int channels;
+@property (nonatomic, assign) float sampleRate;
 
 @end
 
-@protocol AVAudioPlayerWrapperDelegate <NSObject>
+@protocol AVAudioRecorderWrapperDelegate <NSObject>
 
-- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper willStartPlayingFilename:(NSString*)filename;
+- (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper didStartRecordingSuccessfully:(BOOL)success;
 
-- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didStartPlayingFilename:(NSString*)filename;
-
-- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingFilename:(NSString*)filename;
-
-- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingSuccessfully:(BOOL)success;
+- (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper didFinishRecordingSuccessfully:(BOOL)success;
 
 @end
+
