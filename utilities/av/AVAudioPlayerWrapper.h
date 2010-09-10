@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.09.09.
+//  last update: 10.09.10.
 //
 
 #pragma once
@@ -63,6 +63,7 @@
 	PathType filePathType;
 }
 
+- (id)init;
 + (AVAudioPlayerWrapper*)sharedInstance;
 + (void)disposeSharedInstance;
 

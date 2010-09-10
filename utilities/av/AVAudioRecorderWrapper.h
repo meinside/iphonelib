@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 10.09.09.
+//  last update: 10.09.10.
 //
 
 #pragma once
@@ -59,6 +59,7 @@
 	id<AVAudioRecorderWrapperDelegate> delegate;
 }
 
+- (id)init;
 + (AVAudioRecorderWrapper*)sharedInstance;
 + (void)disposeSharedInstance;
 
