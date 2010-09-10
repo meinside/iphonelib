@@ -36,6 +36,7 @@
 //  last update: 10.07.04.
 //
 
+#pragma once
 #import <UIKit/UIKit.h>
 
 #import "SimpleCalendarCellView.h"

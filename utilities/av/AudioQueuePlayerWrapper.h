@@ -33,14 +33,15 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.07.21.
+//  last update: 10.09.10.
 //
 
 #pragma once
-
 #import <Foundation/Foundation.h>
 
 #import "AudioQueuePlayer.h"
+
+#import "FileUtil.h"
 
 
 @protocol AudioQueuePlayerWrapperDelegate;
@@ -65,6 +66,7 @@
  */
 - (id)init;
 - (id)initWithFilename:(NSString*)filename andSamplingRateMultiplier:(float)multiplier;
+- (id)initWithFilename:(NSString*)filename pathType:(PathType)pathType andSamplingRateMultiplier:(float)multiplier;
 - (BOOL)isInitialized;
 
 /**
@@ -82,6 +84,7 @@
  * set audio file with sampling rate multiplier
  */
 - (void)setFileNamed:(NSString*)filename withSamplingRateMultiplier:(float)multiplier;
+- (void)setFileNamed:(NSString*)filename pathType:(PathType)pathType withSamplingRateMultiplier:(float)multiplier;
 
 /**
  * change samping rate (can be changed while playing)

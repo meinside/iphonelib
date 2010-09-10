@@ -36,6 +36,7 @@
 //  last update: 10.07.21.
 //
 
+#pragma once
 #import <UIKit/UIKit.h>
 
 

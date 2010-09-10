@@ -33,12 +33,11 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.07.21.
+//  last update: 10.09.10.
 //
 
 #import "AudioQueuePlayerWrapper.h"
 
-#import "FileUtil.h"
 #import "Logging.h"
 
 
@@ -57,7 +56,7 @@ static AudioQueuePlayerWrapper* _manager;
 		lastTime = 0.0f;
 		lastSeekTime = 0.0f;
 		currentSamplingRateMultiplier = 1.0f;
-		
+
 		initialized = NO;
 	}
 	return self;
@@ -65,9 +64,14 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (id)initWithFilename:(NSString*)filename andSamplingRateMultiplier:(float)multiplier
 {
-	AudioQueuePlayerWrapper* initee = [[AudioQueuePlayerWrapper alloc] init];
-	[initee setFileNamed:filename withSamplingRateMultiplier:multiplier];
+	return [self initWithFilename:filename pathType:PathTypeResource andSamplingRateMultiplier:multiplier];
+}
 
+- (id)initWithFilename:(NSString*)filename pathType:(PathType)pathType andSamplingRateMultiplier:(float)multiplier
+{
+	AudioQueuePlayerWrapper* initee = [[AudioQueuePlayerWrapper alloc] init];
+	[initee setFileNamed:filename pathType:pathType withSamplingRateMultiplier:multiplier];
+	
 	return initee;
 }
 
@@ -100,8 +104,13 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (void)setFileNamed:(NSString*)filename withSamplingRateMultiplier:(float)multiplier
 {
-	DebugLog(@"initializing...");
+	[self setFileNamed:filename pathType:PathTypeResource withSamplingRateMultiplier:multiplier];
+}
 
+- (void)setFileNamed:(NSString*)filename pathType:(PathType)pathType withSamplingRateMultiplier:(float)multiplier
+{
+	DebugLog(@"initializing...");
+	
 	@synchronized(self)
 	{
 		if(player)
@@ -113,7 +122,7 @@ static AudioQueuePlayerWrapper* _manager;
 				[player stop:YES];
 			}
 			[player setDelegate:nil];
-
+			
 			[player release];
 			player = nil;
 		}
@@ -125,14 +134,14 @@ static AudioQueuePlayerWrapper* _manager;
 		lastTime = 0.0f;
 		lastSeekTime = 0.0f;
 		currentSamplingRateMultiplier = multiplier;
-		
-		currentURL = [[NSURL fileURLWithPath:[FileUtil pathOfFile:filename 
-													 withPathType:PathTypeResource]] retain];
 
+		currentURL = [[NSURL fileURLWithPath:[FileUtil pathOfFile:filename 
+													 withPathType:pathType]] retain];
+		
 		player = [[AudioQueuePlayer alloc] initWithURL:currentURL 
 										  samplingRate:currentSamplingRateMultiplier];
 		[player setDelegate:self];
-
+		
 		initialized = (player != nil);
 	}
 }

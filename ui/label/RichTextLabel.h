@@ -36,7 +36,7 @@
 //  last update: 10.09.08.
 //
 
-
+#pragma once
 #import <UIKit/UIKit.h>
 
 typedef enum _TextAlign{

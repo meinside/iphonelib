@@ -36,6 +36,7 @@
 //  last update: 10.09.09.
 //
 
+#pragma once
 #import <Foundation/Foundation.h>
 
 #import <AVFoundation/AVFoundation.h>

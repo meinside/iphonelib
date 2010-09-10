@@ -36,6 +36,7 @@
 //  last update: 10.08.20.
 //
 
+#pragma once
 #import <UIKit/UIKit.h>
 
 #import "OAuthProvider.h"
