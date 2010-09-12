@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.09.09.
+//  last update: 10.09.12.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -262,7 +262,7 @@ static AVAudioPlayerWrapper* _player;
 
 - (void)playSounds:(NSArray*)someFilenames pathType:(PathType)pathType withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay
 {
-	DebugLog(@"playing sound filenames: %@", someFilenames);
+	DebugLog(@"playing sound filenames (afterEachFinish = %d): %@", startAfterPreviousSoundsFinish, someFilenames);
 	
 	@synchronized(self)
 	{
@@ -280,8 +280,6 @@ static AVAudioPlayerWrapper* _player;
 		}
 		
 		[filenames release];
-		filenames = nil;
-		
 		filenames = [[NSMutableArray arrayWithArray:someFilenames] retain];
 		
 		if(player)
@@ -304,7 +302,7 @@ static AVAudioPlayerWrapper* _player;
 	[self playSounds:someFilenames 
 			pathType:PathTypeResource 
 			 withGap:someGap 
-	 afterEachFinish:startAfterEachFinish 
+	 afterEachFinish:startAfterPreviousSoundsFinish 
 			   delay:someDelay];
 }
 
