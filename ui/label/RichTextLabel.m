@@ -145,8 +145,9 @@
 	[str appendString:@"</html>"];
 	
 //	DebugLog(@"changing label html to: %@", str);
-	
-	[self loadHTMLString:str baseURL:[[NSBundle mainBundle] bundleURL]];
+
+//	[self loadHTMLString:str baseURL:[[NSBundle mainBundle] bundleURL]];	//for under iOS 4.0
+	[self loadHTMLString:str baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
 }
 
 
