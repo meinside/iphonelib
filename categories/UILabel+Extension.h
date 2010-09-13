@@ -33,15 +33,23 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.07.21.
+//  last update: 10.09.13.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 
+typedef enum _UILabelResizeResult{
+	UILabelResizeFailed = -1,
+	UILabelResizedNoChange = 0,
+	UILabelResized = 1,
+} UILabelResizeResult;
+
 
 @interface UILabel (UILabelExtension)
 
 - (void)alignToTop;
+
+- (UILabelResizeResult)resizeToFitString:(NSString*)newString withFontSize:(CGFloat)initialFontSize;
 
 @end
