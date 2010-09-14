@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.08.09.
+//  last update: 10.09.15.
 //
 
 #pragma once
@@ -70,6 +70,18 @@
 + (NSString*)systemName;
 
 + (NSString*)appVersion;
+
+/*
+ * iPhone Simulator == i386
+ * iPhone == iPhone1,1
+ * 3G iPhone == iPhone1,2
+ * 3GS iPhone == iPhone2,1
+ * 4 iPhone == iPhone3,1
+ * 1st Gen iPod == iPod1,1
+ * 2nd Gen iPod == iPod2,1
+ * 3rd Gen iPod == iPod3,1 
+ */
++ (NSString*)machine;
 
 
 + (BOOL)cameraSupported;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.08.09.
+//  last update: 10.09.15.
 //
 
 #import "DeviceUtil.h"
@@ -176,6 +176,21 @@
 + (NSString*)appVersion
 {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+}
+
+//referenced: http://iphonedevelopertips.com/device/determine-if-iphone-is-3g-or-3gs-determine-if-ipod-is-first-or-second-generation.html
++ (NSString*)machine
+{ 
+	size_t size;
+	sysctlbyname("hw.machine", NULL, &size, NULL, 0); 
+
+	char *name = malloc(size);
+	sysctlbyname("hw.machine", name, &size, NULL, 0);
+
+	NSString *machine = [NSString stringWithCString:name encoding:NSUTF8StringEncoding];
+	free(name);
+
+	return machine;
 }
 
 #pragma mark -
