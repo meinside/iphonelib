@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.09.13.
+//  last update: 10.09.24.
 //
 
 #import "UILabel+Extension.h"
@@ -50,6 +50,16 @@
 	CGRect newRect = self.frame;
 	newRect.size.height = rect.size.height;
 
+	self.frame = newRect;
+}
+
+- (void)enlargeHeightToKeepFontSize
+{
+	CGRect rect = [self textRectForBounds:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 9999.0f) limitedToNumberOfLines:999];
+	
+	CGRect newRect = self.frame;
+	newRect.size.height = rect.size.height;
+	
 	self.frame = newRect;
 }
 

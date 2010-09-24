@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.09.13.
+//  last update: 10.09.24.
 //
 
 #pragma once
@@ -49,6 +49,8 @@ typedef enum _UILabelResizeResult{
 @interface UILabel (UILabelExtension)
 
 - (void)alignToTop;
+
+- (void)enlargeHeightToKeepFontSize;
 
 - (UILabelResizeResult)resizeToFitString:(NSString*)newString withFontSize:(CGFloat)initialFontSize;
 
