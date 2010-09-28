@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.06.13.
+//  last update: 10.09.28.
 //
 
 #import "FileUtil.h"
@@ -117,6 +117,21 @@
 {
 	NSError* error;
 	return [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
+}
+
+//referenced: http://stackoverflow.com/questions/2188469/calculate-the-size-of-a-folder
++ (unsigned long long int)sizeOfFolderPath:(NSString *)path
+{
+    unsigned long long int totalSize = 0;
+
+	NSEnumerator* enumerator = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:path error:nil] objectEnumerator];	
+    NSString* fileName;
+    while(fileName = [enumerator nextObject])
+	{
+		totalSize += [[[NSFileManager defaultManager] attributesOfItemAtPath:[path stringByAppendingPathComponent:fileName] error:nil] fileSize];
+    }
+	
+    return totalSize;	
 }
 
 @end
