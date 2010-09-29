@@ -325,4 +325,63 @@
 	return mediaUrl;
 }
 
+- (NSString*)uploadMediaToImglyWithMessage:(NSString*)message
+									 media:(NSData*)media 
+								  filename:(NSString*)filename
+							   contentType:(NSString*)contentType
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
+	
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
+	
+	NSURLResponse* response;
+	NSError* error;
+	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:IMGLY_UPLOAD_URL] 
+													 parameters:params 
+										 additionalHeaderFields:hdrs 
+												timeoutInterval:timeout
+													   response:&response
+														  error:&error];
+	
+	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+	NSString* mediaUrl = nil;
+	if([httpResponse statusCode] == 200)
+	{
+		XMLParsedTree* parsedTree = [XMLParser XMLParsedTreeFromData:result];
+		if(parsedTree)
+		{
+			mediaUrl = [parsedTree valueAtPath:@"image/url"];
+		}
+	}
+	return mediaUrl;
+}
+
 @end

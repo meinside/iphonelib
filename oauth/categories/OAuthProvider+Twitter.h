@@ -51,9 +51,10 @@
 #define TWITTER_UNFOLLOW_URL @"http://api.twitter.com/1/friendships/destroy.xml"
 #define TWITTER_DIRECT_MESSAGE_WRITE_URL @"http://api.twitter.com/1/direct_messages/new.xml"
 
+//media upload services
 #define YFROG_UPLOAD_URL @"https://yfrog.com/api/xauth_upload"
-
 #define TWITPIC_UPLOAD_URL @"http://api.twitpic.com/2/upload.xml"
+#define IMGLY_UPLOAD_URL @"http://img.ly/api/2/upload.xml"
 
 
 @interface OAuthProvider (OAuthProviderTwitterExtension)
@@ -109,7 +110,6 @@
 									   contentType:(NSString*)contentType;
 
 
-
 /* ---------------------------------------------------------------- */
 
 /*
@@ -124,5 +124,20 @@
 											media:(NSData*)media 
 										 filename:(NSString*)filename
 									  contentType:(NSString*)contentType;
+
+
+/* ---------------------------------------------------------------- */
+
+/*
+ * functions for img.ly service
+ * - http://img.ly/api/docs
+ * 
+ * returns media url
+ * 
+ */
+- (NSString*)uploadMediaToImglyWithMessage:(NSString*)message
+									 media:(NSData*)media 
+								  filename:(NSString*)filename
+							   contentType:(NSString*)contentType;
 
 @end
