@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.08.02.
+//  last update: 10.09.29.
 //
 
 #pragma once
@@ -46,7 +46,9 @@
 	BOOL includesFile;
 }
 
-+ (id)paramList;
++ (HTTPParamList*)paramList;
+
++ (HTTPParamList*)paramListFromDictionary:(NSDictionary*)dict;
 
 - (void)addParam:(HTTPParam*)newParam;
 - (void)addPlainParamWithName:(NSString*)name value:(NSString*)value;

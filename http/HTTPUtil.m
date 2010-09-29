@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.07.21.
+//  last update: 10.09.29.
 //
 
 #import "HTTPUtil.h"
@@ -376,10 +376,12 @@ didReceiveResponse:(NSURLResponse *)response
 								 withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
 																				 [NSNumber numberWithInt:0], 
 																				 [e description], 
+																				 self,
 																				 nil] 
 																		forKeys:[NSArray arrayWithObjects:
 																				 kHTTP_ASYNC_RESULT_CODE, 
 																				 kHTTP_ASYNC_RESULT_ERRORSTR, 
+																				 kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ,
 																				 nil]]];		
 		
 		[asyncResponse release];
@@ -413,6 +415,7 @@ didReceiveResponse:(NSURLResponse *)response
 																				 mime == nil ? @"" : mime, 
 																				 encoding == nil ? @"" : encoding, 
 																				 headerFields == nil ? [NSDictionary dictionary] : headerFields,
+																				 self,
 																				 nil] 
 																		forKeys:[NSArray arrayWithObjects:
 																				 kHTTP_ASYNC_RESULT_CODE, 
@@ -420,6 +423,7 @@ didReceiveResponse:(NSURLResponse *)response
 																				 kHTTP_ASYNC_RESULT_CONTENTTYPE, 
 																				 kHTTP_ASYNC_RESULT_CHARENCODING, 
 																				 kHTTP_ASYNC_RESULT_HEADERFIELDS,
+																				 kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ,
 																				 nil]]];
 		
 		[asyncConnection release];
@@ -446,10 +450,12 @@ didReceiveResponse:(NSURLResponse *)response
 							 withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
 																			 [NSNumber numberWithInt:0], 
 																			 [error localizedDescription], 
+																			 self,
 																			 nil] 
 																	forKeys:[NSArray arrayWithObjects:
 																			 kHTTP_ASYNC_RESULT_CODE, 
 																			 kHTTP_ASYNC_RESULT_ERRORSTR, 
+																			 kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ,
 																			 nil]]];
 
 	[asyncConnection release];

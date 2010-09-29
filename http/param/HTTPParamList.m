@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.08.17.
+//  last update: 10.09.29.
 //
 
 #import "HTTPParamList.h"
@@ -61,13 +61,19 @@
 	return self;
 }
 
-+ (id)paramList
++ (HTTPParamList*)paramList
 {
-	id paramList = [[HTTPParamList alloc] init];
-	if(paramList)
-		return [paramList autorelease];
-	else
-		return nil;
+	return [[[HTTPParamList alloc] init] autorelease];
+}
+
++ (HTTPParamList*)paramListFromDictionary:(NSDictionary*)dict
+{
+	HTTPParamList* result = [self paramList];
+	for(NSString* key in [dict allKeys])
+	{
+		[result addPlainParamWithName:key value:[dict valueForKey:key]];
+	}
+	return result;
 }
 
 #pragma mark -

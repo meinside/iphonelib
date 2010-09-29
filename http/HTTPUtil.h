@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.07.21.
+//  last update: 10.09.29.
 //
 
 #pragma once
@@ -41,6 +41,7 @@
 
 #include "HTTPParamList.h"
 
+#define kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ @"obj"
 #define kHTTP_ASYNC_RESULT_CODE @"code"
 #define kHTTP_ASYNC_RESULT_CONTENTTYPE @"mime"
 #define kHTTP_ASYNC_RESULT_CHARENCODING @"encoding"
