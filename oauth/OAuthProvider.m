@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.08.20.
+//  last update: 10.09.29.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -540,16 +540,6 @@
 {
 	if(timeoutInterval > 0.0)
 		timeout = timeoutInterval;
-}
-
-- (NSString*)generateSignatureWithMethod:(NSString*)method 
-									 url:(NSString*)url 
-							   oauthHash:(NSDictionary*)oauthHash 
-{
-	return [self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:method 
-																					 url:url 
-																			  parameters:oauthHash 
-																	   getPostParameters:nil]];
 }
 
 - (void)dealloc

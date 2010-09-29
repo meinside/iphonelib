@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.08.25.
+//  last update: 10.09.29.
 //
 
 #import "OAuthProvider+Twitter.h"
@@ -47,6 +47,14 @@
 
 #pragma mark -
 #pragma mark Twitter API functions
+
+- (NSDictionary*)verifyCredentials
+{
+	if(!self.authorized)
+		return nil;
+
+	return [self get:TWITTER_VERIFY_CREDENTIALS_URL parameters:nil];
+}
 
 - (NSDictionary*)updateStatus:(NSString*)status
 					inReplyTo:(NSString*)statusId
@@ -189,62 +197,49 @@
 #pragma mark -
 #pragma mark Yfrog API functions
 
-- (NSString*)verifyURLForYfrog
+- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey 
+											 media:(NSData*)media 
+										  filename:(NSString*)filename
+									   contentType:(NSString*)contentType
 {
 	if(!self.authorized)
 		return nil;
-	
-	//ex: https://twitter.com/account/verify_credentials.xml?oauth_version=1.0&oauth_nonce=NONCE&oauth_timestamp=STAMP&oauth_consumer_key=CONSUMER_KEY&oauth_token=TOKEN&oauth_signature_method=HMAC-SHA1&oauth_signature=SIGNATURE
-	NSString* twitterUrl = @"https://twitter.com/account/verify_credentials.xml";
+
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.xml";
 	NSString* timestamp = [OAuthProvider timestamp];
 	NSString* nonce = [OAuthProvider nonce];
-	NSDictionary* requestTokenHash = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
-																 forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];
-	
-	NSString* url = [NSString stringWithFormat:@"%@?oauth_version=1.0&oauth_nonce=%@&oauth_timestamp=%@&oauth_consumer_key=%@&oauth_token=%@&oauth_signature_method=HMAC-SHA1&oauth_signature=%@",
-					 twitterUrl,
-					 nonce,
-					 timestamp,
-					 self.consumerKey,
-					 [self.accessToken valueForKey:@"oauth_token"],
-					 [self generateSignatureWithMethod:@"GET" 
-												   url:twitterUrl 
-											 oauthHash:requestTokenHash]];
-	return url;
-}
 
-- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey
-									   username:(NSString*)username 
-										  media:(NSData*)media 
-									   filename:(NSString*)filename 
-									contentType:(NSString*)contentType 
-									geoTagOrNot:(BOOL)geoTagOrNot 
-									publicOrNot:(BOOL)publicOrNot
-{
-	if(!self.authorized)
-		return nil;
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
 
 	HTTPParamList* params = [HTTPParamList paramList];
-	[params addPlainParamWithName:@"auth" value:@"oauth"];
-	[params addPlainParamWithName:@"username" value:username];
-	[params addPlainParamWithName:@"verify_url" value:[self verifyURLForYfrog]];
-	if(publicOrNot)
-		[params addPlainParamWithName:@"public" value:@"yes"];
-	else
-		[params addPlainParamWithName:@"public" value:@"no"];
-	if(geoTagOrNot)
-	{
-		[params addPlainParamWithName:@"tags" value:@""];
-	}
 	[params addPlainParamWithName:@"key" value:devKey];
-	[params addFileParamWithName:@"media" fillename:filename content:media contentType:contentType];
-	
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
+
 	NSURLResponse* response;
 	NSError* error;
 	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:YFROG_UPLOAD_URL] 
 													 parameters:params 
-										 additionalHeaderFields:nil 
-												timeoutInterval:0.0
+										 additionalHeaderFields:hdrs 
+												timeoutInterval:timeout
 													   response:&response
 														  error:&error];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -266,42 +261,57 @@
 			
 		}
 	}
-	
 	return mediaUrl;
 }
 
-- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey
-									   username:(NSString*)username 
-											url:(NSString*)url 
-									geoTagOrNot:(BOOL)geoTagOrNot 
-									publicOrNot:(BOOL)publicOrNot
+- (NSString*)uploadMediaToTwitpicWithDeveloperKey:(NSString*)devKey 
+										  message:(NSString*)message
+											media:(NSData*)media 
+										 filename:(NSString*)filename
+									  contentType:(NSString*)contentType
 {
 	if(!self.authorized)
 		return nil;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
 
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
+	
 	HTTPParamList* params = [HTTPParamList paramList];
-	[params addPlainParamWithName:@"auth" value:@"oauth"];
-	[params addPlainParamWithName:@"username" value:username];
-	[params addPlainParamWithName:@"verify_url" value:[self verifyURLForYfrog]];
-	if(publicOrNot)
-		[params addPlainParamWithName:@"public" value:@"yes"];
-	else
-		[params addPlainParamWithName:@"public" value:@"no"];
-	if(geoTagOrNot)
-	{
-		[params addPlainParamWithName:@"tags" value:@""];
-	}
 	[params addPlainParamWithName:@"key" value:devKey];
-	[params addPlainParamWithName:@"url" value:url];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
 	
 	NSURLResponse* response;
 	NSError* error;
-	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:YFROG_UPLOAD_URL] 
+	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:TWITPIC_UPLOAD_URL] 
 													 parameters:params 
-										 additionalHeaderFields:nil 
-												timeoutInterval:0.0
+										 additionalHeaderFields:hdrs 
+												timeoutInterval:timeout
 													   response:&response
 														  error:&error];
+	
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 	NSString* mediaUrl = nil;
 	if([httpResponse statusCode] == 200)
@@ -309,16 +319,7 @@
 		XMLParsedTree* parsedTree = [XMLParser XMLParsedTreeFromData:result];
 		if(parsedTree)
 		{
-			NSString* stat = [[parsedTree attributesAtPath:@"rsp"] objectForKey:@"stat"];
-			if(stat && [stat compare:@"ok"] == NSOrderedSame)
-			{
-				mediaUrl = [parsedTree valueAtPath:@"rsp/mediaurl"];
-			}
-			else
-			{
-				DebugLog(@"error: (%@) %@", [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"code"], [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"msg"]);
-			}
-
+			mediaUrl = [parsedTree valueAtPath:@"image/url"];
 		}
 	}
 	return mediaUrl;

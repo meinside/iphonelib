@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.08.24.
+//  last update: 10.09.29.
 //
 
 #pragma once
@@ -44,13 +44,16 @@
 
 #define TWITTER_MESSAGE_MAX_LENGTH 140
 
+#define TWITTER_VERIFY_CREDENTIALS_URL @"http://api.twitter.com/1/account/verify_credentials.xml"
 #define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"
 #define TWITTER_FRIENDSHIP_CHECK_URL @"http://api.twitter.com/1/friendships/exists.xml"
 #define TWITTER_FOLLOW_URL @"http://api.twitter.com/1/friendships/create.xml"
 #define TWITTER_UNFOLLOW_URL @"http://api.twitter.com/1/friendships/destroy.xml"
 #define TWITTER_DIRECT_MESSAGE_WRITE_URL @"http://api.twitter.com/1/direct_messages/new.xml"
 
-#define YFROG_UPLOAD_URL @"http://yfrog.com/api/upload"
+#define YFROG_UPLOAD_URL @"https://yfrog.com/api/xauth_upload"
+
+#define TWITPIC_UPLOAD_URL @"http://api.twitpic.com/2/upload.xml"
 
 
 @interface OAuthProvider (OAuthProviderTwitterExtension)
@@ -59,6 +62,9 @@
  * functions for twitter service
  * - http://dev.twitter.com/doc
  */
+
+//http://dev.twitter.com/doc/get/account/verify_credentials
+- (NSDictionary*)verifyCredentials;
 
 //http://dev.twitter.com/doc/post/statuses/update
 - (NSDictionary*)updateStatus:(NSString*)status	//status text
@@ -97,17 +103,26 @@
  * 
  */
 
-- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey
-									   username:(NSString*)username 
-										  media:(NSData*)media 
-									   filename:(NSString*)filename 
-									contentType:(NSString*)contentType 
-									geoTagOrNot:(BOOL)geoTagOrNot 
-									publicOrNot:(BOOL)publicOrNot;
-- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey
-									   username:(NSString*)username 
-											url:(NSString*)url 
-									geoTagOrNot:(BOOL)geoTagOrNot 
-									publicOrNot:(BOOL)publicOrNot;
+- (NSString*)uploadMediaToYfrogWithDeveloperKey:(NSString*)devKey 
+											 media:(NSData*)media 
+										  filename:(NSString*)filename
+									   contentType:(NSString*)contentType;
+
+
+
+/* ---------------------------------------------------------------- */
+
+/*
+ * functions for twitpic service
+ * - http://dev.twitpic.com/docs/2/upload/
+ * 
+ * returns media url
+ * 
+ */
+- (NSString*)uploadMediaToTwitpicWithDeveloperKey:(NSString*)devKey 
+										  message:(NSString*)message
+											media:(NSData*)media 
+										 filename:(NSString*)filename
+									  contentType:(NSString*)contentType;
 
 @end

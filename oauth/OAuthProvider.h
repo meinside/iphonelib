@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.08.20.
+//  last update: 10.09.29.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -95,14 +95,6 @@
 - (NSString*)userAuthUrl;
 
 /**
- * generate signature from given method, url, and oauth header parameters
- * (for OAuthHelper extensions)
- */
-- (NSString*)generateSignatureWithMethod:(NSString*)method 
-									 url:(NSString*)url 
-							   oauthHash:(NSDictionary*)oauthHash;
-
-/**
  * authorize user with OAuth verifier returned from the service provider's auth url
  */
 - (bool)authorizeWithOauthVerifier:(NSString*)oauthVerifier;
@@ -140,6 +132,16 @@
 + (NSString*)nonce;
 
 - (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval;
+
+/**
+ * declaration for external use (especially in OAuthProvider extensions)
+ */
+- (NSString*)generateAuthHeaderFrom:(NSDictionary*)parameters;
+- (NSString*)generateAccessSignatureFrom:(NSString*)signatureBaseString;
+- (NSString*)generateSignatureBaseStringFromMethod:(NSString*)method 
+											   url:(NSString*)url 
+										parameters:(NSDictionary*)parameters 
+								 getPostParameters:(NSDictionary*)getPostParameters;
 
 @property (copy, nonatomic) NSString* consumerKey;
 @property (copy, nonatomic) NSString* consumerSecret;
