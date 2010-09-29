@@ -258,7 +258,6 @@
 			{
 				DebugLog(@"error: (%@) %@", [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"code"], [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"msg"]);
 			}
-			
 		}
 	}
 	return mediaUrl;
@@ -379,6 +378,73 @@
 		if(parsedTree)
 		{
 			mediaUrl = [parsedTree valueAtPath:@"image/url"];
+		}
+	}
+	return mediaUrl;
+}
+
+- (NSString*)uploadVideoToTwitvidWithMessage:(NSString*)message 
+									   title:(NSString*)title 
+								 description:(NSString*)description
+									   video:(NSData*)video 
+									filename:(NSString*)filename
+								 contentType:(NSString*)contentType
+{
+	if(!self.authorized)
+		return nil;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"x_verify_credentials_authorization: %@", credentials);
+
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addPlainParamWithName:@"title" value:title];
+	[params addPlainParamWithName:@"description" value:description];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:video 
+					 contentType:contentType];
+	[params addPlainParamWithName:@"x_auth_service_provider" value:twitterUrl];
+	[params addPlainParamWithName:@"x_verify_credentials_authorization" value:credentials];
+	
+	NSURLResponse* response;
+	NSError* error;
+	NSData* result = [HTTPUtil dataResultFromPostRequestWithURL:[NSURL URLWithString:TWITVID_UPLOAD_URL] 
+													 parameters:params 
+										 additionalHeaderFields:nil 
+												timeoutInterval:timeout
+													   response:&response
+														  error:&error];
+	
+	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+	NSString* mediaUrl = nil;
+	if([httpResponse statusCode] == 200)
+	{
+		XMLParsedTree* parsedTree = [XMLParser XMLParsedTreeFromData:result];
+		if(parsedTree)
+		{
+			NSString* stat = [[parsedTree attributesAtPath:@"rsp"] objectForKey:@"stat"];
+			if(stat && [stat compare:@"ok"] == NSOrderedSame)
+			{
+				mediaUrl = [parsedTree valueAtPath:@"rsp/media_url"];
+			}
+			else
+			{
+				DebugLog(@"error: (%@) %@", [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"code"], [[parsedTree attributesAtPath:@"rsp/err"] objectForKey:@"msg"]);
+			}
 		}
 	}
 	return mediaUrl;

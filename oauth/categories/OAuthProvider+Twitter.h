@@ -55,6 +55,7 @@
 #define YFROG_UPLOAD_URL @"https://yfrog.com/api/xauth_upload"
 #define TWITPIC_UPLOAD_URL @"http://api.twitpic.com/2/upload.xml"
 #define IMGLY_UPLOAD_URL @"http://img.ly/api/2/upload.xml"
+#define TWITVID_UPLOAD_URL @"http://im.twitvid.com/api/upload "
 
 
 @interface OAuthProvider (OAuthProviderTwitterExtension)
@@ -139,5 +140,22 @@
 									 media:(NSData*)media 
 								  filename:(NSString*)filename
 							   contentType:(NSString*)contentType;
+
+
+/* ---------------------------------------------------------------- */
+
+/*
+ * functions for twitvid service
+ * - http://twitvid.pbworks.com/Twitvid%C2%A0API%C2%A0Method%3A%C2%A0upload
+ * 
+ * returns media url
+ * 
+ */
+- (NSString*)uploadVideoToTwitvidWithMessage:(NSString*)message 
+									   title:(NSString*)title 
+								 description:(NSString*)description
+									   video:(NSData*)video 
+									filename:(NSString*)filename
+								 contentType:(NSString*)contentType;
 
 @end
