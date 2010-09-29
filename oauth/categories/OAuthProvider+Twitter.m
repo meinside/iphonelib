@@ -263,6 +263,57 @@
 	return mediaUrl;
 }
 
+- (void)asyncUploadMediaToYfrogWithDeveloperKey:(NSString*)devKey 
+										  media:(NSData*)media 
+									   filename:(NSString*)filename
+									contentType:(NSString*)contentType
+											 to:(id)delegate
+									   selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.xml";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
+	
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"key" value:devKey];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
+	
+	[self cancelCurrentConnection];
+
+	httpUtil = [[HTTPUtil alloc] init];
+	[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:YFROG_UPLOAD_URL] 
+							   parameters:params
+				   additionalHeaderFields:hdrs
+						  timeoutInterval:timeout 
+									   to:delegate 
+								 selector:selector];
+	
+}
+
 - (NSString*)uploadMediaToTwitpicWithDeveloperKey:(NSString*)devKey 
 										  message:(NSString*)message
 											media:(NSData*)media 
@@ -324,6 +375,58 @@
 	return mediaUrl;
 }
 
+- (void)asyncUploadMediaToTwitpicWithDeveloperKey:(NSString*)devKey 
+										  message:(NSString*)message
+											media:(NSData*)media 
+										 filename:(NSString*)filename
+									  contentType:(NSString*)contentType
+											   to:(id)delegate
+										 selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
+	
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"key" value:devKey];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
+
+	[self cancelCurrentConnection];
+	
+	httpUtil = [[HTTPUtil alloc] init];
+	[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:TWITPIC_UPLOAD_URL] 
+							   parameters:params
+				   additionalHeaderFields:hdrs
+						  timeoutInterval:timeout 
+									   to:delegate 
+								 selector:selector];
+}
+
 - (NSString*)uploadMediaToImglyWithMessage:(NSString*)message
 									 media:(NSData*)media 
 								  filename:(NSString*)filename
@@ -381,6 +484,56 @@
 		}
 	}
 	return mediaUrl;
+}
+
+- (void)asyncUploadMediaToImglyWithMessage:(NSString*)message
+									 media:(NSData*)media 
+								  filename:(NSString*)filename
+							   contentType:(NSString*)contentType
+										to:(id)delegate
+								  selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"X-Verify-Credentials-Authorization: %@", credentials);
+	
+	NSMutableDictionary* hdrs = [NSMutableDictionary dictionary];
+	[hdrs setObject:twitterUrl 
+			 forKey:@"X-Auth-Service-Provider"];
+	[hdrs setObject:credentials
+			 forKey:@"X-Verify-Credentials-Authorization"];
+	
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:media 
+					 contentType:contentType];
+	
+	[self cancelCurrentConnection];
+	
+	httpUtil = [[HTTPUtil alloc] init];
+	[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:IMGLY_UPLOAD_URL] 
+							   parameters:params
+				   additionalHeaderFields:hdrs
+						  timeoutInterval:timeout 
+									   to:delegate 
+								 selector:selector];
 }
 
 - (NSString*)uploadVideoToTwitvidWithMessage:(NSString*)message 
@@ -448,6 +601,56 @@
 		}
 	}
 	return mediaUrl;
+}
+
+- (void)asyncUploadVideoToTwitvidWithMessage:(NSString*)message 
+									   title:(NSString*)title 
+								 description:(NSString*)description
+									   video:(NSData*)video 
+									filename:(NSString*)filename
+								 contentType:(NSString*)contentType
+										  to:(id)delegate
+									selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	NSString* twitterUrl = @"https://api.twitter.com/1/account/verify_credentials.json";
+	NSString* timestamp = [OAuthProvider timestamp];
+	NSString* nonce = [OAuthProvider nonce];
+	
+	NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", timestamp, nonce, @"1.0", nil]
+																			   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];	
+	[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" 
+																										 url:twitterUrl 
+																								  parameters:requestTokenHash 
+																						   getPostParameters:nil]] 
+						forKey:@"oauth_signature"];
+	
+	NSString* credentials = [NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]];
+	
+//	DebugLog(@"x_verify_credentials_authorization: %@", credentials);
+	
+	HTTPParamList* params = [HTTPParamList paramList];
+	[params addPlainParamWithName:@"message" value:message];
+	[params addPlainParamWithName:@"title" value:title];
+	[params addPlainParamWithName:@"description" value:description];
+	[params addFileParamWithName:@"media" 
+					   fillename:filename 
+						 content:video 
+					 contentType:contentType];
+	[params addPlainParamWithName:@"x_auth_service_provider" value:twitterUrl];
+	[params addPlainParamWithName:@"x_verify_credentials_authorization" value:credentials];
+
+	[self cancelCurrentConnection];
+	
+	httpUtil = [[HTTPUtil alloc] init];
+	[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:TWITVID_UPLOAD_URL] 
+							   parameters:params
+				   additionalHeaderFields:nil
+						  timeoutInterval:timeout 
+									   to:delegate 
+								 selector:selector];
 }
 
 @end

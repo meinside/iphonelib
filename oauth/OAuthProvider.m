@@ -40,7 +40,6 @@
 
 #import "OAuthProvider.h"
 
-#import "HTTPUtil.h"
 #import "Logging.h"
 #import "NSString+Extension.h"
 
@@ -415,6 +414,35 @@
 									   forKeys:keys];
 }
 
+- (void)asyncGet:(NSString*)url
+	  parameters:(NSDictionary*)parameters 
+			  to:(id)delegate
+		selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	@synchronized(self)
+	{
+		NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", [OAuthProvider timestamp], [OAuthProvider nonce], @"1.0", nil]
+																				   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];
+		
+		//set signature
+		[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"GET" url:url parameters:requestTokenHash getPostParameters:parameters]] 
+							forKey:@"oauth_signature"];
+		
+		[self cancelCurrentConnection];
+		
+		httpUtil = [[HTTPUtil alloc] init];
+		[httpUtil sendAsyncGetRequestWithURL:[NSURL URLWithString:url] 
+								  parameters:parameters 
+					  additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
+							 timeoutInterval:timeout 
+										  to:delegate 
+									selector:selector];
+	}
+}
+
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method
  */
@@ -468,6 +496,46 @@
 									   forKeys:keys];
 }
 
+- (void)asyncPost:(NSString*)url 
+	   parameters:(NSDictionary*)parameters 
+			   to:(id)delegate
+		 selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	@synchronized(self)
+	{
+		NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", [OAuthProvider timestamp], [OAuthProvider nonce], @"1.0", nil]
+																				   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];
+		
+		//set signature
+		[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"POST" url:url parameters:requestTokenHash getPostParameters:parameters]] 
+							forKey:@"oauth_signature"];
+		
+		//build up post parameters
+		HTTPParamList* paramList = nil;
+		if(parameters)
+		{
+			paramList = [HTTPParamList paramList];
+			for(NSString* key in [parameters allKeys])
+			{
+				[paramList addPlainParamWithName:key value:[parameters valueForKey:key]];
+			}
+		}
+		
+		[self cancelCurrentConnection];
+		
+		httpUtil = [[HTTPUtil alloc] init];
+		[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:url] 
+								   parameters:[HTTPParamList paramListFromDictionary:parameters] 
+					   additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
+							  timeoutInterval:timeout 
+										   to:delegate 
+									 selector:selector];
+	}
+}
+
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method (when including multipart/form-data)
@@ -511,6 +579,36 @@
 									   forKeys:keys];
 }
 
+- (void)asyncPostMultipart:(NSString*)url 
+				parameters:(HTTPParamList*)parameters 
+						to:(id)delegate
+				  selector:(SEL)selector
+{
+	if(!self.authorized)
+		return;
+	
+	@synchronized(self)
+	{
+		NSMutableDictionary* requestTokenHash = [NSMutableDictionary dictionaryWithObjects:[NSArray arrayWithObjects:self.consumerKey, [self.accessToken valueForKey:@"oauth_token"], @"HMAC-SHA1", [OAuthProvider timestamp], [OAuthProvider nonce], @"1.0", nil]
+																				   forKeys:[NSArray arrayWithObjects:@"oauth_consumer_key", @"oauth_token", @"oauth_signature_method", @"oauth_timestamp", @"oauth_nonce", @"oauth_version", nil]];
+		
+		//set signature
+		[requestTokenHash setValue:[self generateAccessSignatureFrom:[self generateSignatureBaseStringFromMethod:@"POST" url:url parameters:requestTokenHash getPostParameters:nil]] 
+							forKey:@"oauth_signature"];
+		
+		[self cancelCurrentConnection];
+		
+		httpUtil = [[HTTPUtil alloc] init];
+		[httpUtil sendAsyncPostRequestWithURL:[NSURL URLWithString:url] 
+								   parameters:parameters 
+					   additionalHeaderFields:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"OAuth %@", [self generateAuthHeaderFrom:requestTokenHash]] forKey:@"Authorization"] 
+							  timeoutInterval:timeout 
+										   to:delegate 
+									 selector:selector];
+	}
+}
+
+
 #pragma mark -
 #pragma mark time stamp functions
 
@@ -540,6 +638,15 @@
 {
 	if(timeoutInterval > 0.0)
 		timeout = timeoutInterval;
+}
+
+- (void)cancelCurrentConnection
+{
+	DebugLog(@"cancel current connection");
+
+	[httpUtil cancelCurrentConnection];
+	[httpUtil release];
+	httpUtil = nil;
 }
 
 - (void)dealloc

@@ -41,6 +41,7 @@
 #pragma once
 #import <Foundation/Foundation.h>
 
+#import "HTTPUtil.h"
 #import "HTTPParamList.h"
 
 
@@ -64,6 +65,8 @@
 	NSMutableDictionary* oauthToken;
 	
 	NSTimeInterval timeout;
+	
+	HTTPUtil* httpUtil;
 	
 @public
 	bool authorized;
@@ -111,6 +114,10 @@
  */
 - (NSDictionary*)get:(NSString*)url 
 		  parameters:(NSDictionary*)parameters;
+- (void)asyncGet:(NSString*)url
+	  parameters:(NSDictionary*)parameters 
+			  to:(id)delegate
+		selector:(SEL)selector;	//selector will receive NSDictionary for result as a parameter
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method
@@ -119,6 +126,10 @@
  */
 - (NSDictionary*)post:(NSString*)url 
 		   parameters:(NSDictionary*)parameters;
+- (void)asyncPost:(NSString*)url 
+	   parameters:(NSDictionary*)parameters 
+			   to:(id)delegate
+		 selector:(SEL)selector;	//selector will receive NSDictionary for result as a parameter
 
 /**
  * (after authorization) retrieve protected resources from the service provider using POST method (when including multipart/form-data)
@@ -127,11 +138,17 @@
  */
 - (NSDictionary*)postMultipart:(NSString*)url 
 					parameters:(HTTPParamList*)parameters;
+- (void)asyncPostMultipart:(NSString*)url 
+				parameters:(HTTPParamList*)parameters 
+						to:(id)delegate
+				  selector:(SEL)selector;	//selector will receive NSDictionary for result as a parameter
 
 + (NSString*)timestamp;
 + (NSString*)nonce;
 
 - (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval;
+
+- (void)cancelCurrentConnection;
 
 /**
  * declaration for external use (especially in OAuthProvider extensions)

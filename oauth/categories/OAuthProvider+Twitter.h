@@ -109,6 +109,12 @@
 											 media:(NSData*)media 
 										  filename:(NSString*)filename
 									   contentType:(NSString*)contentType;
+- (void)asyncUploadMediaToYfrogWithDeveloperKey:(NSString*)devKey 
+										  media:(NSData*)media 
+									   filename:(NSString*)filename
+									contentType:(NSString*)contentType
+											 to:(id)delegate
+									   selector:(SEL)selector;
 
 
 /* ---------------------------------------------------------------- */
@@ -125,6 +131,13 @@
 											media:(NSData*)media 
 										 filename:(NSString*)filename
 									  contentType:(NSString*)contentType;
+- (void)asyncUploadMediaToTwitpicWithDeveloperKey:(NSString*)devKey 
+										  message:(NSString*)message
+											media:(NSData*)media 
+										 filename:(NSString*)filename
+									  contentType:(NSString*)contentType
+											   to:(id)delegate
+										 selector:(SEL)selector;
 
 
 /* ---------------------------------------------------------------- */
@@ -140,6 +153,12 @@
 									 media:(NSData*)media 
 								  filename:(NSString*)filename
 							   contentType:(NSString*)contentType;
+- (void)asyncUploadMediaToImglyWithMessage:(NSString*)message
+									 media:(NSData*)media 
+								  filename:(NSString*)filename
+							   contentType:(NSString*)contentType
+										to:(id)delegate
+								  selector:(SEL)selector;
 
 
 /* ---------------------------------------------------------------- */
@@ -157,5 +176,13 @@
 									   video:(NSData*)video 
 									filename:(NSString*)filename
 								 contentType:(NSString*)contentType;
+- (void)asyncUploadVideoToTwitvidWithMessage:(NSString*)message 
+									   title:(NSString*)title 
+								 description:(NSString*)description
+									   video:(NSData*)video 
+									filename:(NSString*)filename
+								 contentType:(NSString*)contentType
+										  to:(id)delegate
+									selector:(SEL)selector;
 
 @end
