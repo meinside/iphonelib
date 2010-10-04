@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.09.10.
+//  last update: 10.10.04.
 //
 
 #pragma once
@@ -61,6 +61,8 @@
 	BOOL startAfterEachFinish;
 	
 	PathType filePathType;
+	
+	float volume;
 }
 
 - (id)init;
@@ -81,6 +83,9 @@
 - (void)playSounds:(NSArray*)someFilenames pathType:(PathType)pathType withGap:(float)someGap afterEachFinish:(BOOL)startAfterPreviousSoundsFinish delay:(float)someDelay;
 
 - (void)stopSound;
+
+- (float)currentVolume;
+- (void)setVolume:(float)newVolume;
 
 - (void)setDelegate:(id<AVAudioPlayerWrapperDelegate>)newDelegate;
 

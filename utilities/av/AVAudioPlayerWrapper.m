@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.09.12.
+//  last update: 10.10.04.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -84,6 +84,7 @@ static AVAudioPlayerWrapper* _player;
 		player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filepath] 
 														error:&error];
 		[player setDelegate:self];
+		player.volume = volume;
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -141,6 +142,7 @@ static AVAudioPlayerWrapper* _player;
 		player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filepath] 
 														error:&error];
 		[player setDelegate:self];
+		player.volume = volume;
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -173,7 +175,7 @@ static AVAudioPlayerWrapper* _player;
 {
 	if((self = [super init]))
 	{
-		//nothing to do
+		volume = 1.0f;
 
 		DebugLog(@"AVAudioPlayerWrapper initialized");
 	}
@@ -246,6 +248,7 @@ static AVAudioPlayerWrapper* _player;
 		player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:filepath] 
 														error:&error];
 		[player setDelegate:self];
+		player.volume = volume;
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -335,6 +338,16 @@ static AVAudioPlayerWrapper* _player;
 			player = nil;
 		}
 	}
+}
+
+- (float)currentVolume
+{
+	return volume;
+}
+
+- (void)setVolume:(float)newVolume
+{
+	volume = newVolume;
 }
 
 - (void)setDelegate:(id<AVAudioPlayerWrapperDelegate>)newDelegate
