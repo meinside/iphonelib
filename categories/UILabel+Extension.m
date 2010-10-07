@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.09.24.
+//  last update: 10.10.07.
 //
 
 #import "UILabel+Extension.h"
@@ -43,37 +43,51 @@
 
 @implementation UILabel (UILabelExtension)
 
-- (void)alignToTop
+- (UILabelResizeResult)alignToTop
 {
+	CGFloat originalLabelHeight = self.frame.size.height;
+
 	CGRect rect = [self textRectForBounds:self.bounds limitedToNumberOfLines:999];
 
 	CGRect newRect = self.frame;
 	newRect.size.height = rect.size.height;
 
 	self.frame = newRect;
+	
+	if(self.frame.size.height == originalLabelHeight)
+		return UILabelResizedNoChange;
+	else
+		return UILabelResized;
 }
 
-- (void)enlargeHeightToKeepFontSize
+- (UILabelResizeResult)enlargeHeightToKeepFontSize
 {
+	CGFloat originalLabelHeight = self.frame.size.height;
+
 	CGRect rect = [self textRectForBounds:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 9999.0f) limitedToNumberOfLines:999];
 	
 	CGRect newRect = self.frame;
 	newRect.size.height = rect.size.height;
 	
 	self.frame = newRect;
+	
+	if(self.frame.size.height == originalLabelHeight)
+		return UILabelResizedNoChange;
+	else
+		return UILabelResized;
 }
 
-- (UILabelResizeResult)resizeToFitString:(NSString*)newString withFontSize:(CGFloat)initialFontSize
+- (UILabelResizeResult)resizeFontSizeToKeepCurrentRect:(CGFloat)initialFontSize
 {
 	CGFloat originalLabelHeight = self.frame.size.height;
 	CGFloat labelHeight;
 	UIFont* font = self.font;
 
-	for(CGFloat f = initialFontSize; f > self.minimumFontSize; f -= 2.0f)
+	for(CGFloat f = initialFontSize; f > self.minimumFontSize; f -= 1.0f)
 	{
 		font = [font fontWithSize:f];
 		CGSize constraintSize = CGSizeMake(self.frame.size.width, MAXFLOAT);
-		CGSize labelSize = [newString sizeWithFont:font 
+		CGSize labelSize = [self.text sizeWithFont:font 
 								 constrainedToSize:constraintSize 
 									 lineBreakMode:UILineBreakModeWordWrap];
 
@@ -83,7 +97,6 @@
 	}
 
 	self.font = font;
-	self.text = newString;
 	
 	if(labelHeight == originalLabelHeight)
 		return UILabelResizedNoChange;
