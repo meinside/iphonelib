@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.07.21.
+//  last update: 10.10.12.
 //
 
 #pragma once
@@ -117,8 +117,6 @@
 
 - (void)stop:(BOOL)immediate;
 
-- (id<AudioQueuePlayerDelegate>)delegate;
-- (void)setDelegate:(id<AudioQueuePlayerDelegate>)newDelegate;
 
 @property (readwrite) UInt32 numPacketsToRead;
 @property (readwrite) AudioFileID audioFile;
@@ -127,6 +125,7 @@
 @property (readwrite) AudioQueueRef queue;
 @property (readwrite) BOOL isRunning;
 @property (readonly) AudioTimeStamp* startTime;
+@property (assign) id<AudioQueuePlayerDelegate> delegate;
 
 @end
 

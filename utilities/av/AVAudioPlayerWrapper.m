@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.10.04.
+//  last update: 10.10.12.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -44,6 +44,8 @@
 @implementation AVAudioPlayerWrapper
 
 static AVAudioPlayerWrapper* _player;
+
+@synthesize delegate;
 
 - (void)playNextSound:(NSTimer*)timer
 {
@@ -350,12 +352,6 @@ static AVAudioPlayerWrapper* _player;
 	volume = newVolume;
 }
 
-- (void)setDelegate:(id<AVAudioPlayerWrapperDelegate>)newDelegate
-{
-	[delegate release];
-	delegate = [newDelegate retain];
-}
-
 - (void)dealloc
 {
 	[playTimer invalidate];
@@ -367,8 +363,6 @@ static AVAudioPlayerWrapper* _player;
 	[filenames release];
 	
 	[lastPlayedFilename release];
-	
-	[delegate release];
 	
 	[super dealloc];
 }

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.07.21.
+//  last update: 10.10.12.
 //
 
 #import "AudioQueuePlayer.h"
@@ -53,6 +53,7 @@
 @synthesize queue;
 @synthesize isRunning;
 @synthesize startTime;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark audio queue's callback functions and etc.
@@ -124,7 +125,7 @@ void propertyCallback(void* inUserData, AudioQueueRef inAQ, AudioQueuePropertyID
 			{
 				DebugLog(@"AudioQueue is running");
 				
-				[[wrapper delegate] audioQueuePlayer:wrapper 
+				[wrapper.delegate audioQueuePlayer:wrapper 
 												 did:AudioQueuePlayerStartedPlaying];
 			}
 			else
@@ -134,7 +135,7 @@ void propertyCallback(void* inUserData, AudioQueueRef inAQ, AudioQueuePropertyID
 				[wrapper stop:YES];
 				wrapper.currentPacket = 0;	//go back to start point
 				
-				[[wrapper delegate] audioQueuePlayer:wrapper 
+				[wrapper.delegate audioQueuePlayer:wrapper 
 												 did:AudioQueuePlayerStoppedPlaying];
 			}
 		}
@@ -288,18 +289,6 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 				samplingRate:1.0f];
 }
 
-- (id<AudioQueuePlayerDelegate>)delegate
-{
-	return delegate;
-}
-
-- (void)setDelegate:(id<AudioQueuePlayerDelegate>)newDelegate
-{
-	[delegate release];
-	delegate = nil;
-	
-	delegate = [newDelegate retain];
-}
 
 #pragma mark -
 #pragma mark functions for manipulating audio queue
@@ -460,8 +449,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 	
 	if(packetDescs)
 		free(packetDescs);
-	
-	[delegate release];
+
 	[_url release];
 	
 	[super dealloc];

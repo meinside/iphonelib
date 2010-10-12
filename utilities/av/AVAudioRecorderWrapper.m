@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 10.09.09.
+//  last update: 10.10.12.
 //
 
 #import "AVAudioRecorderWrapper.h"
@@ -50,6 +50,7 @@ static AVAudioRecorderWrapper* _recorder;
 @synthesize quality;
 @synthesize channels;
 @synthesize sampleRate;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark initializers
@@ -83,15 +84,6 @@ static AVAudioRecorderWrapper* _recorder;
 	{
 		[_recorder release];
 		_recorder = nil;
-	}
-}
-
-- (void)setDelegate:(id<AVAudioRecorderWrapperDelegate>)newDelegate
-{
-	@synchronized(self)
-	{
-		[delegate release];
-		delegate = [newDelegate retain];
 	}
 }
 
@@ -234,7 +226,6 @@ static AVAudioRecorderWrapper* _recorder;
 - (void)dealloc
 {
 	[recorder release];
-	[delegate release];
 	
 	[super dealloc];
 }

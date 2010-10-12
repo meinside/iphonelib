@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.07.04.
+//  last update: 10.10.12.
 //
 
 #pragma once
@@ -125,11 +125,10 @@
 
 - (void)cellPressed:(id)sender;
 
-- (void)setDelegate:(id<SimpleCalendarViewDelegate>)newDelegate;
-
 @property (nonatomic, readonly) uint selectedYear;
 @property (nonatomic, readonly) uint selectedMonth;
 @property (nonatomic, readonly) uint selectedDay;
+@property (assign) id<SimpleCalendarViewDelegate> delegate;
 
 @end
 

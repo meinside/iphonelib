@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 10.09.10.
+//  last update: 10.10.12.
 //
 
 #pragma once
@@ -70,11 +70,10 @@
 - (NSTimeInterval)currentTime;
 - (BOOL)isRecording;
 
-- (void)setDelegate:(id<AVAudioRecorderWrapperDelegate>)newDelegate;
-
 @property (nonatomic, assign) AVAudioQuality quality;
 @property (nonatomic, assign) int channels;
 @property (nonatomic, assign) float sampleRate;
+@property (assign) id<AVAudioRecorderWrapperDelegate> delegate;
 
 @end
 

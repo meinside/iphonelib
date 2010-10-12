@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.07.04.
+//  last update: 10.10.12.
 //
 
 #import "SimpleCalendarView.h"
@@ -47,6 +47,7 @@
 @synthesize selectedYear;
 @synthesize selectedMonth;
 @synthesize selectedDay;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark UIView
@@ -497,20 +498,6 @@
 
 
 #pragma mark -
-#pragma mark delegate functions
-
-- (void)setDelegate:(id<SimpleCalendarViewDelegate>)newDelegate
-{
-	if(delegate)
-	{
-		[delegate release];
-		delegate = nil;
-	}
-	delegate = [newDelegate retain];
-}
-
-
-#pragma mark -
 #pragma mark memory management
 
 - (void)dealloc {
@@ -519,8 +506,6 @@
 	[previousMonthButton release];
 	[nextMonthButton release];
 	[monthLabel release];
-	
-	[delegate release];
 	
     [super dealloc];
 }

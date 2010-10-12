@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.09.10.
+//  last update: 10.10.12.
 //
 
 #pragma once
@@ -133,12 +133,7 @@
  */
 - (void)seekToOriginal:(Float64)seconds;
 
-
-/**
- * delegate functionis
- */
-- (id<AudioQueuePlayerWrapperDelegate>)delegate;
-- (void)setDelegate:(id<AudioQueuePlayerWrapperDelegate>)newDelegate;
+@property (assign) id<AudioQueuePlayerWrapperDelegate> delegate;
 
 @end
 

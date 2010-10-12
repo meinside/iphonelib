@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.09.10.
+//  last update: 10.10.12.
 //
 
 #import "AudioQueuePlayerWrapper.h"
@@ -45,6 +45,8 @@
 static AudioQueuePlayerWrapper* _manager;
 
 @implementation AudioQueuePlayerWrapper
+
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark initializers
@@ -121,7 +123,7 @@ static AudioQueuePlayerWrapper* _manager;
 				
 				[player stop:YES];
 			}
-			[player setDelegate:nil];
+			player.delegate = nil;
 			
 			[player release];
 			player = nil;
@@ -140,7 +142,7 @@ static AudioQueuePlayerWrapper* _manager;
 		
 		player = [[AudioQueuePlayer alloc] initWithURL:currentURL 
 										  samplingRate:currentSamplingRateMultiplier];
-		[player setDelegate:self];
+		player.delegate = self;
 		
 		initialized = (player != nil);
 	}
@@ -166,7 +168,7 @@ static AudioQueuePlayerWrapper* _manager;
 		
 		if(player)
 		{
-			[player setDelegate:nil];	//not to call 'stopped' delegate function
+			player.delegate = nil;	//not to call 'stopped' delegate function
 
 			wasPlaying = player.isRunning;
 			lastTime = [self currentTime];
@@ -188,7 +190,7 @@ static AudioQueuePlayerWrapper* _manager;
 			[player seekTo:lastSeekTime];
 		}
 		
-		[player setDelegate:self];
+		player.delegate = self;
 	}
 }
 
@@ -307,19 +309,6 @@ static AudioQueuePlayerWrapper* _manager;
 #pragma mark -
 #pragma mark delegate functions
 
-- (id<AudioQueuePlayerWrapperDelegate>)delegate
-{
-	return delegate;
-}
-
-- (void)setDelegate:(id<AudioQueuePlayerWrapperDelegate>)newDelegate
-{
-	[delegate release];
-	delegate = nil;
-	
-	delegate = [newDelegate retain];
-}
-
 - (void)audioQueuePlayer:(AudioQueuePlayer*)player did:(AudioQueuePlayerAction)what
 {
 	[delegate audioQueuePlayerWrapper:self 
@@ -335,8 +324,6 @@ static AudioQueuePlayerWrapper* _manager;
 	if(player && player.isRunning)
 		[player stop:YES];
 	[player release];
-	
-	[delegate release];
 
 	[currentURL release];
 	
