@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.09.29.
+//  last update: 10.10.14.
 //
 
 #pragma once
@@ -46,6 +46,7 @@
 
 #define TWITTER_VERIFY_CREDENTIALS_URL @"http://api.twitter.com/1/account/verify_credentials.xml"
 #define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"
+#define TWITTER_STATUSES_RETWEET_URL @"http://api.twitter.com/1/statuses/retweet/%@.xml"
 #define TWITTER_FRIENDSHIP_CHECK_URL @"http://api.twitter.com/1/friendships/exists.xml"
 #define TWITTER_FOLLOW_URL @"http://api.twitter.com/1/friendships/create.xml"
 #define TWITTER_UNFOLLOW_URL @"http://api.twitter.com/1/friendships/destroy.xml"
@@ -75,6 +76,9 @@
 					longitude:(NSString*)longitude	//longitude: -180.0 ~ +180.0 (nil if none)
 					  placeId:(NSString*)placeId		//place id that this update will be attached to (nil if none)
 			displayCoordinate:(BOOL)displayCoordinate;
+
+//http://dev.twitter.com/doc/post/statuses/retweet/:id
+- (NSDictionary*)retweetStatusId:(NSString*)statusId;
 
 //http://dev.twitter.com/doc/get/friendships/exists
 - (NSDictionary*)isFollowingUser:(NSString*)user;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.09.29.
+//  last update: 10.10.14.
 //
 
 #import "OAuthProvider+Twitter.h"
@@ -75,6 +75,8 @@
 	NSMutableDictionary* params = [NSMutableDictionary dictionary];
 	if(status)
 		[params setObject:status forKey:@"status"];
+	if(statusId)
+		[params setObject:statusId forKey:@"in_reply_to_status_id"];
 	if(latitude)
 		[params setObject:latitude forKey:@"lat"];
 	if(longitude)
@@ -85,6 +87,14 @@
 		[params setObject:@"false" forKey:@"display_coordinates"];
 
 	return [self post:TWITTER_STATUSES_UPDATE_URL parameters:params];
+}
+
+- (NSDictionary*)retweetStatusId:(NSString*)statusId
+{
+	if(!self.authorized)
+		return nil;
+
+	return [self post:[NSString stringWithFormat:TWITTER_STATUSES_RETWEET_URL, statusId] parameters:nil];
 }
 
 - (NSDictionary*)isFollowingUser:(NSString*)user
