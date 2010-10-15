@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 10.07.21.
+//  last update: 10.10.15.
 //
 
 #import "AsyncImageView.h"
@@ -42,6 +42,9 @@
 
 
 @implementation AsyncImageView
+
+@synthesize currentUrl;
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark initializers
@@ -116,15 +119,23 @@
   additionalHeaderFields:(NSDictionary*)headerFields 
 		 timeoutInterval:(NSTimeInterval)timeout
 {
-	//start indicator
-	[indicator startAnimating];
-	
-	return [http sendAsyncGetRequestWithURL:url 
-								 parameters:params 
-					 additionalHeaderFields:headerFields
-							timeoutInterval:timeout
-										 to:self 
-								   selector:@selector(receiveImage:)];
+	@synchronized(self)
+	{
+		[http cancelCurrentConnection];
+		
+		self.currentUrl = url;
+		self.image = nil;
+		
+		//start indicator
+		[indicator startAnimating];
+
+		return [http sendAsyncGetRequestWithURL:url 
+									 parameters:params 
+						 additionalHeaderFields:headerFields
+								timeoutInterval:timeout
+											 to:self 
+									   selector:@selector(receiveImage:)];
+	}
 }
 
 
@@ -140,6 +151,10 @@
 		@try
 		{
 			self.image = [UIImage imageWithData:imageData];
+			
+			[delegate asyncImageView:self 
+					 didReceiveImage:self.image 
+							imageUrl:self.currentUrl];
 		}
 		@catch (NSException * e)
 		{
@@ -162,12 +177,11 @@
 }
 
 - (void)dealloc {
-	
 	[http release];
 	[indicator release];
+	[currentUrl release];
 	
     [super dealloc];
 }
-
 
 @end

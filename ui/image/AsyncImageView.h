@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 10.07.21.
+//  last update: 10.10.15.
 //
 
 
@@ -42,6 +42,7 @@
 
 #import "HTTPUtil.h"
 
+@protocol AsyncImageViewDelegate;
 
 /*
  * when using with table view, do like this:
@@ -78,7 +79,9 @@
 	
 	HTTPUtil* http;
 	UIActivityIndicatorView* indicator;
+	NSURL* currentUrl;
 
+	id<AsyncImageViewDelegate> delegate;
 }
 
 - (BOOL)loadImageWithURLString:(NSString*)urlString
@@ -93,5 +96,18 @@
 - (void)receiveImage:(NSDictionary*)response;
 
 - (UIImage*)loadedImage;
+
+@property (retain) NSURL* currentUrl;
+@property (assign) id<AsyncImageViewDelegate> delegate;
+
+@end
+
+
+/**
+ * if you wanna reuse the downloaded image or something, use following delegate functions:
+ */
+@protocol AsyncImageViewDelegate
+
+- (void)asyncImageView:(AsyncImageView*)asyncImageView didReceiveImage:(UIImage*)image imageUrl:(NSURL*)url;
 
 @end
