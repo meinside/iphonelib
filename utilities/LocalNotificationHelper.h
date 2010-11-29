@@ -33,11 +33,12 @@
 //
 //  Created by meinside on 10. 05. 25.
 //
-//  last update: 10.08.12.
+//  last update: 10.11.29.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 @interface LocalNotificationHelper : NSObject {
