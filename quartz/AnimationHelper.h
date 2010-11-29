@@ -33,11 +33,12 @@
 //
 //  Created by meinside on 09. 07. 25.
 //
-//  last update: 10.01.16.
+//  last update: 10.11.29.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 //needs: QuartzCore.framework
 #import <QuartzCore/QuartzCore.h>

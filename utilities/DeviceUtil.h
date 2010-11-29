@@ -33,11 +33,12 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.09.15.
+//  last update: 10.11.29.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 //needs: SystemConfiguration.framework
 #import <SystemConfiguration/SCNetworkReachability.h>

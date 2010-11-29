@@ -33,11 +33,12 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.10.07.
+//  last update: 10.11.29.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef enum _UILabelResizeResult{
 	UILabelResizeFailed = -1,
