@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 10.10.15.
+//  last update: 10.12.01.
 //
 
 #import "AsyncImageView.h"
@@ -177,6 +177,7 @@
 }
 
 - (void)dealloc {
+	[http cancelCurrentConnection];
 	[http release];
 	[indicator release];
 	[currentUrl release];

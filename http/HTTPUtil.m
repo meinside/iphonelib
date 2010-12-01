@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.09.29.
+//  last update: 10.12.01.
 //
 
 #import "HTTPUtil.h"
@@ -70,7 +70,6 @@
 	[asyncConnection release];
 	asyncConnection = nil;
 
-	[asyncResultHandler release];
 	asyncResultHandler = nil;
 
 	asyncResultSelector = nil;
@@ -264,7 +263,7 @@
 			//cancel on-going connection
 			[self cancelCurrentConnection];
 			
-			asyncResultHandler = [delegate retain];
+			asyncResultHandler = delegate;
 			asyncResultSelector = selector;
 			
 			asyncConnection = [[NSURLConnection alloc] initWithRequest:[HTTPUtil getRequestFromURL:url 
@@ -281,7 +280,6 @@
 		[asyncConnection release];
 		asyncConnection = nil;
 
-		[asyncResultHandler release];
 		asyncResultHandler = nil;
 
 		asyncResultSelector = nil;
@@ -308,7 +306,7 @@
 			//cancel on-going connection
 			[self cancelCurrentConnection];
 			
-			asyncResultHandler = [delegate retain];
+			asyncResultHandler = delegate;
 			asyncResultSelector = selector;
 			
 			asyncConnection = [[NSURLConnection alloc] initWithRequest:[HTTPUtil postRequestFromURL:url 
@@ -324,8 +322,7 @@
 	{
 		[asyncConnection release];
 		asyncConnection = nil;
-		
-		[asyncResultHandler release];
+
 		asyncResultHandler = nil;
 		
 		asyncResultSelector = nil;
@@ -386,8 +383,7 @@ didReceiveResponse:(NSURLResponse *)response
 		
 		[asyncResponse release];
 		asyncResponse = nil;
-		
-		[asyncResultHandler release];
+
 		asyncResultHandler = nil;
 		
 		asyncResultSelector = nil;
@@ -431,8 +427,7 @@ didReceiveResponse:(NSURLResponse *)response
 		
 		[asyncResponse release];
 		asyncResponse = nil;
-		
-		[asyncResultHandler release];
+
 		asyncResultHandler = nil;
 		
 		asyncResultSelector = nil;
@@ -463,8 +458,7 @@ didReceiveResponse:(NSURLResponse *)response
 	
 	[asyncResponse release];
 	asyncResponse = nil;
-	
-	[asyncResultHandler release];
+
 	asyncResultHandler = nil;
 	
 	asyncResultSelector = nil;
@@ -481,7 +475,6 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)dealloc
 {
 	[asyncConnection release];
-	[asyncResultHandler release];
 	[asyncResponse release];
 	[asyncResultData release];
 	
