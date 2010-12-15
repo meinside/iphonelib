@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.10.12.
+//  last update: 10.12.15.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -350,6 +350,7 @@ static AVAudioPlayerWrapper* _player;
 - (void)setVolume:(float)newVolume
 {
 	volume = newVolume;
+	[player setVolume:volume];
 }
 
 - (void)dealloc
