@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 08.
 //
-//  last update: 10.09.08.
+//  last update: 11.01.21.
 //
 
 #pragma once
@@ -69,15 +69,18 @@ typedef enum _TextAlign{
 	TextAlign align;
 }
 
+//ex: @"<b><font color=\"black\" face='Helvetica-Bold'>Black</font> <font color=\"#3399FF\" face='Helvetica'>and</font> <font color=\"black\" face='Helvetica-Bold'>Bold</font></b>"
 - (void)changeText:(NSString*)htmlString;
 
-@property (nonatomic, retain) NSString* bgColor;
+@property (nonatomic, copy, setter=changeText) NSString* html;
+
+@property (nonatomic, copy) NSString* bgColor;
 @property (nonatomic, assign) int margin;
 @property (nonatomic, assign) int padding;
 @property (nonatomic, assign) int fontSize;
 @property (nonatomic, assign) int letterSpacing;
 @property (nonatomic, assign) int lineHeight;
-@property (nonatomic, retain) NSString* fontFamily;
+@property (nonatomic, copy) NSString* fontFamily;
 @property (nonatomic, assign) TextAlign align;
 
 @end

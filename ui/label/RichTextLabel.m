@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 08.
 //
-//  last update: 10.09.08.
+//  last update: 11.01.21.
 //
 
 
@@ -44,6 +44,7 @@
 
 @implementation RichTextLabel
 
+@synthesize html;
 @synthesize bgColor;
 @synthesize margin;
 @synthesize padding;
@@ -110,44 +111,54 @@
 
 - (void)changeText:(NSString *)htmlString
 {
-	[html release];
-	html = [htmlString retain];
-	
-	/*
-	 <!-- example -->
-	 <html>
-		<header><title></title></header>
-		<body style='background-color:transparent; margin:0px; padding:0px; font-size:20px; letter-spacing:2px; line-height:2px font-family: Helvetica'>
-			<div style='text-align:right; width:120px; height:21px'><font color='red'>t</font>est</div>
-		</body>
-	 </html>
-	*/
-	NSMutableString* str = [NSMutableString string];
-	[str appendString:@"<html>"];
-	[str appendString:@"<header><title>rich text label</title></header>"];
-	[str appendFormat:@"<body style=\"background-color:%@; margin:%dpx; padding:%dpx; font-size:%dpx; letter-spacing:%dpx; line-height:%dpx font-family: '%@';\">", bgColor, margin, padding, fontSize, letterSpacing, lineHeight, fontFamily];
-	
-	NSString* alignString;
-	switch(align)
+	if(htmlString != html)
 	{
-		case TextAlignLeft:
-			alignString = @"left";
-			break;
-		case TextAlignCenter:
-			alignString = @"center";
-			break;
-		case TextAlignRight:
-			alignString = @"right";
-			break;
+		[html release];
+		html = [htmlString retain];
+		
+		if(html)
+		{
+			/*
+			 <!-- example -->
+			 <html>
+				<header><title></title></header>
+				<body style='background-color:transparent; margin:0px; padding:0px; font-size:20px; letter-spacing:2px; line-height:2px font-family: Helvetica'>
+				<div style='text-align:right; width:120px; height:21px'><font color='red'>t</font>est</div>
+			 </body>
+			 </html>
+			 */
+			NSMutableString* str = [NSMutableString string];
+			[str appendString:@"<html>"];
+			[str appendString:@"<header><title>rich text label</title></header>"];
+			[str appendFormat:@"<body style=\"background-color:%@; margin:%dpx; padding:%dpx; font-size:%dpx; letter-spacing:%dpx; line-height:%dpx font-family: '%@';\">", bgColor, margin, padding, fontSize, letterSpacing, lineHeight, fontFamily];
+			
+			NSString* alignString;
+			switch(align)
+			{
+				case TextAlignLeft:
+					alignString = @"left";
+					break;
+				case TextAlignCenter:
+					alignString = @"center";
+					break;
+				case TextAlignRight:
+					alignString = @"right";
+					break;
+			}
+			[str appendFormat:@"<div style=\"text-align:%@; width:%dpx; height:%dpx;\">%@</div>", alignString, (int)self.frame.size.width, (int)self.frame.size.height, html == nil ? @"" : html];
+			[str appendString:@"</body>"];
+			[str appendString:@"</html>"];
+			
+//			DebugLog(@"changing label html to: %@", str);
+			
+//			[self loadHTMLString:str baseURL:[[NSBundle mainBundle] bundleURL]];	//for under iOS 4.0
+			[self loadHTMLString:str baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
+		}
+		else
+		{
+			[self loadHTMLString:@"" baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
+		}
 	}
-	[str appendFormat:@"<div style=\"text-align:%@; width:%dpx; height:%dpx;\">%@</div>", alignString, (int)self.frame.size.width, (int)self.frame.size.height, html == nil ? @"" : html];
-	[str appendString:@"</body>"];
-	[str appendString:@"</html>"];
-	
-//	DebugLog(@"changing label html to: %@", str);
-
-//	[self loadHTMLString:str baseURL:[[NSBundle mainBundle] bundleURL]];	//for under iOS 4.0
-	[self loadHTMLString:str baseURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]]];
 }
 
 
