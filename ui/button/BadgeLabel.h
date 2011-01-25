@@ -33,13 +33,13 @@
 //
 //  Created by meinside on 11. 1. 21.
 //
-//  last update: 11.01.21.
+//  last update: 11.01.25.
 //
 
 #import <UIKit/UIKit.h>
 
 #define BADGE_VERTICAL_MARGIN 1.8f
-#define BADGE_HORIZONTAL_MARGIN 2.7f
+#define BADGE_HORIZONTAL_MARGIN 4.5f
 
 
 @interface BadgeLabel : UIView {
