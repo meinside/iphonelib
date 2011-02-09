@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 10.10.12.
+//  last update: 11.02.09.
 //
 
 #import "AVAudioRecorderWrapper.h"
@@ -109,8 +109,9 @@ static AVAudioRecorderWrapper* _recorder;
 	{
 		NSMutableDictionary* recordSetting = [NSMutableDictionary dictionary];
 		[recordSetting setValue:[NSNumber numberWithInt:kAudioFormatAppleIMA4] forKey:AVFormatIDKey];
-		[recordSetting setValue:[NSNumber numberWithFloat:self.sampleRate] forKey:AVSampleRateKey]; 
-		[recordSetting setValue:[NSNumber numberWithInt:self.channels] forKey:AVNumberOfChannelsKey];
+		[recordSetting setValue:[NSNumber numberWithFloat:self.sampleRate] forKey:AVSampleRateKey];
+		if(self.channels != 2)	//refer to: http://stackoverflow.com/questions/1141592/iphone-avaudiorecorder-gives-mono-playback-sound-playing-in-just-one-channel
+			[recordSetting setValue:[NSNumber numberWithInt:self.channels] forKey:AVNumberOfChannelsKey];
 		[recordSetting setValue:[NSNumber numberWithInt:self.quality] forKey:AVEncoderAudioQualityKey];
 
 		NSError* error;
