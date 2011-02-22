@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 11. 02. 21.
 //
-//  last update: 11.02.21.
+//  last update: 11.02.22.
 //
 
 #import "Downloader.h"
@@ -51,7 +51,7 @@
 {
 	if((self = [super init]))
 	{
-		//do nothing
+		isDownloading = NO;
 	}
 	return self;
 }
@@ -73,7 +73,13 @@
 - (void)download:(NSString*)remotePath 
 		 toLocal:(NSString*)localPath
 {
-	[self cancelDownload];
+	if(isDownloading)
+	{
+		DebugLog(@"already downloading");
+		return;
+	}
+	
+	isDownloading = YES;
 	
 	self.localFilepath = localPath;
 	
@@ -105,6 +111,8 @@
 		[connection release];
 		connection = nil;
 	}
+	
+	isDownloading = NO;
 	
 	[delegate  downloadCanceled];
 }
@@ -144,6 +152,8 @@
 	[conn release];
 	conn = nil;
 	
+	isDownloading = NO;
+	
 	[delegate downloadSucceeded];
 }
 
@@ -153,6 +163,8 @@
 	
 	[conn release];
 	conn = nil;
+	
+	isDownloading = NO;
 	
 	DebugLog(@"download failed with error: %@ / %@", [error localizedDescription], [error localizedFailureReason]);
 	

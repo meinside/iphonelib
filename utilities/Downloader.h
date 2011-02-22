@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 11. 02. 21.
 //
-//  last update: 11.02.21.
+//  last update: 11.02.22.
 //
 
 #pragma once
@@ -55,6 +55,8 @@
 	long long totalFileBytes;
 
 	id<DownloaderDelegate> delegate;
+	
+	BOOL isDownloading;
 }
 
 - (void)download:(NSString*)remotePath 
