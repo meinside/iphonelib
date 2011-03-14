@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 10.09.29.
+//  last update: 11.03.14.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -77,7 +77,7 @@
 		 authorizeUrl:(NSString*)anAuthorizeUrl
 	  extraParameters:(NSMutableDictionary*)extraParameters
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		self.consumerKey = aConsumerKey;
 		self.consumerSecret = aConsumerSecret;

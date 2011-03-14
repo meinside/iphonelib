@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.08.17.
+//  last update: 11.03.14.
 //
 
 #import "XMLParser.h"
@@ -51,7 +51,7 @@
 
 - (id)initWithURL:(NSURL*)url
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
 		[parser setDelegate:self];
@@ -71,7 +71,7 @@
 
 - (id)initWithURLString:(NSString *)path
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:path]];
 		[parser setDelegate:self];
@@ -91,7 +91,7 @@
 
 - (id)initWithData:(NSData *)data
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		parser = [[NSXMLParser alloc] initWithData:data];
 		[parser setDelegate:self];

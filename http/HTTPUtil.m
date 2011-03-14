@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.12.01.
+//  last update: 11.03.14.
 //
 
 #import "HTTPUtil.h"
@@ -49,7 +49,7 @@
 
 - (id)init
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		asyncConnection = nil;
 		asyncResultHandler = nil;

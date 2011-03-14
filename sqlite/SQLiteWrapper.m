@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.07.21.
+//  last update: 11.03.14.
 //
 
 #import "SQLiteWrapper.h"
@@ -63,7 +63,7 @@
 		return nil;
 	}
 
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		database = db;
 		self.lastErrorMessage = SQLITE_STRING_NO_ERROR;

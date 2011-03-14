@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 02. 6.
 //
-//  last update: 10.07.21.
+//  last update: 11.03.14.
 //
 
 #import "Stopwatch.h"
@@ -50,7 +50,7 @@
 
 - (id)init
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		lastStopTime = CFAbsoluteTimeGetCurrent();
 	}
