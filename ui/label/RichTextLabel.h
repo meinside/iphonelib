@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 08.
 //
-//  last update: 11.01.21.
+//  last update: 11.03.31.
 //
 
 #pragma once
@@ -72,7 +72,7 @@ typedef enum _TextAlign{
 //ex: @"<b><font color=\"black\" face='Helvetica-Bold'>Black</font> <font color=\"#3399FF\" face='Helvetica'>and</font> <font color=\"black\" face='Helvetica-Bold'>Bold</font></b>"
 - (void)changeText:(NSString*)htmlString;
 
-@property (nonatomic, copy, setter=changeText) NSString* html;
+@property (nonatomic, copy, setter=changeText:) NSString* html;
 
 @property (nonatomic, copy) NSString* bgColor;
 @property (nonatomic, assign) int margin;
