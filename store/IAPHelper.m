@@ -45,6 +45,7 @@
 
 @synthesize delegate;
 @synthesize productsRequest;
+@synthesize paymentQueue;
 
 IAPHelper* _instance;
 
@@ -52,7 +53,8 @@ IAPHelper* _instance;
 {
 	if((self = [super init]))
 	{
-		//do nothing
+		self.paymentQueue = [SKPaymentQueue defaultQueue];
+		[paymentQueue addTransactionObserver:self];
 	}
 	return self;
 }
@@ -66,9 +68,19 @@ IAPHelper* _instance;
 	return _instance;
 }
 
++ (void)disposeSharedInstance
+{
+	[_instance release];
+	_instance = nil;
+}
+
 - (void)dealloc
 {
+	self.delegate = nil;
+	[paymentQueue removeTransactionObserver:self];
+
 	[productsRequest release];
+	[paymentQueue release];
 
 	[super dealloc];
 }
@@ -76,6 +88,11 @@ IAPHelper* _instance;
 
 #pragma -
 #pragma request functions
+
++ (BOOL)canMakePayments
+{
+	return [SKPaymentQueue canMakePayments];
+}
 
 - (void)requestProductsWithIdentifiers:(NSSet*)identifiers
 {
@@ -89,18 +106,52 @@ IAPHelper* _instance;
 	}
 }
 
+- (void)purchaseProduct:(SKProduct*)product
+{
+	DebugLog(@"trying to purchase product: %@", product);
+
+	[paymentQueue addPayment:[SKPayment paymentWithProduct:product]];
+}
+
+- (void)purchaseProductWithIdentifier:(NSString*)identifier
+{
+	DebugLog(@"trying to purchase product with identifier: %@", identifier);
+
+	[paymentQueue addPayment:[SKPayment paymentWithProductIdentifier:identifier]];
+}
+
+- (void)finishTransaction:(SKPaymentTransaction*)transaction
+{
+	DebugLog(@"finishing transaction: %@", transaction);
+	
+	[paymentQueue finishTransaction:transaction];
+}
+
+- (void)restoreCompletedPurchases
+{
+	DebugLog(@"trying to restore completed purchases");
+
+	[paymentQueue restoreCompletedTransactions];
+}
+
 
 #pragma -
 #pragma sk request delegate functions
 
 - (void)requestDidFinish:(SKRequest *)request
 {
-	//TODO
+	DebugLog(@"request did finish: %@", request);
+	
+	if([delegate respondsToSelector:@selector(requestDidFinish:)])
+		[delegate requestDidFinish:request];
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error
 {
-	//TODO
+	DebugLog(@"request did fail with error: %@ / %@", request, error);
+	
+	if([delegate respondsToSelector:@selector(request:didFailWithError:)])
+		[delegate request:request didFailWithError:error];
 }
 
 
@@ -120,22 +171,30 @@ IAPHelper* _instance;
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
-	//TODO
+	DebugLog(@"updated transactions: %@", transactions);
+
+	[delegate updatedTransactions:transactions];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions
 {
-	//TODO
+	DebugLog(@"removed transactions: %@", transactions);
+
+	[delegate purchaseCompleted:transactions];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
 {
-	//TODO
+	DebugLog(@"restoring completed transactions failed: %@", error);
+
+	[delegate restoreFailed:error];
 }
 
 - (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
 {
-	//TODO
+	DebugLog(@"restored completed transactions: %@", queue);
+
+	[delegate restoreCompleted:queue];
 }
 
 @end
