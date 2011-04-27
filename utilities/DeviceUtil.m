@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.09.15.
+//  last update: 11.04.27.
 //
 
 #import "DeviceUtil.h"
@@ -176,6 +176,11 @@
 + (NSString*)appVersion
 {
 	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+}
+
++ (NSString*)bundleIdentifier
+{
+	return [[NSBundle mainBundle] bundleIdentifier];
 }
 
 //referenced: http://iphonedevelopertips.com/device/determine-if-iphone-is-3g-or-3gs-determine-if-ipod-is-first-or-second-generation.html

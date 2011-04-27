@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 10.11.29.
+//  last update: 11.04.27.
 //
 
 #pragma once
@@ -71,6 +71,8 @@
 + (NSString*)systemName;
 
 + (NSString*)appVersion;
+
++ (NSString*)bundleIdentifier;
 
 /*
  * iPhone Simulator == i386
