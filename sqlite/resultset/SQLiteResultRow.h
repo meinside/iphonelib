@@ -64,7 +64,7 @@
 
 - (int)intValueAtColumnWithIndex:(int)index ifNull:(int)defaultValue;
 
-- (float)floatValueAtColumnWithIndex:(int)index ifNull:(float)defaultValue;
+- (double)floatValueAtColumnWithIndex:(int)index ifNull:(double)defaultValue;
 
 - (NSData*)blobValueAtColumnWithIndex:(int)index ifNull:(NSData*)defaultValue;
 
@@ -72,7 +72,7 @@
 
 - (int)intValueAtColumnWithName:(NSString*)name ifNull:(int)defaultValue;
 
-- (float)floatValueAtColumnWithName:(NSString*)name ifNull:(float)defaultValue;
+- (double)floatValueAtColumnWithName:(NSString*)name ifNull:(double)defaultValue;
 
 - (NSData*)blobValueAtColumnWithName:(NSString*)name ifNull:(NSData*)defaultValue;
 

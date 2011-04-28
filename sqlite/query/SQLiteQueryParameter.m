@@ -70,7 +70,7 @@
 
 + (id)floatParameterWithName:(NSString*)name number:(double)number
 {
-	return [SQLiteQueryParameter queryParameterWithType:SQLiteFloat name:name value:[NSNumber numberWithFloat:number]];
+	return [SQLiteQueryParameter queryParameterWithType:SQLiteFloat name:name value:[NSNumber numberWithDouble:number]];
 }
 
 + (id)blobParameterWithName:(NSString*)name data:(NSData*)data

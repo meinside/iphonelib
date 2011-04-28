@@ -117,7 +117,7 @@
 	return [[columnsArray objectAtIndex:index] intValueIfNull:defaultValue];
 }
 
-- (float)floatValueAtColumnWithIndex:(int)index ifNull:(float)defaultValue
+- (double)floatValueAtColumnWithIndex:(int)index ifNull:(double)defaultValue
 {
 	if(index >= [columnsArray count])
 	{
@@ -162,7 +162,7 @@
 	return [column intValueIfNull:defaultValue];
 }
 
-- (float)floatValueAtColumnWithName:(NSString*)name ifNull:(float)defaultValue
+- (double)floatValueAtColumnWithName:(NSString*)name ifNull:(double)defaultValue
 {
 	SQLiteQueryParameter* column = [columnsDictionary objectForKey:name];
 	if(!column)
