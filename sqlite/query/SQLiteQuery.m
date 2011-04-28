@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.08.17.
+//  last update: 11.04.28.
 //
 
 #import "SQLiteQuery.h"
@@ -49,7 +49,7 @@
 
 - (id)initWithQueryString:(NSString*)aQuery
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		query = [aQuery copy];
 		values = [[NSMutableArray alloc] init];

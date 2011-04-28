@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 11. 1. 21.
 //
-//  last update: 11.01.25.
+//  last update: 11.04.28.
 //
 
 #import <UIKit/UIKit.h>
@@ -46,6 +46,6 @@
 	NSString* badgeString;
 }
 
-@property (copy, setter=changeBadgeString) NSString* badgeString;
+@property (nonatomic, copy, setter=changeBadgeString:) NSString* badgeString;
 
 @end

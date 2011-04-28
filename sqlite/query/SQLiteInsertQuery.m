@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.08.24.
+//  last update: 11.04.28.
 //
 
 #import "SQLiteInsertQuery.h"
@@ -48,7 +48,7 @@
 
 - (id)initWithTableName:(NSString*)aTableName
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		tableName = [aTableName copy];
 		array = [[NSMutableArray alloc] init];

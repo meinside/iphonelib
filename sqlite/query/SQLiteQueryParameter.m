@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.08.17.
+//  last update: 11.04.28.
 //
 
 #import "SQLiteQueryParameter.h"
@@ -48,7 +48,7 @@
 
 - (id)initWithType:(int)aType name:(NSString*)aName value:(NSObject*)aValue
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		type = aType;
 		name = [aName copy];

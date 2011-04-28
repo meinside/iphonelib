@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 13.
 //
-//  last update: 10.08.17.
+//  last update: 11.04.28.
 //
 
 #import "HTTPParam.h"
@@ -53,7 +53,7 @@
 
 - (id)initWithName:(NSString*)name value:(NSData*)data
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		self.paramName = name;
 		self.paramValue = data;

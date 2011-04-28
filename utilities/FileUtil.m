@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.09.28.
+//  last update: 11.04.28.
 //
 
 #import "FileUtil.h"
@@ -126,7 +126,7 @@
 
 	NSEnumerator* enumerator = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:path error:nil] objectEnumerator];	
     NSString* fileName;
-    while(fileName = [enumerator nextObject])
+    while((fileName = [enumerator nextObject]))
 	{
 		totalSize += [[[NSFileManager defaultManager] attributesOfItemAtPath:[path stringByAppendingPathComponent:fileName] error:nil] fileSize];
     }

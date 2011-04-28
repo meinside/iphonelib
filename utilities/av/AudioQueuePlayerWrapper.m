@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 28.
 //
-//  last update: 10.10.12.
+//  last update: 11.04.28.
 //
 
 #import "AudioQueuePlayerWrapper.h"
@@ -53,7 +53,7 @@ static AudioQueuePlayerWrapper* _manager;
 
 - (id)init
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		lastTime = 0.0f;
 		lastSeekTime = 0.0f;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 10.12.01.
+//  last update: 11.04.28.
 //
 
 #import "AsyncImageView.h"
@@ -61,7 +61,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	if(self = [super initWithCoder:aDecoder])
+	if((self = [super initWithCoder:aDecoder]))
 	{
         // Initialization code
 		[self setup];
@@ -71,8 +71,8 @@
 
 - (id)initWithImage:(UIImage *)anImage highlightedImage:(UIImage *)aHighlightedImage
 {
-	if(self = [super initWithImage:anImage 
-				  highlightedImage:aHighlightedImage])
+	if((self = [super initWithImage:anImage 
+				   highlightedImage:aHighlightedImage]))
 	{
         // Initialization code
 		[self setup];
@@ -82,7 +82,7 @@
 
 - (id)initWithImage:(UIImage *)anImage
 {
-	if(self = [super initWithImage:anImage])
+	if((self = [super initWithImage:anImage]))
 	{
         // Initialization code
 		[self setup];
@@ -90,8 +90,9 @@
 	return self;
 }
 
-- (id)initWithFrame:(CGRect)aFrame {
-    if (self = [super initWithFrame:aFrame])
+- (id)initWithFrame:(CGRect)aFrame
+{
+    if((self = [super initWithFrame:aFrame]))
 	{
         // Initialization code
 		[self setup];

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 07. 16.
 //
-//  last update: 10.09.29.
+//  last update: 11.04.28.
 //
 
 #import "HTTPParamList.h"
@@ -53,7 +53,7 @@
 
 - (id)init
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		params = [[NSMutableDictionary alloc] init];
 		includesFile = NO;

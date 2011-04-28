@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 10.08.17.
+//  last update: 11.04.28.
 //
 
 #import "XMLParsedTree.h"
@@ -50,7 +50,7 @@
 
 - (id)initWithRootElement:(XMLParsedElement*)rootElement
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		self.root = rootElement;
 	}
@@ -73,7 +73,7 @@
 	else
 	{
 		id child;
-		if(child = [element childWithName:[names objectAtIndex:(index + 1)]])
+		if((child = [element childWithName:[names objectAtIndex:(index + 1)]]))
 			return [self traverse:names nameIndex:(index + 1) element:child];
 		else
 			return nil;

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 10.10.12.
+//  last update: 11.04.28.
 //
 
 #import "AudioQueuePlayer.h"
@@ -180,7 +180,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 - (id)initWithURL:(NSURL*)url 
 	 samplingRate:(float)multiplier
 {
-	if(self = [super init])
+	if((self = [super init]))
 	{
 		_url = [url retain];
 		
