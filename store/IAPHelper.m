@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 11. 4. 26.
 //
-//  last update: 11.04.26.
+//  last update: 11.04.29.
 //
 
 #import "IAPHelper.h"
@@ -47,7 +47,7 @@
 @synthesize productsRequest;
 @synthesize paymentQueue;
 
-IAPHelper* _instance;
+static IAPHelper* _instance;
 
 - (id)init
 {
