@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 11. 02. 21.
 //
-//  last update: 11.02.22.
+//  last update: 11.04.29.
 //
 
 #import "Downloader.h"
@@ -58,7 +58,8 @@
 
 - (void)dealloc
 {
-	[self cancelDownload];
+	if(isDownloading)
+		[self cancelDownload];
 	
 	[localFilepath release];
 	[localFileHandle release];
