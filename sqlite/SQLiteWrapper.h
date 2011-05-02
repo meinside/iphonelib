@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 10.07.21.
+//  last update: 11.05.02.
 //
 
 #pragma once
@@ -61,6 +61,9 @@
 - (id)initWithResourceFilename:(NSString*)filename;
 
 - (id)initWithDocumentFilename:(NSString*)filename;
+
+- (bool)attachDatabase:(NSString*)filepath 
+		asDatabaseName:(NSString*)databaseName;
 
 - (bool)createTableWithQueryString:(NSString*)query;
 

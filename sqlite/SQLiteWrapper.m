@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 11.03.14.
+//  last update: 11.05.02.
 //
 
 #import "SQLiteWrapper.h"
@@ -83,6 +83,17 @@
 	return [self initWithFilepath:[FileUtil pathOfFile:filename 
 										  withPathType:PathTypeDocument]];
 }
+
+
+#pragma -
+#pragma attach database
+
+- (bool)attachDatabase:(NSString*)filepath 
+		asDatabaseName:(NSString*)databaseName
+{
+	return [self executeQueryString:[NSString stringWithFormat:@"attach database \"%@\" as %@", filepath, databaseName]];
+}
+
 
 #pragma mark -
 #pragma mark execute query
