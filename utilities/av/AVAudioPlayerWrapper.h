@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 10.10.12.
+//  last update: 11.06.02.
 //
 
 #pragma once
@@ -86,6 +86,8 @@
 
 - (float)currentVolume;
 - (void)setVolume:(float)newVolume;
+
+- (AVAudioPlayer*)player;
 
 @property (assign) id<AVAudioPlayerWrapperDelegate> delegate;
 
