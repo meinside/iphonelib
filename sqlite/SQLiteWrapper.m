@@ -85,8 +85,8 @@
 }
 
 
-#pragma -
-#pragma attach database
+#pragma mark -
+#pragma mark attach database
 
 - (bool)attachDatabase:(NSString*)filepath 
 		asDatabaseName:(NSString*)databaseName
