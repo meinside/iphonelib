@@ -86,8 +86,8 @@ static IAPHelper* _instance;
 }
 
 
-#pragma -
-#pragma request functions
+#pragma mark -
+#pragma mark request functions
 
 + (BOOL)canMakePayments
 {
@@ -135,8 +135,8 @@ static IAPHelper* _instance;
 }
 
 
-#pragma -
-#pragma sk request delegate functions
+#pragma mark -
+#pragma mark sk request delegate functions
 
 - (void)requestDidFinish:(SKRequest *)request
 {
@@ -155,8 +155,8 @@ static IAPHelper* _instance;
 }
 
 
-#pragma -
-#pragma sk products request delegate functions
+#pragma mark -
+#pragma mark sk products request delegate functions
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
 {
@@ -166,8 +166,8 @@ static IAPHelper* _instance;
 }
 
 
-#pragma -
-#pragma sk payment transaction observer delegate functions
+#pragma mark -
+#pragma mark sk payment transaction observer delegate functions
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
