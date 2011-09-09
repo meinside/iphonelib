@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 11.06.02.
+//  last update: 11.09.09.
 //
 
 #pragma once
@@ -96,11 +96,13 @@
 @protocol AVAudioPlayerWrapperDelegate <NSObject>
 
 - (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper willStartPlayingFilename:(NSString*)filename;
-
 - (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didStartPlayingFilename:(NSString*)filename;
-
 - (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingFilename:(NSString*)filename;
-
 - (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper didFinishPlayingSuccessfully:(BOOL)success;
+
+@optional
+
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper beginInterruption:(AVAudioPlayer*)player;
+- (void)audioPlayerWrapper:(AVAudioPlayerWrapper*)wrapper endInterruption:(AVAudioPlayer*)player;
 
 @end

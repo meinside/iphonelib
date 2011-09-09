@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 11.06.02.
+//  last update: 11.09.09.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -415,18 +415,26 @@ static AVAudioPlayerWrapper* _player;
 	}
 }
 
-- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)aPlayer
 {
+	if([delegate respondsToSelector:@selector(audioPlayerWrapper:beginInterruption:)])
+	{
+		[delegate audioPlayerWrapper:self 
+				   beginInterruption:aPlayer];
+	}
+
 	DebugLog(@"playing interruption began");
-	
-	//do what?
 }
 
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)aPlayer
 {
+	if([delegate respondsToSelector:@selector(audioPlayerWrapper:endInterruption:)])
+	{
+		[delegate audioPlayerWrapper:self 
+					 endInterruption:aPlayer];
+	}
+
 	DebugLog(@"playing interruption ended");
-	
-	//do what?
 }
 
 @end
