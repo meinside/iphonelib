@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 11.02.09.
+//  last update: 11.09.29.
 //
 
 #import "AVAudioRecorderWrapper.h"
@@ -206,18 +206,26 @@ static AVAudioRecorderWrapper* _recorder;
 	}
 }
 
-- (void)audioRecorderBeginInterruption:(AVAudioRecorder *)recorder
+- (void)audioRecorderBeginInterruption:(AVAudioRecorder *)aRecorder
 {
 	DebugLog(@"recording interruption began");
-	
-	//do what?
+
+	if([delegate respondsToSelector:@selector(audioRecorderWrapper:beginInterruption:)])
+	{
+		[delegate audioRecorderWrapper:self 
+					 beginInterruption:aRecorder];
+	}
 }
 
-- (void)audioRecorderEndInterruption:(AVAudioRecorder *)recorder
+- (void)audioRecorderEndInterruption:(AVAudioRecorder *)aRecorder
 {
 	DebugLog(@"recording interruption ended");
-	
-	//do what?
+
+	if([delegate respondsToSelector:@selector(audioRecorderWrapper:endInterruption:)])
+	{
+		[delegate audioRecorderWrapper:self 
+					   endInterruption:aRecorder];
+	}
 }
 
 

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 09. 09.
 //
-//  last update: 10.10.12.
+//  last update: 11.09.29.
 //
 
 #pragma once
@@ -80,8 +80,12 @@
 @protocol AVAudioRecorderWrapperDelegate <NSObject>
 
 - (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper didStartRecordingSuccessfully:(BOOL)success;
-
 - (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper didFinishRecordingSuccessfully:(BOOL)success;
+
+@optional
+
+- (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper beginInterruption:(AVAudioRecorder*)aRecorder;
+- (void)audioRecorderWrapper:(AVAudioRecorderWrapper*)wrapper endInterruption:(AVAudioRecorder*)aRecorder;
 
 @end
 
