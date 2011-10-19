@@ -40,8 +40,6 @@
 
 #import <objc/runtime.h>
 
-#import "Logging.h"
-
 
 @implementation NSObject (NSObjectExtension)
 
