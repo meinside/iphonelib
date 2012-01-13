@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.09.28.
+//  last update: 12.01.13.
 //
 
 #pragma once
@@ -50,6 +50,7 @@ typedef enum _PathType {
 	PathTypeResource,
 	PathTypeBundle,
 	PathTypeTemp,
+	PathTypeCache,
 } PathType;
 
 

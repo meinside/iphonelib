@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 11.04.28.
+//  last update: 12.01.13.
 //
 
 #import "FileUtil.h"
@@ -65,6 +65,9 @@
 			break;
 		case PathTypeTemp:
 			return NSTemporaryDirectory();
+			break;
+		case PathTypeCache:
+			directory = NSCachesDirectory;
 			break;
 		default:
 			return nil;
