@@ -33,10 +33,15 @@
 //
 //  Created by meinside on 10. 05. 25.
 //
-//  last update: 10.11.29.
+//  last update: 12.01.26.
 //
 
 #pragma once
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_4_0
+#warning Do not use this if deployment target is lower than 4.0
+#endif
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -44,9 +49,6 @@
 @interface LocalNotificationHelper : NSObject {
 
 }
-
-//since __IPHONE_4_0
-#ifdef __IPHONE_4_0
 
 
 //interval = 0 when not repeated
@@ -101,7 +103,5 @@
 										 userInfo:(id)userInfo 
 											   on:(NSDate*)date 
 										 repeated:(NSCalendarUnit)interval;
-
-#endif
 
 @end

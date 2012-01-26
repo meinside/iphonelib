@@ -33,8 +33,10 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 11.04.28.
+//  last update: 12.01.26.
 //
+
+#pragma GCC diagnostic ignored "-Wmissing-prototypes"
 
 #import "AudioQueuePlayer.h"
 
