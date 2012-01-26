@@ -45,9 +45,6 @@
 
 - (BOOL)isAnimating
 {
-	//test
-	NSLog(@"animation keys = %@", [self.layer animationKeys]);
-
 	return [[self.layer animationKeys] count] > 0;
 }
 
