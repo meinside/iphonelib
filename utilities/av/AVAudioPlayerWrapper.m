@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 11.09.09.
+//  last update: 12.01.27.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -342,6 +342,16 @@ static AVAudioPlayerWrapper* _player;
 	}
 }
 
+- (NSTimeInterval)getCurrentTime
+{
+	return player.currentTime;
+}
+
+- (void)setCurrentTime:(NSTimeInterval)newCurrentTime
+{
+	player.currentTime = newCurrentTime;
+}
+
 - (float)currentVolume
 {
 	return volume;
@@ -351,6 +361,11 @@ static AVAudioPlayerWrapper* _player;
 {
 	volume = newVolume;
 	[player setVolume:volume];
+}
+
+- (BOOL)isPlaying
+{
+	return player.isPlaying;
 }
 
 - (AVAudioPlayer*)player

@@ -33,7 +33,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 11.09.09.
+//  last update: 12.01.27.
 //
 
 #pragma once
@@ -84,12 +84,19 @@
 
 - (void)stopSound;
 
+- (NSTimeInterval)getCurrentTime;
+- (void)setCurrentTime:(NSTimeInterval)newCurrentTime;
+
 - (float)currentVolume;
 - (void)setVolume:(float)newVolume;
+
+- (BOOL)isPlaying;
 
 - (AVAudioPlayer*)player;
 
 @property (assign) id<AVAudioPlayerWrapperDelegate> delegate;
+@property (getter=getCurrentTime, setter=setCurrentTime:) NSTimeInterval currentTime;
+@property (readonly, getter=isPlaying) BOOL playing;
 
 @end
 
