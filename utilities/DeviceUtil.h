@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 11.04.27.
+//  last update: 12.04.12.
 //
 
 #pragma once
@@ -30,7 +30,8 @@
 + (BOOL)connectedToWiFi;
 
 
-+ (NSString*)UDID;
+// is now deprecated
+//+ (NSString*)UDID;
 
 + (NSString*)MACAddress;
 

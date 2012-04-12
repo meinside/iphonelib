@@ -1,19 +1,19 @@
 //
-//  UIButton+Vibratable.m
+//  UIView+Vibratable.m
 //  iPhoneLib,
 //  Helper Functions and Classes for Ordinary Application Development on iPhone
 //
 //  Created by meinside on 12. 01. 26.
 //
-//  last update: 12.01.26.
+//  last update: 12.04.12.
 //
 
-#import "UIButton+Vibratable.h"
+#import "UIView+Vibratable.h"
 
 #define degreesToRadians(x) (M_PI * (x) / 180.0)
 #define kAnimationRotateDeg 1.0
 
-@implementation UIButton (UIButtonVibratable)
+@implementation UIView (UIViewVibratable)
 
 - (BOOL)isAnimating
 {

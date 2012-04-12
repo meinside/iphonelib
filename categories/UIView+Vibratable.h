@@ -1,11 +1,11 @@
 //
-//  UIButton+Vibratable.h
+//  UIView+Vibratable.h
 //  iPhoneLib,
 //  Helper Functions and Classes for Ordinary Application Development on iPhone
 //
 //  Created by meinside on 12. 01. 26.
 //
-//  last update: 12.01.26.
+//  last update: 12.04.12.
 //
 
 #pragma once
@@ -18,7 +18,7 @@
 
 #import <QuartzCore/QuartzCore.h>	//needs: QurtzCore.framework
 
-@interface UIButton (UIButtonVibratable)
+@interface UIView (UIViewVibratable)
 
 - (BOOL)isAnimating;
 - (void)toggleVibration;
