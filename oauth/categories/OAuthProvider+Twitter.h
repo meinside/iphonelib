@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.10.14.
+//  last update: 12.04.18.
 //
 
 #pragma once
@@ -16,13 +16,13 @@
 
 #define TWITTER_MESSAGE_MAX_LENGTH 140
 
-#define TWITTER_VERIFY_CREDENTIALS_URL @"http://api.twitter.com/1/account/verify_credentials.xml"
-#define TWITTER_STATUSES_UPDATE_URL @"http://api.twitter.com/1/statuses/update.xml"
-#define TWITTER_STATUSES_RETWEET_URL @"http://api.twitter.com/1/statuses/retweet/%@.xml"
-#define TWITTER_FRIENDSHIP_CHECK_URL @"http://api.twitter.com/1/friendships/exists.xml"
-#define TWITTER_FOLLOW_URL @"http://api.twitter.com/1/friendships/create.xml"
-#define TWITTER_UNFOLLOW_URL @"http://api.twitter.com/1/friendships/destroy.xml"
-#define TWITTER_DIRECT_MESSAGE_WRITE_URL @"http://api.twitter.com/1/direct_messages/new.xml"
+#define TWITTER_VERIFY_CREDENTIALS_URL @"https://api.twitter.com/1/account/verify_credentials.xml"
+#define TWITTER_STATUSES_UPDATE_URL @"https://api.twitter.com/1/statuses/update.xml"
+#define TWITTER_STATUSES_RETWEET_URL @"https://api.twitter.com/1/statuses/retweet/%@.xml"
+#define TWITTER_FRIENDSHIP_CHECK_URL @"https://api.twitter.com/1/friendships/exists.xml"
+#define TWITTER_FOLLOW_URL @"https://api.twitter.com/1/friendships/create.xml"
+#define TWITTER_UNFOLLOW_URL @"https://api.twitter.com/1/friendships/destroy.xml"
+#define TWITTER_DIRECT_MESSAGE_WRITE_URL @"https://api.twitter.com/1/direct_messages/new.xml"
 
 //media upload services
 #define YFROG_UPLOAD_URL @"https://yfrog.com/api/xauth_upload"
