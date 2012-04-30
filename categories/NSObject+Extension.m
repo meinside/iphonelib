@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 10. 19.
 //
-//  last update: 11.10.19.
+//  last update: 12.04.30.
 //
 
 #import "NSObject+Extension.h"
@@ -61,6 +61,35 @@
 {
 	return [self propertiesDictionaryOfObject:self 
 								withClassType:[self class]];
+}
+
+- (NSArray*)methodsArrayOfObject:(id)obj withClassType:(Class)cls
+{
+	unsigned int propCount;
+	Method* methods = class_copyMethodList(cls, &propCount);
+	
+	NSMutableArray* result = [NSMutableArray array];
+	NSString* methodName;
+	
+	for(size_t i=0; i<propCount; i++)
+	{
+		@try
+		{
+			methodName = NSStringFromSelector(method_getName(methods[i]));
+			[result addObject:methodName];
+		}
+		@catch (NSException* exception)
+		{	/* do nothing */	}
+	}
+	free(methods);
+	
+	return result;
+}
+
+- (NSArray*)methodsArray
+{
+	return [self methodsArrayOfObject:self 
+						withClassType:[self class]];
 }
 
 @end

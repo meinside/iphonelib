@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 10. 19.
 //
-//  last update: 11.10.19.
+//  last update: 12.04.30.
 //
 
 #pragma once
@@ -17,8 +17,13 @@
 /**
  * return all collectable properties of this object (including super classes' properties)
  * 
- * @param obj 
  */
 - (NSDictionary*)propertiesDictionary;
+
+/**
+ * return all methods' names of this object
+ * 
+ */
+- (NSArray*)methodsArray;
 
 @end
