@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.08.24.
+//  last update: 12.05.17.
 //
 
 #pragma once
@@ -18,11 +18,16 @@
 
 	NSString* tableName;
 	NSMutableArray* array;
+	BOOL replace;
 }
 
 - (id)initWithTableName:(NSString*)aTableName;
+- (id)initWithTableName:(NSString*)aTableName 
+				replace:(BOOL)replaceOrNot;
 
 + (SQLiteInsertQuery*)queryWithTableName:(NSString*)aTableName;
++ (SQLiteInsertQuery*)queryWithTableName:(NSString*)aTableName 
+								 replace:(BOOL)replaceOrNot;
 
 - (id)addQueryParameter:(SQLiteQueryParameter*)param;
 

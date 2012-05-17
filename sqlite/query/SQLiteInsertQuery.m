@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 11.04.28.
+//  last update: 12.05.17.
 //
 
 #import "SQLiteInsertQuery.h"
@@ -20,10 +20,18 @@
 
 - (id)initWithTableName:(NSString*)aTableName
 {
+	return [self initWithTableName:aTableName 
+						   replace:NO];
+}
+
+- (id)initWithTableName:(NSString*)aTableName 
+				replace:(BOOL)replaceOrNot
+{
 	if((self = [super init]))
 	{
 		tableName = [aTableName copy];
 		array = [[NSMutableArray alloc] init];
+		replace = replaceOrNot;
 	}
 	
 	return self;
@@ -31,7 +39,16 @@
 
 + (SQLiteInsertQuery*)queryWithTableName:(NSString*)aTableName
 {
-	return [[[SQLiteInsertQuery alloc] initWithTableName:aTableName] autorelease];
+	return [self queryWithTableName:aTableName 
+							replace:NO];
+}
+
+
++ (SQLiteInsertQuery*)queryWithTableName:(NSString*)aTableName 
+								 replace:(BOOL)replaceOrNot
+{
+	return [[[SQLiteInsertQuery alloc] initWithTableName:aTableName 
+												 replace:replaceOrNot] autorelease];
 }
 
 #pragma mark add params
@@ -100,7 +117,14 @@
 	NSMutableString* queryString = [NSMutableString string];
 	int columnCount = [array count];
 	
-	[queryString appendString:@"INSERT INTO "];
+	if(replace)
+	{
+		[queryString appendString:@"INSERT OR REPLACE INTO "];
+	}
+	else
+	{
+		[queryString appendString:@"INSERT INTO "];
+	}
 	[queryString appendString:tableName];
 	[queryString appendString:@"("];
 
@@ -145,6 +169,8 @@
 	[description appendFormat:@"tableName = %@", tableName];
 	[description appendString:@", "];
 	[description appendFormat:@"array = %@", array];
+	[description appendString:@", "];
+	[description appendFormat:@"replace = %d", replace];
 	
 	[description appendString:@"}"];	
 	return description;
