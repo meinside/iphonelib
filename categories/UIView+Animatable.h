@@ -1,11 +1,11 @@
 //
-//  UIView+Bounceable.h
+//  UIView+Animatable.h
 //  iPhoneLib,
 //  Helper Functions and Classes for Ordinary Application Development on iPhone
 //
-//  Created by meinside on 12. 05. 10.
+//  Created by meinside on 12. 05. 24.
 //
-//  last update: 12.05.10.
+//  last update: 12.05.24.
 //
 
 #pragma once
@@ -18,9 +18,11 @@
 
 #import <QuartzCore/QuartzCore.h>	//needs: QurtzCore.framework
 
-@interface UIView (UIViewBounceable)
+@interface UIView (UIViewAnimatable)
 
 - (BOOL)isAnimating;
+
 - (void)toggleBouncing;
+- (void)toggleVibration;
 
 @end
