@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 12.01.27.
+//  last update: 12.05.24.
 //
 
 #pragma once
@@ -68,6 +68,7 @@
 
 @property (assign) id<AVAudioPlayerWrapperDelegate> delegate;
 @property (getter=getCurrentTime, setter=setCurrentTime:) NSTimeInterval currentTime;
+@property (getter=currentVolume, setter=setVolume:) float volume;
 @property (readonly, getter=isPlaying) BOOL playing;
 
 @end
