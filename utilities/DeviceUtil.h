@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 12.04.12.
+//  last update: 12.05.31.
 //
 
 #pragma once
@@ -44,6 +44,8 @@
 + (NSString*)systemName;
 
 + (NSString*)appVersion;
+
++ (NSString*)appName;
 
 + (NSString*)bundleIdentifier;
 

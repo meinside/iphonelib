@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 12.04.12.
+//  last update: 12.05.31.
 //
 
 #import "DeviceUtil.h"
@@ -148,7 +148,12 @@
 
 + (NSString*)appVersion
 {
-	return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+	return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+}
+
++ (NSString*)appName
+{
+	return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 }
 
 + (NSString*)bundleIdentifier
