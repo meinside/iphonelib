@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 4. 26.
 //
-//  last update: 11.04.29.
+//  last update: 12.06.05.
 //
 
 #import "IAPHelper.h"
@@ -85,12 +85,13 @@ static IAPHelper* _instance;
 	[paymentQueue addPayment:[SKPayment paymentWithProduct:product]];
 }
 
-- (void)purchaseProductWithIdentifier:(NSString*)identifier
-{
-	DebugLog(@"trying to purchase product with identifier: %@", identifier);
-
-	[paymentQueue addPayment:[SKPayment paymentWithProductIdentifier:identifier]];
-}
+// deprecated
+//- (void)purchaseProductWithIdentifier:(NSString*)identifier
+//{
+//	DebugLog(@"trying to purchase product with identifier: %@", identifier);
+//
+//	[paymentQueue addPayment:[SKPayment paymentWithProductIdentifier:identifier]];
+//}
 
 - (void)finishTransaction:(SKPaymentTransaction*)transaction
 {

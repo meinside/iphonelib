@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 4. 26.
 //
-//  last update: 11.04.26.
+//  last update: 12.06.05.
 //
 
 #import <Foundation/Foundation.h>
@@ -32,7 +32,7 @@
 - (void)requestProductsWithIdentifiers:(NSSet*)identifiers;
 
 - (void)purchaseProduct:(SKProduct*)product;
-- (void)purchaseProductWithIdentifier:(NSString*)identifier;
+//- (void)purchaseProductWithIdentifier:(NSString*)identifier;	//deprecated
 
 - (void)finishTransaction:(SKPaymentTransaction*)transaction;
 
