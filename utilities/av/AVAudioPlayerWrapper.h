@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 12.05.24.
+//  last update: 12.06.19.
 //
 
 #pragma once
@@ -35,6 +35,10 @@
 	PathType filePathType;
 	
 	float volume;
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+	float rate;
+#endif
 }
 
 - (id)init;
@@ -70,6 +74,10 @@
 @property (getter=getCurrentTime, setter=setCurrentTime:) NSTimeInterval currentTime;
 @property (getter=currentVolume, setter=setVolume:) float volume;
 @property (readonly, getter=isPlaying) BOOL playing;
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+@property (getter=getCurrentRate, setter=setCurrentRate:) float rate;
+#endif
 
 @end
 

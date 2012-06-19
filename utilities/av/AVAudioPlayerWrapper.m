@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 12.01.27.
+//  last update: 12.06.19.
 //
 
 #import "AVAudioPlayerWrapper.h"
@@ -59,6 +59,12 @@ static AVAudioPlayerWrapper* _player;
 														error:&error];
 		[player setDelegate:self];
 		player.volume = volume;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+		player.enableRate = YES;
+		player.rate = rate;
+#endif
+		[player prepareToPlay];
+
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -117,6 +123,12 @@ static AVAudioPlayerWrapper* _player;
 														error:&error];
 		[player setDelegate:self];
 		player.volume = volume;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+		player.enableRate = YES;
+		player.rate = rate;
+#endif
+		[player prepareToPlay];
+
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -150,6 +162,10 @@ static AVAudioPlayerWrapper* _player;
 	if((self = [super init]))
 	{
 		volume = 1.0f;
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+		rate = 1.0f;
+#endif
 
 		DebugLog(@"AVAudioPlayerWrapper initialized");
 	}
@@ -223,6 +239,12 @@ static AVAudioPlayerWrapper* _player;
 														error:&error];
 		[player setDelegate:self];
 		player.volume = volume;
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+		player.enableRate = YES;
+		player.rate = rate;
+#endif
+		[player prepareToPlay];
+
 		[player play];
 		
 		[delegate audioPlayerWrapper:self didStartPlayingFilename:filename];
@@ -334,6 +356,38 @@ static AVAudioPlayerWrapper* _player;
 	volume = newVolume;
 	[player setVolume:volume];
 }
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_5_0
+
+- (float)getCurrentRate
+{
+	@synchronized(self)
+	{
+		if(player)
+			return player.rate;
+		else
+		{
+			DebugLog(@"player not available");
+			return rate;
+		}
+	}
+}
+
+- (void)setCurrentRate:(float)newRate
+{
+	@synchronized(self)
+	{
+		rate = newRate;
+		if(player)
+			player.rate = rate;
+		else
+		{
+			DebugLog(@"player not available");
+		}
+	}
+}
+
+#endif
 
 - (BOOL)isPlaying
 {
