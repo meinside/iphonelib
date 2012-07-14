@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		31F3887115B1D6D9000F610A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F3887015B1D6D9000F610A /* Foundation.framework */; };
+		31F3888015B1D6D9000F610A /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F3887F15B1D6D9000F610A /* SenTestingKit.framework */; };
+		31F3888215B1D6D9000F610A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F3888115B1D6D9000F610A /* UIKit.framework */; };
+		31F3888315B1D6D9000F610A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F3887015B1D6D9000F610A /* Foundation.framework */; };
+		31F3888615B1D6D9000F610A /* libiPhoneLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F3886D15B1D6D9000F610A /* libiPhoneLib.a */; };
+		31F3888C15B1D6D9000F610A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 31F3888A15B1D6D9000F610A /* InfoPlist.strings */; };
+		31F388A815B1D759000F610A /* CryptoUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F388A715B1D759000F610A /* CryptoUtilTests.m */; };
+		31F388AB15B1D8B2000F610A /* modulus512.bin in Resources */ = {isa = PBXBuildFile; fileRef = 31F388A915B1D8B2000F610A /* modulus512.bin */; };
+		31F388AC15B1D8B2000F610A /* modulus1024.bin in Resources */ = {isa = PBXBuildFile; fileRef = 31F388AA15B1D8B2000F610A /* modulus1024.bin */; };
+		31F388F415B1DDAE000F610A /* CryptoUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F388F115B1DDAE000F610A /* CryptoUtil.m */; };
+		31F388F515B1DDAE000F610A /* KeychainUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 31F388F315B1DDAE000F610A /* KeychainUtil.m */; };
+		31F388F915B1DF3E000F610A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F388F815B1DF3E000F610A /* Security.framework */; };
+		31F388FA15B1DF5F000F610A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31F388F815B1DF3E000F610A /* Security.framework */; };
+		31F388FC15B1E7A0000F610A /* modulus64.bin in Resources */ = {isa = PBXBuildFile; fileRef = 31F388FB15B1E7A0000F610A /* modulus64.bin */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		31F3888415B1D6D9000F610A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31F3886415B1D6D9000F610A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 31F3886C15B1D6D9000F610A;
+			remoteInfo = iPhoneLib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		31F3886B15B1D6D9000F610A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		31F3886D15B1D6D9000F610A /* libiPhoneLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libiPhoneLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F3887015B1D6D9000F610A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		31F3887415B1D6D9000F610A /* iPhoneLib-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iPhoneLib-Prefix.pch"; sourceTree = "<group>"; };
+		31F3887E15B1D6D9000F610A /* iPhoneLibTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iPhoneLibTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		31F3887F15B1D6D9000F610A /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		31F3888115B1D6D9000F610A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		31F3888915B1D6D9000F610A /* iPhoneLibTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneLibTests-Info.plist"; sourceTree = "<group>"; };
+		31F3888B15B1D6D9000F610A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		31F388A615B1D759000F610A /* CryptoUtilTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptoUtilTests.h; sourceTree = "<group>"; };
+		31F388A715B1D759000F610A /* CryptoUtilTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptoUtilTests.m; sourceTree = "<group>"; };
+		31F388A915B1D8B2000F610A /* modulus512.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = modulus512.bin; sourceTree = "<group>"; };
+		31F388AA15B1D8B2000F610A /* modulus1024.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = modulus1024.bin; sourceTree = "<group>"; };
+		31F388F015B1DDAE000F610A /* CryptoUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptoUtil.h; path = ../../security/CryptoUtil.h; sourceTree = "<group>"; };
+		31F388F115B1DDAE000F610A /* CryptoUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptoUtil.m; path = ../../security/CryptoUtil.m; sourceTree = "<group>"; };
+		31F388F215B1DDAE000F610A /* KeychainUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainUtil.h; path = ../../security/KeychainUtil.h; sourceTree = "<group>"; };
+		31F388F315B1DDAE000F610A /* KeychainUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainUtil.m; path = ../../security/KeychainUtil.m; sourceTree = "<group>"; };
+		31F388F715B1DE3F000F610A /* Logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Logging.h; path = ../../logging/Logging.h; sourceTree = "<group>"; };
+		31F388F815B1DF3E000F610A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		31F388FB15B1E7A0000F610A /* modulus64.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = modulus64.bin; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		31F3886A15B1D6D9000F610A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F388F915B1DF3E000F610A /* Security.framework in Frameworks */,
+				31F3887115B1D6D9000F610A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31F3887A15B1D6D9000F610A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F388FA15B1DF5F000F610A /* Security.framework in Frameworks */,
+				31F3888015B1D6D9000F610A /* SenTestingKit.framework in Frameworks */,
+				31F3888215B1D6D9000F610A /* UIKit.framework in Frameworks */,
+				31F3888315B1D6D9000F610A /* Foundation.framework in Frameworks */,
+				31F3888615B1D6D9000F610A /* libiPhoneLib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		31F3886215B1D6D9000F610A = {
+			isa = PBXGroup;
+			children = (
+				31F388F815B1DF3E000F610A /* Security.framework */,
+				31F3887215B1D6D9000F610A /* iPhoneLib */,
+				31F3888715B1D6D9000F610A /* iPhoneLibTests */,
+				31F3886F15B1D6D9000F610A /* Frameworks */,
+				31F3886E15B1D6D9000F610A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		31F3886E15B1D6D9000F610A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				31F3886D15B1D6D9000F610A /* libiPhoneLib.a */,
+				31F3887E15B1D6D9000F610A /* iPhoneLibTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		31F3886F15B1D6D9000F610A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				31F3887015B1D6D9000F610A /* Foundation.framework */,
+				31F3887F15B1D6D9000F610A /* SenTestingKit.framework */,
+				31F3888115B1D6D9000F610A /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		31F3887215B1D6D9000F610A /* iPhoneLib */ = {
+			isa = PBXGroup;
+			children = (
+				31F388F715B1DE3F000F610A /* Logging.h */,
+				31F388F015B1DDAE000F610A /* CryptoUtil.h */,
+				31F388F115B1DDAE000F610A /* CryptoUtil.m */,
+				31F388F215B1DDAE000F610A /* KeychainUtil.h */,
+				31F388F315B1DDAE000F610A /* KeychainUtil.m */,
+				31F3887315B1D6D9000F610A /* Supporting Files */,
+			);
+			path = iPhoneLib;
+			sourceTree = "<group>";
+		};
+		31F3887315B1D6D9000F610A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				31F3887415B1D6D9000F610A /* iPhoneLib-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		31F3888715B1D6D9000F610A /* iPhoneLibTests */ = {
+			isa = PBXGroup;
+			children = (
+				31F388FB15B1E7A0000F610A /* modulus64.bin */,
+				31F388A915B1D8B2000F610A /* modulus512.bin */,
+				31F388AA15B1D8B2000F610A /* modulus1024.bin */,
+				31F3888815B1D6D9000F610A /* Supporting Files */,
+				31F388A615B1D759000F610A /* CryptoUtilTests.h */,
+				31F388A715B1D759000F610A /* CryptoUtilTests.m */,
+			);
+			path = iPhoneLibTests;
+			sourceTree = "<group>";
+		};
+		31F3888815B1D6D9000F610A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				31F3888915B1D6D9000F610A /* iPhoneLibTests-Info.plist */,
+				31F3888A15B1D6D9000F610A /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		31F3886C15B1D6D9000F610A /* iPhoneLib */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31F3889215B1D6D9000F610A /* Build configuration list for PBXNativeTarget "iPhoneLib" */;
+			buildPhases = (
+				31F3886915B1D6D9000F610A /* Sources */,
+				31F3886A15B1D6D9000F610A /* Frameworks */,
+				31F3886B15B1D6D9000F610A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iPhoneLib;
+			productName = iPhoneLib;
+			productReference = 31F3886D15B1D6D9000F610A /* libiPhoneLib.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		31F3887D15B1D6D9000F610A /* iPhoneLibTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31F3889515B1D6D9000F610A /* Build configuration list for PBXNativeTarget "iPhoneLibTests" */;
+			buildPhases = (
+				31F3887915B1D6D9000F610A /* Sources */,
+				31F3887A15B1D6D9000F610A /* Frameworks */,
+				31F3887B15B1D6D9000F610A /* Resources */,
+				31F3887C15B1D6D9000F610A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				31F3888515B1D6D9000F610A /* PBXTargetDependency */,
+			);
+			name = iPhoneLibTests;
+			productName = iPhoneLibTests;
+			productReference = 31F3887E15B1D6D9000F610A /* iPhoneLibTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		31F3886415B1D6D9000F610A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Louis Vera";
+			};
+			buildConfigurationList = 31F3886715B1D6D9000F610A /* Build configuration list for PBXProject "iPhoneLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 31F3886215B1D6D9000F610A;
+			productRefGroup = 31F3886E15B1D6D9000F610A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				31F3886C15B1D6D9000F610A /* iPhoneLib */,
+				31F3887D15B1D6D9000F610A /* iPhoneLibTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		31F3887B15B1D6D9000F610A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F3888C15B1D6D9000F610A /* InfoPlist.strings in Resources */,
+				31F388AB15B1D8B2000F610A /* modulus512.bin in Resources */,
+				31F388AC15B1D8B2000F610A /* modulus1024.bin in Resources */,
+				31F388FC15B1E7A0000F610A /* modulus64.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		31F3887C15B1D6D9000F610A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		31F3886915B1D6D9000F610A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F388F415B1DDAE000F610A /* CryptoUtil.m in Sources */,
+				31F388F515B1DDAE000F610A /* KeychainUtil.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		31F3887915B1D6D9000F610A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31F388A815B1D759000F610A /* CryptoUtilTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		31F3888515B1D6D9000F610A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 31F3886C15B1D6D9000F610A /* iPhoneLib */;
+			targetProxy = 31F3888415B1D6D9000F610A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		31F3888A15B1D6D9000F610A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31F3888B15B1D6D9000F610A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		31F3889015B1D6D9000F610A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		31F3889115B1D6D9000F610A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		31F3889315B1D6D9000F610A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/iPhoneLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneLib/iPhoneLib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		31F3889415B1D6D9000F610A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/iPhoneLib.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneLib/iPhoneLib-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		31F3889615B1D6D9000F610A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneLib/iPhoneLib-Prefix.pch";
+				INFOPLIST_FILE = "iPhoneLibTests/iPhoneLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		31F3889715B1D6D9000F610A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPhoneLib/iPhoneLib-Prefix.pch";
+				INFOPLIST_FILE = "iPhoneLibTests/iPhoneLibTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		31F3886715B1D6D9000F610A /* Build configuration list for PBXProject "iPhoneLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31F3889015B1D6D9000F610A /* Debug */,
+				31F3889115B1D6D9000F610A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31F3889215B1D6D9000F610A /* Build configuration list for PBXNativeTarget "iPhoneLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31F3889315B1D6D9000F610A /* Debug */,
+				31F3889415B1D6D9000F610A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		31F3889515B1D6D9000F610A /* Build configuration list for PBXNativeTarget "iPhoneLibTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31F3889615B1D6D9000F610A /* Debug */,
+				31F3889715B1D6D9000F610A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 31F3886415B1D6D9000F610A /* Project object */;
+}

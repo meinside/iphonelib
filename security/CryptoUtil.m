@@ -130,7 +130,9 @@
 	//- exponent value
 	memcpy(byteBuffer + index, exponentBytes, sizeof(uint8_t) * lenExp);
 	index += lenExp;
-	
+    
+    NSAssert(index == lenTotal, @"oops miscounted");
+    
 	if(index != lenTotal)
 		DebugLog(@"lengths mismatch: index = %d, lenTotal = %d", index, lenTotal);
 
