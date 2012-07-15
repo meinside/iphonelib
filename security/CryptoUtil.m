@@ -81,14 +81,14 @@
 	int lenMod = [modulus length];
 	if(modulusBytes[0] >= 0x80)
 		lenMod ++;	//place for UNSIGNED_FLAG_FOR_BIGNUM
-	int lenModHeader = 1 + (lenMod >= 0x0100 ? 2 : 1) + (modulusBytes[0] >= 0x80 ? 1 : 0);
+	int lenModHeader = 2 + (lenMod >= 0x80 ? 1 : 0) + (lenMod >= 0x0100 ? 1 : 0);
 	//- length of exponent
 	int lenExp = exponent == nil ? sizeof(DEFAULT_EXPONENT) : [exponent length];
-	int lenExpHeader = 1 + 1;
+	int lenExpHeader = 2;
 	//- length of body
 	int lenBody = lenModHeader + lenMod + lenExpHeader + lenExp;
 	//- length of total
-	int lenTotal = 1 + (lenBody >= 0x80 ? 1 : 0) + (lenBody >= 0x0100 ? 1 : 0) + 1 + lenBody;
+	int lenTotal = 2 + (lenBody >= 0x80 ? 1 : 0) + (lenBody >= 0x0100 ? 1 : 0) + lenBody;
 	
 	int index = 0;
 	uint8_t* byteBuffer = malloc(sizeof(uint8_t) * lenTotal);
@@ -98,8 +98,8 @@
 	//- sequence tag
 	byteBuffer[index ++] = SEQUENCE_TAG;
 	//- total length
-	if(lenTotal >= 0x80)
-		byteBuffer[index ++] = (lenTotal >= 0x0100 ? UNSIGNED_FLAG_FOR_BYTE2 : UNSIGNED_FLAG_FOR_BYTE);
+	if(lenBody >= 0x80)
+		byteBuffer[index ++] = (lenBody >= 0x0100 ? UNSIGNED_FLAG_FOR_BYTE2 : UNSIGNED_FLAG_FOR_BYTE);
 	if(lenBody >= 0x0100)
 	{
 		byteBuffer[index ++] = (uint8_t)(lenBody / 0x0100);
@@ -130,7 +130,9 @@
 	//- exponent value
 	memcpy(byteBuffer + index, exponentBytes, sizeof(uint8_t) * lenExp);
 	index += lenExp;
-	
+    
+    NSAssert(index == lenTotal, @"oops miscounted index = %d, lenTotal = %d", index, lenTotal);
+    
 	if(index != lenTotal)
 		DebugLog(@"lengths mismatch: index = %d, lenTotal = %d", index, lenTotal);
 
@@ -142,6 +144,7 @@
 
 + (BOOL)saveRSAPublicKey:(NSData*)publicKey appTag:(NSString*)appTag overwrite:(BOOL)overwrite
 {
+    CFDataRef ref;
 	OSStatus status = SecItemAdd((CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:
 												   (id)kSecClassKey, kSecClass,
 												   (id)kSecAttrKeyTypeRSA, kSecAttrKeyType,
@@ -151,7 +154,7 @@
 												   publicKey, kSecValueData,
 												   kCFBooleanTrue, kSecReturnPersistentRef,
 												   nil],
-								 NULL);	//don't need public key ref
+								 (CFTypeRef *)&ref);
 
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
