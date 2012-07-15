@@ -144,6 +144,7 @@
 
 + (BOOL)saveRSAPublicKey:(NSData*)publicKey appTag:(NSString*)appTag overwrite:(BOOL)overwrite
 {
+    CFDataRef ref;
 	OSStatus status = SecItemAdd((CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:
 												   (id)kSecClassKey, kSecClass,
 												   (id)kSecAttrKeyTypeRSA, kSecAttrKeyType,
@@ -153,7 +154,7 @@
 												   publicKey, kSecValueData,
 												   kCFBooleanTrue, kSecReturnPersistentRef,
 												   nil],
-								 NULL);	//don't need public key ref
+								 (CFTypeRef *)&ref);
 
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
