@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 10.07.21.
+//  last update: 12.07.16.
 //
 
 #import "CryptoUtil.h"
@@ -24,13 +24,13 @@
 	NSMutableDictionary* privateKeyAttr = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary* publicKeyAttr = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary* keyPairAttr = [[NSMutableDictionary alloc] init];
-
+	
     NSData* publicTagData = [publicTag dataUsingEncoding:NSUTF8StringEncoding];
     NSData* privateTagData = [privateTag dataUsingEncoding:NSUTF8StringEncoding];
-
+	
     SecKeyRef publicKey = NULL;
     SecKeyRef privateKey = NULL;
-
+	
     [keyPairAttr setObject:(id)kSecAttrKeyTypeRSA
 					forKey:(id)kSecAttrKeyType];
     [keyPairAttr setObject:[NSNumber numberWithInt:keyBits]
@@ -50,17 +50,17 @@
 					forKey:(id)kSecPrivateKeyAttrs];
     [keyPairAttr setObject:publicKeyAttr
 					forKey:(id)kSecPublicKeyAttrs];
-
+	
     OSStatus status = SecKeyGeneratePair((CFDictionaryRef)keyPairAttr, &publicKey, &privateKey);
 	
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
-
+	
     if(privateKeyAttr) [privateKeyAttr release];
     if(publicKeyAttr) [publicKeyAttr release];
     if(keyPairAttr) [keyPairAttr release];
     if(publicKey) CFRelease(publicKey);
     if(privateKey) CFRelease(privateKey);
-
+	
 	return status == noErr;
 }
 
@@ -72,34 +72,34 @@
 	const uint8_t UNSIGNED_FLAG_FOR_BIGNUM = 0x00;
 	const uint8_t SEQUENCE_TAG = 0x30;
 	const uint8_t INTEGER_TAG = 0x02;
-
+	
 	uint8_t* modulusBytes = (uint8_t*)[modulus bytes];
 	uint8_t* exponentBytes = (uint8_t*)(exponent == nil ? DEFAULT_EXPONENT : [exponent bytes]);
-
+	
 	//(1) calculate lengths
 	//- length of modulus
 	int lenMod = [modulus length];
 	if(modulusBytes[0] >= 0x80)
 		lenMod ++;	//place for UNSIGNED_FLAG_FOR_BIGNUM
-	int lenModHeader = 1 + (lenMod >= 0x0100 ? 2 : 1) + (modulusBytes[0] >= 0x80 ? 1 : 0);
+	int lenModHeader = 2 + (lenMod >= 0x80 ? 1 : 0) + (lenMod >= 0x0100 ? 1 : 0);
 	//- length of exponent
 	int lenExp = exponent == nil ? sizeof(DEFAULT_EXPONENT) : [exponent length];
-	int lenExpHeader = 1 + 1;
+	int lenExpHeader = 2;
 	//- length of body
 	int lenBody = lenModHeader + lenMod + lenExpHeader + lenExp;
 	//- length of total
-	int lenTotal = 1 + (lenBody >= 0x80 ? 1 : 0) + (lenBody >= 0x0100 ? 1 : 0) + 1 + lenBody;
+	int lenTotal = 2 + (lenBody >= 0x80 ? 1 : 0) + (lenBody >= 0x0100 ? 1 : 0) + lenBody;
 	
 	int index = 0;
 	uint8_t* byteBuffer = malloc(sizeof(uint8_t) * lenTotal);
 	memset(byteBuffer, 0x00, sizeof(uint8_t) * lenTotal);
-
+	
 	//(2) fill up byte buffer
 	//- sequence tag
 	byteBuffer[index ++] = SEQUENCE_TAG;
 	//- total length
-	if(lenTotal >= 0x80)
-		byteBuffer[index ++] = (lenTotal >= 0x0100 ? UNSIGNED_FLAG_FOR_BYTE2 : UNSIGNED_FLAG_FOR_BYTE);
+	if(lenBody >= 0x80)
+		byteBuffer[index ++] = (lenBody >= 0x0100 ? UNSIGNED_FLAG_FOR_BYTE2 : UNSIGNED_FLAG_FOR_BYTE);
 	if(lenBody >= 0x0100)
 	{
 		byteBuffer[index ++] = (uint8_t)(lenBody / 0x0100);
@@ -130,18 +130,19 @@
 	//- exponent value
 	memcpy(byteBuffer + index, exponentBytes, sizeof(uint8_t) * lenExp);
 	index += lenExp;
-	
+    
 	if(index != lenTotal)
 		DebugLog(@"lengths mismatch: index = %d, lenTotal = %d", index, lenTotal);
-
+	
 	NSMutableData* buffer = [NSMutableData dataWithBytes:byteBuffer length:lenTotal];
 	free(byteBuffer);
-
+	
 	return buffer;
 }
 
 + (BOOL)saveRSAPublicKey:(NSData*)publicKey appTag:(NSString*)appTag overwrite:(BOOL)overwrite
 {
+	CFDataRef ref;
 	OSStatus status = SecItemAdd((CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:
 												   (id)kSecClassKey, kSecClass,
 												   (id)kSecAttrKeyTypeRSA, kSecAttrKeyType,
@@ -151,8 +152,8 @@
 												   publicKey, kSecValueData,
 												   kCFBooleanTrue, kSecReturnPersistentRef,
 												   nil],
-								 NULL);	//don't need public key ref
-
+								 (CFTypeRef *)&ref);
+	
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
 	if(status == noErr)
@@ -172,7 +173,7 @@
 															[appTag dataUsingEncoding:NSUTF8StringEncoding], kSecAttrApplicationTag,
 															nil],
 										  NULL);	//don't need public key ref
-
+	
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
 	if(status == noErr)
@@ -186,7 +187,7 @@
 							   (CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:
 												 publicKey, kSecValueData,
 												 nil]);
-
+		
 		DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 		
 		return status == noErr;
@@ -202,7 +203,7 @@
 													  kSecAttrKeyClassPublic, kSecAttrKeyClass,
 													  [appTag dataUsingEncoding:NSUTF8StringEncoding], kSecAttrApplicationTag,
 													  nil]);
-
+	
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
 	return status == noErr;
@@ -223,7 +224,7 @@
 															kCFBooleanTrue, kSecReturnRef,
 															nil], 
 										  (CFTypeRef*)&publicKeyRef);
-
+	
 	DebugLog(@"result = %@", [KeychainUtil fetchStatus:status]);
 	
 	if(status == noErr)
