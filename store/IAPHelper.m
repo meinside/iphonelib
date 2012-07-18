@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 4. 26.
 //
-//  last update: 12.06.05.
+//  last update: 12.07.18.
 //
 
 #import "IAPHelper.h"
@@ -72,7 +72,7 @@ static IAPHelper* _instance;
 	{
 		DebugLog(@"requesting products with identifiers: %@", identifiers);
 
-		self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:identifiers];
+		self.productsRequest = [[[SKProductsRequest alloc] initWithProductIdentifiers:identifiers] autorelease];
 		self.productsRequest.delegate = self;
 		[self.productsRequest start];
 	}
