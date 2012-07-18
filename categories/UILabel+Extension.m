@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 10.10.07.
+//  last update: 12.07.18.
 //
 
 #import "UILabel+Extension.h"
@@ -52,7 +52,7 @@
 - (UILabelResizeResult)resizeFontSizeToKeepCurrentRect:(CGFloat)initialFontSize
 {
 	CGFloat originalLabelHeight = self.frame.size.height;
-	CGFloat labelHeight;
+	CGFloat labelHeight = 0.0f;
 	UIFont* font = self.font;
 
 	for(CGFloat f = initialFontSize; f > self.minimumFontSize; f -= 1.0f)
