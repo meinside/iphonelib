@@ -5,13 +5,15 @@
 //
 //  Created by meinside on 10. 08. 22.
 //
-//  last update: 12.06.19.
+//  last update: 12.07.18.
 //
 
 #pragma once
 #import <Foundation/Foundation.h>
 
 #import <AVFoundation/AVFoundation.h>
+
+#warning This class is deprecated. Use 'MultipleSoundPlayer' instead.
 
 #import "FileUtil.h"
 
