@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 11.03.14.
+//  last update: 12.08.03.
 //
 
 #import "HTTPUtil.h"
@@ -94,7 +94,7 @@
 					additionalHeaderFields:(NSDictionary*)headerFields 
 						   timeoutInterval:(NSTimeInterval)timeoutInterval
 {
-	NSString* boundary = [NSString stringWithFormat:@"____boundary_%u____", [[NSDate date] timeIntervalSince1970]];
+	NSString* boundary = [NSString stringWithFormat:@"____boundary_%f____", [[NSDate date] timeIntervalSince1970]];
 	NSString* contentType = nil;
 	if(params.includesFile)
 	{
@@ -102,7 +102,7 @@
 	}
 	else
 	{
-		contentType = [NSString stringWithString:@"application/x-www-form-urlencoded"];
+		contentType = @"application/x-www-form-urlencoded";
 	}
 	
 	NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 11.05.02.
+//  last update: 12.08.03.
 //
 
 #import "SQLiteWrapper.h"
@@ -29,7 +29,7 @@
 	int error;
 	if((error = sqlite3_open([filePath UTF8String], &db)) != SQLITE_OK)
 	{
-		DebugLog(@"sqlite3_open failed(%d) with %@", error, [filePath UTF8String]);
+		DebugLog(@"sqlite3_open failed(%d) with %s", error, [filePath UTF8String]);
 
 		sqlite3_close(db);
 		return nil;

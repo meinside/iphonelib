@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 06. 30.
 //
-//  last update: 11.04.28.
+//  last update: 12.08.03.
 //
 
 #import "XMLParsedTree.h"
@@ -81,7 +81,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	for(XMLParsedElement* child in [[self elementAtPath:path] children])
 	{
-		[dic setValue:([child value] ? [child value] : [NSString stringWithString:@""]) forKey:[child name]];
+		[dic setValue:([child value] ? [child value] : @"") forKey:[child name]];
 	}
 	return [dic autorelease];
 }
@@ -112,10 +112,10 @@
 	switch(encoding)
 	{
 		case NSUTF8StringEncoding:
-			enc = [NSString stringWithString:@"UTF-8"];
+			enc = @"UTF-8";
 			break;
 		default:
-			enc = [NSString stringWithString:@"UTF-8"];
+			enc = @"UTF-8";
 			break;
 	}
 	return [NSString stringWithFormat:@"<?xml version='1.0' encoding='%@'?>\n%@", enc, [root stringRepresentation]];
