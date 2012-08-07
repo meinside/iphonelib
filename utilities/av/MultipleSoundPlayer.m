@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 12. 07. 18.
 //
-//  last update: 12.07.18.
+//  last update: 12.08.07.
 //
 
 #import "MultipleSoundPlayer.h"
@@ -354,8 +354,8 @@ static MultipleSoundPlayer* _mplayer;
 {
 	@synchronized(self)
 	{
-		if(player)
-			return player.rate;
+		if(self.player)
+			return self.player.rate;
 		else
 		{
 			DebugLog(@"player not available");
@@ -369,8 +369,8 @@ static MultipleSoundPlayer* _mplayer;
 	@synchronized(self)
 	{
 		rate = newRate;
-		if(player)
-			player.rate = rate;
+		if(self.player)
+			self.player.rate = rate;
 		else
 		{
 			DebugLog(@"player not available");
