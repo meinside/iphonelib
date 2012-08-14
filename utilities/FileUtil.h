@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 12.01.13.
+//  last update: 12.08.14.
 //
 
 #pragma once
@@ -45,6 +45,8 @@ typedef enum _PathType {
 + (NSArray*)contentsOfDirectoryAtPath:(NSString*)path;
 
 + (unsigned long long int)sizeOfFolderPath:(NSString *)path;
+
++ (BOOL)skipBackupAtPath:(NSString*)path;
 
 
 @end

@@ -5,8 +5,10 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 12.01.13.
+//  last update: 12.08.14.
 //
+
+#include <sys/xattr.h>
 
 #import "FileUtil.h"
 
@@ -107,6 +109,16 @@
     }
 	
     return totalSize;	
+}
+
+//referenced: http://longweekendmobile.com/2011/11/11/keeping-but-not-backing-up-downloaded-data-in-ios5/
++ (BOOL)skipBackupAtPath:(NSString*)path
+{
+	const char* filePath = [path fileSystemRepresentation];
+	const char* attrName = "com.apple.MobileBackup";
+	u_int8_t attrValue = 1;
+	
+	return setxattr(filePath, attrName, &attrValue, sizeof(attrValue), 0, 0) == 0;
 }
 
 @end
