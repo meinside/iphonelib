@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 11.04.28.
+//  last update: 12.08.28.
 //
 
 #import "AsyncImageView.h"
@@ -26,7 +26,7 @@
 	http = [[HTTPUtil alloc] init];
 	
 	indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	indicator.center = self.center;
+	indicator.frame = CGRectMake((self.frame.size.width - indicator.frame.size.width) / 2, (self.frame.size.height - indicator.frame.size.height) / 2, indicator.frame.size.width, indicator.frame.size.height);
 	indicator.hidesWhenStopped = YES;
 	[self addSubview:indicator];
 }

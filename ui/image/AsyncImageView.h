@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 10.10.15.
+//  last update: 12.08.28.
 //
 
 
@@ -32,12 +32,8 @@
  *	}
  * 
  *	//blah blah ...
- * 
- *	CGRect frame;
- *	frame.size.width = 40; frame.size.height = 40;
- *	frame.origin.x = 0; frame.origin.y = 0;
- * 
- *	AsyncImageView* image = [[AsyncImageView alloc] initWithFrame:frame];
+ *  
+ *	AsyncImageView* image = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
  *	[image loadImageWithURLString:imageUrl parameters:nil additionalHeaderFields:nil timeoutInterval:10.0];
  *	image.tag = 999;
  *	[cell.contentView addSubview:image];
