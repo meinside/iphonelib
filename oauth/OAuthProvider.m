@@ -248,7 +248,7 @@
 	else
 	{
 		NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		DebugLog(@"auth token request error: %ld (%@)", [response statusCode], resultString);
+		DebugLog(@"auth token request error: %d (%@)", [response statusCode], resultString);
 		[resultString release];
 	}
 
@@ -285,7 +285,7 @@
 	else
 	{
 		NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		DebugLog(@"access token request error: %ld (%@)", [response statusCode], resultString);
+		DebugLog(@"access token request error: %d (%@)", [response statusCode], resultString);
 		[resultString release];
 	}
 	
