@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 12.08.03.
+//  last update: 12.10.15.
 //
 
 #import "HTTPUtil.h"
@@ -376,36 +376,34 @@ didReceiveResponse:(NSURLResponse *)response
 		NSString* mime = [asyncResponse MIMEType];
 		NSString* encoding = [asyncResponse textEncodingName];
 		NSDictionary* headerFields = [(NSHTTPURLResponse*)asyncResponse allHeaderFields];
-		[asyncResultHandler performSelector:asyncResultSelector 
-								 withObject:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-																				 [NSNumber numberWithInt:statusCode], 
-																				 asyncResultData == nil ? [NSData data] : asyncResultData, 
-																				 mime == nil ? @"" : mime, 
-																				 encoding == nil ? @"" : encoding, 
-																				 headerFields == nil ? [NSDictionary dictionary] : headerFields,
-																				 self,
-																				 nil] 
-																		forKeys:[NSArray arrayWithObjects:
-																				 kHTTP_ASYNC_RESULT_CODE, 
-																				 kHTTP_ASYNC_RESULT_DATA, 
-																				 kHTTP_ASYNC_RESULT_CONTENTTYPE, 
-																				 kHTTP_ASYNC_RESULT_CHARENCODING, 
-																				 kHTTP_ASYNC_RESULT_HEADERFIELDS,
-																				 kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ,
-																				 nil]]];
-		
+		NSDictionary* resultValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
+																		  [NSNumber numberWithInt:statusCode],
+																		  asyncResultData == nil ? [NSData data] : asyncResultData,
+																		  mime == nil ? @"" : mime,
+																		  encoding == nil ? @"" : encoding,
+																		  headerFields == nil ? [NSDictionary dictionary] : headerFields,
+																		  self,
+																		  nil]
+																 forKeys:[NSArray arrayWithObjects:
+																		  kHTTP_ASYNC_RESULT_CODE,
+																		  kHTTP_ASYNC_RESULT_DATA,
+																		  kHTTP_ASYNC_RESULT_CONTENTTYPE,
+																		  kHTTP_ASYNC_RESULT_CHARENCODING,
+																		  kHTTP_ASYNC_RESULT_HEADERFIELDS,
+																		  kHTTP_ASYNC_RESULT_HTTPUTIL_OBJ,
+																		  nil]];
+
 		[asyncConnection release];
 		asyncConnection = nil;
 		
 		[asyncResponse release];
 		asyncResponse = nil;
-
-		asyncResultHandler = nil;
-		
-		asyncResultSelector = nil;
 		
 		[asyncResultData release];
 		asyncResultData = nil;
+
+		[asyncResultHandler performSelector:asyncResultSelector
+								 withObject:resultValues];
 	}
 }
 
