@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 10. 11.
 //
-//  last update: 10.07.21.
+//  last update: 12.10.22.
 //
 
 #pragma once
@@ -14,6 +14,11 @@
 
 
 @interface NSString (NSStringExtension)
+
+/**
+ * checks if this string contains any of Korean, Chinese, or Japanese characters
+ */
+- (BOOL)containsCJK;
 
 /**
  * returns urlencoded value of this string

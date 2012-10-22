@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 10. 11.
 //
-//  last update: 10.07.21.
+//  last update: 12.10.22.
 //
 
 #import "NSString+Extension.h"
@@ -16,8 +16,21 @@
 
 @implementation NSString (NSStringExtension)
 
-#pragma mark -
-#pragma mark url encode/decode functions
+#pragma mark - cjk support
+
+- (BOOL)containsCJK
+{
+	NSError* error;
+	NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"\\p{Han}|\\p{Katakana}|\\p{Hiragana}|\\p{Hangul}"
+																		   options:NSRegularExpressionCaseInsensitive
+																			 error:&error];
+	
+	return [regex numberOfMatchesInString:self
+								  options:0
+									range:NSMakeRange(0, self.length)] > 0;
+}
+
+#pragma mark - url encode/decode functions
 
 - (NSString*)urlencodedValue
 {
@@ -31,8 +44,7 @@
 	return [urldecodedString autorelease];
 }
 
-#pragma mark -
-#pragma mark HMAC-SHA1 digest function
+#pragma mark - HMAC-SHA1 digest function
 
 - (NSString*)hmacSha1DigestWithKey:(NSString*)secret
 {
@@ -57,8 +69,7 @@
 	return [base64EncodedString autorelease];
 }
 
-#pragma mark -
-#pragma mark MD5 digest function
+#pragma mark - MD5 digest function
 
 - (NSString*)md5Digest
 {
@@ -75,8 +86,7 @@
 			result[12], result[13], result[14], result[15]];
 }
 
-#pragma mark -
-#pragma mark Base64 decoding
+#pragma mark - Base64 decoding
 
 - (NSData*)base64DecodedBytes
 {
