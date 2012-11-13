@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 4. 26.
 //
-//  last update: 12.06.05.
+//  last update: 12.11.13.
 //
 
 #import <Foundation/Foundation.h>
@@ -32,7 +32,6 @@
 - (void)requestProductsWithIdentifiers:(NSSet*)identifiers;
 
 - (void)purchaseProduct:(SKProduct*)product;
-//- (void)purchaseProductWithIdentifier:(NSString*)identifier;	//deprecated
 
 - (void)finishTransaction:(SKPaymentTransaction*)transaction;
 
@@ -55,10 +54,10 @@
 - (void)purchaseCompleted:(NSArray*)transactions;
 
 /**
- * If given trasaction's state is equal to 'SKPaymentTransactionStatePurchased':
+ * If given trasaction's state is equal to 'SKPaymentTransactionStatePurchased' or 'SKPaymentTransactionStateRestored':
  * 
  * 1. should enable/download feature for this transaction.
- * 2. after that, should call IAPHelper's 'finishTransaction:' function 
+ * 2. after that, should call IAPHelper's 'finishTransaction:' function
  * 
  */
 - (void)updatedTransactions:(NSArray*)transactions;
