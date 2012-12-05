@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 12.10.15.
+//  last update: 12.12.04.
 //
 
 #import "HTTPUtil.h"
@@ -302,6 +302,43 @@
 		[asyncResultData release];
 		asyncResultData = nil;
 
+		DebugLog(@"exception while async post request: %@", [e description]);
+	}
+	return NO;
+}
+
+- (BOOL)sendAsyncRequest:(NSURLRequest*)request
+					  to:(id)delegate
+				selector:(SEL)selector
+{
+	@try
+	{
+		@synchronized(self)
+		{
+			//cancel on-going connection
+			[self cancelCurrentConnection];
+			
+			asyncResultHandler = delegate;
+			asyncResultSelector = selector;
+			
+			asyncConnection = [[NSURLConnection alloc] initWithRequest:request
+															  delegate:self
+													  startImmediately:YES];
+			return YES;
+		}
+	}
+	@catch (NSException * e)
+	{
+		[asyncConnection release];
+		asyncConnection = nil;
+		
+		asyncResultHandler = nil;
+		
+		asyncResultSelector = nil;
+		
+		[asyncResultData release];
+		asyncResultData = nil;
+		
 		DebugLog(@"exception while async post request: %@", [e description]);
 	}
 	return NO;

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 10.09.29.
+//  last update: 12.12.04.
 //
 
 #pragma once
@@ -75,5 +75,8 @@
 					timeoutInterval:(NSTimeInterval)timeout
 								 to:(id)delegate 
 						   selector:(SEL)selector;
+- (BOOL)sendAsyncRequest:(NSURLRequest*)request
+					  to:(id)delegate
+				selector:(SEL)selector;
 
 @end
