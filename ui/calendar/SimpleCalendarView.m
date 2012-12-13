@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.10.12.
+//  last update: 2012.12.13.
 //
 
 #import "SimpleCalendarView.h"
@@ -63,7 +63,7 @@
 	//add month label
 	monthLabel = [[UILabel alloc] initWithFrame:CGRectMake((width - MONTH_LABEL_WIDTH) / 2, (topMargin + CALENDAR_HEADER_HEIGHT - CALENDAR_WEEKDAY_HEADER_HEIGHT - MONTH_LABEL_HEIGHT) / 2, MONTH_LABEL_WIDTH, MONTH_LABEL_HEIGHT)];
 	monthLabel.text = [NSString stringWithFormat:@"%04d / %02d", 1981, 6];
-	monthLabel.textAlignment = UITextAlignmentCenter;
+	monthLabel.textAlignment = NSTextAlignmentCenter;
 	monthLabel.textColor = [UIColor colorWithRed:MONTH_LABEL_FG_COLOR_R 
 										   green:MONTH_LABEL_FG_COLOR_G 
 											blue:MONTH_LABEL_FG_COLOR_B 
@@ -82,7 +82,7 @@
 																	 cellWidth, 
 																	 CALENDAR_WEEKDAY_HEADER_HEIGHT)];
 		weekday.text = [weekDays objectAtIndex:i];
-		weekday.textAlignment = UITextAlignmentRight;
+		weekday.textAlignment = NSTextAlignmentRight;
 		weekday.backgroundColor = [UIColor clearColor];
 		switch(i)
 		{

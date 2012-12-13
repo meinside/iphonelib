@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 10.07.21.
+//  last update: 2012.12.13.
 //
 
 #import "SimpleCalendarCellView.h"
@@ -105,8 +105,8 @@
 		}
 		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
 													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
-											   lineBreakMode:UILineBreakModeWordWrap 
-												   alignment:UITextAlignmentRight];
+											   lineBreakMode:NSLineBreakByWordWrapping 
+												   alignment:NSTextAlignmentRight];
 	}
 }
 
