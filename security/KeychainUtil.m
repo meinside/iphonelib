@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 19.
 //
-//  last update: 12.08.03.
+//  last update: 13.01.30.
 //
 
 #import "KeychainUtil.h"
@@ -160,7 +160,10 @@
 		return nil;
 
 	NSString* errorString;
-	NSMutableDictionary* dic = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:kCFPropertyListMutableContainersAndLeaves format:NULL errorDescription:&errorString];
+	NSMutableDictionary* dic = [NSPropertyListSerialization propertyListFromData:data
+																mutabilityOption:NSPropertyListMutableContainersAndLeaves
+																		  format:NULL
+																errorDescription:&errorString];
 	return dic;
 }
 
