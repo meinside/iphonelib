@@ -7,7 +7,7 @@ Helper functions and classes for developing ordinary applications on iOS
 
 ## LICENSE ##
 
-Copyright (c) 2012, Sungjin Han <meinside@gmail.com>
+Copyright (c) 2013, Sungjin Han <meinside@gmail.com>
 All rights reserved.
   
  Redistribution and use in source and binary forms, with or without
