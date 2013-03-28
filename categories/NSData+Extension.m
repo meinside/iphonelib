@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 4.
 //
-//  last update: 10.07.21.
+//  last update: 13.03.28.
 //
 
 #import "NSData+Extension.h"
@@ -13,13 +13,12 @@
 #import "Base64Transcoder.h"
 #import "Logging.h"
 
-
 @implementation NSData (NSDataExtension)
 
-#pragma mark -
-#pragma mark AES encrypt/decrypt functions
+#pragma mark - AES encrypt/decrypt functions
 
-- (NSData*) aesEncryptWithKey:(NSString *)key initialVector:(NSString*)iv
+- (NSData*)aesEncryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv
 {
 	int keyLength = [key length];
 	if(keyLength != kCCKeySizeAES128 && keyLength != kCCKeySizeAES192 && keyLength != kCCKeySizeAES256)
@@ -56,7 +55,8 @@
 	return nil;
 }
 
-- (NSData*) aesDecryptWithKey:(NSString *)key initialVector:(NSString*)iv
+- (NSData*)aesDecryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv
 {
 	int keyLength = [key length];
 	if(keyLength != kCCKeySizeAES128 && keyLength != kCCKeySizeAES192 && keyLength != kCCKeySizeAES256)
@@ -93,10 +93,89 @@
 	return nil;
 }
 
-#pragma mark -
-#pragma mark Base64 encoding
 
-- (NSString*) base64EncodedString
+#pragma mark - DES encrypt/decrypt functions
+
+- (NSData*)desEncryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv
+{
+	int keyLength = [key length];
+	if(keyLength != kCCKeySizeDES)
+	{
+		DebugLog(@"key length is not 64-bits long");
+		
+		return nil;
+	}
+	
+	char keyBytes[keyLength + 1];
+	bzero(keyBytes, sizeof(keyBytes));
+	[key getCString:keyBytes maxLength:sizeof(keyBytes) encoding:NSUTF8StringEncoding];
+	
+	size_t numBytesEncrypted = 0;
+	size_t encryptedLength = [self length] + kCCBlockSizeDES;
+	char* encryptedBytes = malloc(encryptedLength);
+	
+	CCCryptorStatus result = CCCrypt(kCCEncrypt,
+									 kCCAlgorithmDES,
+									 (iv == nil ? kCCOptionECBMode | kCCOptionPKCS7Padding : kCCOptionPKCS7Padding),	//default: CBC (when initial vector is supplied)
+									 keyBytes,
+									 keyLength,
+									 iv,
+									 [self bytes],
+									 [self length],
+									 encryptedBytes,
+									 encryptedLength,
+									 &numBytesEncrypted);
+	
+	if(result == kCCSuccess)
+		return [NSData dataWithBytesNoCopy:encryptedBytes length:numBytesEncrypted];
+	
+	free(encryptedBytes);
+	return nil;
+}
+
+- (NSData*)desDecryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv
+{
+	int keyLength = [key length];
+	if(keyLength != kCCKeySizeDES)
+	{
+		DebugLog(@"key length is not 64-bits long");
+		
+		return nil;
+	}
+	
+	char keyBytes[keyLength+1];
+	bzero(keyBytes, sizeof(keyBytes));
+	[key getCString:keyBytes maxLength:sizeof(keyBytes) encoding:NSUTF8StringEncoding];
+	
+	size_t numBytesDecrypted = 0;
+	size_t decryptedLength = [self length] + kCCBlockSizeDES;
+	char* decryptedBytes = malloc(decryptedLength);
+	
+	CCCryptorStatus result = CCCrypt(kCCDecrypt,
+									 kCCAlgorithmDES ,
+									 (iv == nil ? kCCOptionECBMode | kCCOptionPKCS7Padding : kCCOptionPKCS7Padding),	//default: CBC (when initial vector is supplied)
+									 keyBytes,
+									 keyLength,
+									 iv,
+									 [self bytes],
+									 [self length],
+									 decryptedBytes,
+									 decryptedLength,
+									 &numBytesDecrypted);
+	
+	if(result == kCCSuccess)
+		return [NSData dataWithBytesNoCopy:decryptedBytes length:numBytesDecrypted];
+	
+	free(decryptedBytes);
+	return nil;
+}
+
+
+#pragma mark - Base64 encoding
+
+- (NSString*)base64EncodedString
 {
 	@try 
 	{
@@ -117,8 +196,8 @@
 	return nil;
 }
 
-#pragma mark -
-#pragma mark functions for debug purpose
+
+#pragma mark - functions for debug purpose
 
 - (NSString*)hexDump
 {

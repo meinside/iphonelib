@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 4.
 //
-//  last update: 10.07.21.
+//  last update: 13.03.28.
 //
 
 #pragma once
@@ -21,7 +21,8 @@
  * key:
  * iv: initial vector (if not nil: CBC mode / nil: ECB mode)
  */
-- (NSData*) aesEncryptWithKey:(NSString *)key initialVector:(NSString*)iv;
+- (NSData*)aesEncryptWithKey:(NSString *)key
+				initialVector:(NSString*)iv;
 
 /**
  * do AES decryption
@@ -29,12 +30,31 @@
  * key:
  * iv: initial vector (if not nil: CBC mode / nil: ECB mode)
  */
-- (NSData*) aesDecryptWithKey:(NSString *)key initialVector:(NSString*)iv;
+- (NSData*)aesDecryptWithKey:(NSString *)key
+				initialVector:(NSString*)iv;
+
+/**
+ * do DES encryption
+ *
+ * key:
+ * iv: initial vector (if not nil: CBC mode / nil: ECB mode)
+ */
+- (NSData*)desEncryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv;
+
+/**
+ * do DES decryption
+ *
+ * key:
+ * iv: initial vector (if not nil: CBC mode / nil: ECB mode)
+ */
+- (NSData*)desDecryptWithKey:(NSString *)key
+			   initialVector:(NSString*)iv;
 
 /**
  * base64 encode
  */
-- (NSString*) base64EncodedString;
+- (NSString*)base64EncodedString;
 
 /**
  * dump to to hex(byte array) format
