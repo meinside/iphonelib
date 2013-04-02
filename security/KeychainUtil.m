@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 19.
 //
-//  last update: 13.01.30.
+//  last update: 13.04.02.
 //
 
 #import "KeychainUtil.h"
@@ -18,36 +18,70 @@
 #pragma mark -
 #pragma mark factory functions
 
-+ (NSMutableDictionary*)dictionaryOfGenericPasswdForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSMutableDictionary*)dictionaryOfGenericPasswdForAccount:(NSString*)account
+													service:(NSString*)service
+												  passwdKey:(NSString*)key
+												accessGroup:(NSString*)group
 {
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	
 	NSData* identifier = [key dataUsingEncoding:NSUTF8StringEncoding];
-	[dic setObject:identifier forKey:(id)kSecAttrGeneric];
-	[dic setObject:account forKey:(id)kSecAttrAccount];
-	[dic setObject:service forKey:(id)kSecAttrService];
-	[dic setObject:(id)kSecClassGenericPassword forKey:(id)kSecClass];
+	[dic setObject:identifier
+			forKey:(id)kSecAttrGeneric];
+	[dic setObject:account
+			forKey:(id)kSecAttrAccount];
+	[dic setObject:service
+			forKey:(id)kSecAttrService];
+	[dic setObject:(id)kSecClassGenericPassword
+			forKey:(id)kSecClass];
+	if(group)
+		[dic setObject:group
+				forKey:(id)kSecAttrAccessGroup];
 	
 	return [dic autorelease];
+}
+
++ (NSMutableDictionary*)dictionaryOfGenericPasswdForAccount:(NSString*)account
+													service:(NSString*)service
+												  passwdKey:(NSString*)key
+{
+	return [KeychainUtil dictionaryOfGenericPasswdForAccount:account
+													 service:service
+												   passwdKey:key
+												 accessGroup:nil];
 }
 
 #pragma mark -
 #pragma mark C/R/U/D functions
 
-+ (NSMutableDictionary*)searchDictionaryOfGenericPasswdForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSMutableDictionary*)searchDictionaryOfGenericPasswdForAccount:(NSString*)account
+														  service:(NSString*)service
+														passwdKey:(NSString*)key
+													  accessGroup:(NSString*)group
 {
-	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account
+																		 service:service
+																	   passwdKey:key
+																	 accessGroup:group];
 	[dic setObject:(id)kSecMatchLimitOne forKey:(id)kSecMatchLimit];
 	[dic setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnAttributes];
 	[dic setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
 	return dic;
 }
 
-+ (BOOL)saveGenericPasswd:(NSData*)data forAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key overwrite:(BOOL)overwrite
++ (BOOL)saveGenericPasswd:(NSData*)data
+			   forAccount:(NSString*)account
+				  service:(NSString*)service
+				passwdKey:(NSString*)key
+			  accessGroup:(NSString*)group
+				overwrite:(BOOL)overwrite
 {
-	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account
+																		 service:service
+																	   passwdKey:key
+																	 accessGroup:group];
 	[dic setObject:data forKey:(id)kSecValueData];
-
+	
 	OSStatus status = SecItemAdd((CFDictionaryRef)dic, NULL);
 	if(status == noErr)
 	{
@@ -55,14 +89,39 @@
 	}
 	else if(status == errSecDuplicateItem && overwrite == YES)
 	{
-		return [KeychainUtil updateGenericPasswd:data forAccount:account service:service passwdKey:key];
+		return [KeychainUtil updateGenericPasswd:data
+									  forAccount:account
+										 service:service
+									   passwdKey:key
+									 accessGroup:group];
 	}
 	return NO;
 }
 
-+ (BOOL)updateGenericPasswd:(NSData*)data forAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (BOOL)saveGenericPasswd:(NSData*)data
+			   forAccount:(NSString*)account
+				  service:(NSString*)service
+				passwdKey:(NSString*)key
+				overwrite:(BOOL)overwrite
 {
-	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	return [KeychainUtil saveGenericPasswd:data
+								forAccount:account
+								   service:service
+								 passwdKey:key
+							   accessGroup:nil
+								 overwrite:overwrite];
+}
+
++ (BOOL)updateGenericPasswd:(NSData*)data
+				 forAccount:(NSString*)account
+					service:(NSString*)service
+				  passwdKey:(NSString*)key
+				accessGroup:(NSString*)group
+{
+	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account
+																		 service:service
+																	   passwdKey:key
+																	 accessGroup:group];
 	NSMutableDictionary* updateDic = [NSMutableDictionary dictionary];
 	[updateDic setObject:data forKey:(id)kSecValueData];
 	
@@ -73,9 +132,27 @@
 		return NO;
 }
 
-+ (NSMutableDictionary*)loadDictionaryOfGenericPasswdForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (BOOL)updateGenericPasswd:(NSData*)data
+				 forAccount:(NSString*)account
+					service:(NSString*)service
+				  passwdKey:(NSString*)key
 {
-	NSMutableDictionary* searchDic = [KeychainUtil searchDictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	return [KeychainUtil updateGenericPasswd:data
+								  forAccount:account
+									 service:service
+								   passwdKey:key
+								 accessGroup:nil];
+}
+
++ (NSMutableDictionary*)loadDictionaryOfGenericPasswdForAccount:(NSString*)account
+														service:(NSString*)service
+													  passwdKey:(NSString*)key
+													accessGroup:(NSString*)group
+{
+	NSMutableDictionary* searchDic = [KeychainUtil searchDictionaryOfGenericPasswdForAccount:account
+																					 service:service
+																				   passwdKey:key
+																				 accessGroup:group];
 	NSMutableDictionary* dic = nil;
 	
 	OSStatus status = SecItemCopyMatching((CFDictionaryRef)searchDic, (CFTypeRef*)&dic);
@@ -85,18 +162,30 @@
 		return nil;
 }
 
-+ (NSData*)loadGenericPasswdForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSData*)loadGenericPasswdForAccount:(NSString*)account
+							   service:(NSString*)service
+							 passwdKey:(NSString*)key
+						   accessGroup:(NSString*)group
 {
-	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account
+																			 service:service
+																		   passwdKey:key
+																		 accessGroup:group];
 	if(dic)
 		return [KeychainUtil dataFromDictionary:dic];
 	else
 		return nil;
 }
 
-+ (NSString*)loadPasswdStringForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSString*)loadPasswdStringForAccount:(NSString*)account
+								service:(NSString*)service
+							  passwdKey:(NSString*)key
+							accessGroup:(NSString*)group
 {
-	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account
+																			 service:service
+																		   passwdKey:key
+																		 accessGroup:group];
 	if(dic)
 	{
 		NSString* resultString = [[NSString alloc] initWithData:[dic objectForKey:(id)kSecValueData] encoding:NSUTF8StringEncoding];
@@ -106,18 +195,50 @@
 		return nil;
 }
 
-+ (NSData*)loadPasswdDataForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSString*)loadPasswdStringForAccount:(NSString*)account
+								service:(NSString*)service
+							  passwdKey:(NSString*)key
 {
-	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	return [KeychainUtil loadPasswdStringForAccount:account
+											service:service
+										  passwdKey:key
+										accessGroup:nil];
+}
+
++ (NSData*)loadPasswdDataForAccount:(NSString*)account
+							service:(NSString*)service
+						  passwdKey:(NSString*)key
+						accessGroup:(NSString*)group
+{
+	NSMutableDictionary* dic = [KeychainUtil loadDictionaryOfGenericPasswdForAccount:account
+																			 service:service
+																		   passwdKey:key
+																		 accessGroup:group];
 	if(dic)
 		return [dic objectForKey:(id)kSecValueData];
 	else
 		return nil;
 }
 
-+ (BOOL)deleteGenericPasswdForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (NSData*)loadPasswdDataForAccount:(NSString*)account
+							service:(NSString*)service
+						  passwdKey:(NSString*)key
 {
-	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	return [KeychainUtil loadPasswdDataForAccount:account
+										  service:service
+										passwdKey:key
+									  accessGroup:nil];
+}
+
++ (BOOL)deleteGenericPasswdForAccount:(NSString*)account
+							  service:(NSString*)service
+							passwdKey:(NSString*)key
+						  accessGroup:(NSString*)group
+{
+	NSMutableDictionary* dic = [KeychainUtil dictionaryOfGenericPasswdForAccount:account
+																		 service:service
+																	   passwdKey:key
+																	 accessGroup:group];
 	
 	OSStatus status = SecItemDelete((CFDictionaryRef)dic);
 	if(status == noErr)
@@ -126,9 +247,25 @@
 		return NO;
 }
 
-+ (BOOL)genericPasswdExistsForAccount:(NSString*)account service:(NSString*)service passwdKey:(NSString*)key
++ (BOOL)deleteGenericPasswdForAccount:(NSString*)account
+							  service:(NSString*)service
+							passwdKey:(NSString*)key
 {
-	NSMutableDictionary* searchDic = [KeychainUtil searchDictionaryOfGenericPasswdForAccount:account service:service passwdKey:key];
+	return [KeychainUtil deleteGenericPasswdForAccount:account
+											   service:service
+											 passwdKey:key
+										   accessGroup:nil];
+}
+
++ (BOOL)genericPasswdExistsForAccount:(NSString*)account
+							  service:(NSString*)service
+							passwdKey:(NSString*)key
+						  accessGroup:(NSString*)group
+{
+	NSMutableDictionary* searchDic = [KeychainUtil searchDictionaryOfGenericPasswdForAccount:account
+																					 service:service
+																				   passwdKey:key
+																				 accessGroup:group];
 	NSMutableDictionary* dic = nil;
 	
 	OSStatus status = SecItemCopyMatching((CFDictionaryRef)searchDic, (CFTypeRef*)&dic);
@@ -141,6 +278,16 @@
 		return NO;
 }
 
++ (BOOL)genericPasswdExistsForAccount:(NSString*)account
+							  service:(NSString*)service
+							passwdKey:(NSString*)key
+{
+	return [KeychainUtil genericPasswdExistsForAccount:account
+											   service:service
+											 passwdKey:key
+										   accessGroup:nil];
+}
+
 #pragma mark -
 #pragma mark helper functions
 
@@ -150,7 +297,9 @@
 		return nil;
 
 	NSString* errorString;
-	NSData* data = [NSPropertyListSerialization dataFromPropertyList:dic format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errorString];
+	NSData* data = [NSPropertyListSerialization dataFromPropertyList:dic
+															  format:NSPropertyListBinaryFormat_v1_0
+													errorDescription:&errorString];
 	return data;
 }
 
@@ -250,7 +399,9 @@
 	CFRelease(summary);
 }
 
-+ (void)_printKey:(SecKeyRef)key attributes:(NSDictionary *)attrs indent:(int)indent
++ (void)_printKey:(SecKeyRef)key
+	   attributes:(NSDictionary *)attrs
+		   indent:(int)indent
 {
 #pragma unused(key)
 	NSString* label;	
@@ -309,7 +460,8 @@
 	}
 }
 
-+ (void)_printIdentity:(SecIdentityRef)identity attributes:(NSDictionary *)attrs
++ (void)_printIdentity:(SecIdentityRef)identity
+			attributes:(NSDictionary *)attrs
 {	
 	OSStatus err;
 	SecCertificateRef certificate;
@@ -322,16 +474,22 @@
 	assert(err == noErr);
 
 	fprintf(stderr, "    certificate\n");
-	[self _printCertificate:certificate attributes:attrs indent:6];
+	[self _printCertificate:certificate
+				 attributes:attrs
+					 indent:6];
 	
 	fprintf(stderr, "    key\n");
-	[self _printKey:key attributes:attrs indent:6];
+	[self _printKey:key
+		 attributes:attrs
+			 indent:6];
 
 	CFRelease(key);
 	CFRelease(certificate);
 }
 
-+ (void)_printPassword:(CFStringRef)password attributes:(NSDictionary *)attrs indent:(int)indent
++ (void)_printPassword:(CFStringRef)password
+			attributes:(NSDictionary *)attrs
+				indent:(int)indent
 {
 	NSString* generic;
 	NSString* account;
@@ -359,28 +517,39 @@
 	value = [attrs objectForKey:(id)kSecValueData];
 	if (value != nil) 
 	{
-		NSString* valueStr = [[NSString alloc] initWithData:(NSData*)value encoding:NSUTF8StringEncoding];
+		NSString* valueStr = [[NSString alloc] initWithData:(NSData*)value
+												   encoding:NSUTF8StringEncoding];
 		fprintf(stderr, "%*svalue    = %s\n", indent, "", [value UTF8String]);
 		[valueStr release];
 	}
 }
 
-+ (void)_printCertificate:(SecCertificateRef)certificate attributes:(NSDictionary *)attrs
++ (void)_printCertificate:(SecCertificateRef)certificate
+			   attributes:(NSDictionary *)attrs
 {
-	[self _printCertificate:certificate attributes:attrs indent:4];
+	[self _printCertificate:certificate
+				 attributes:attrs
+					 indent:4];
 }
 
-+ (void)_printKey:(SecKeyRef)key attributes:(NSDictionary *)attrs
++ (void)_printKey:(SecKeyRef)key
+	   attributes:(NSDictionary *)attrs
 {
-	[self _printKey:key attributes:attrs indent:4];
+	[self _printKey:key
+		 attributes:attrs
+			 indent:4];
 }
 
-+ (void)_printPassword:(CFStringRef)password attributes:(NSDictionary *)attrs
++ (void)_printPassword:(CFStringRef)password
+			attributes:(NSDictionary *)attrs
 {
-	[self _printPassword:password attributes:attrs indent:4];
+	[self _printPassword:password
+			  attributes:attrs
+				  indent:4];
 }
 
-+ (void)_dumpCredentialsOfSecClass:(CFTypeRef)secClass printSelector:(SEL)printSelector
++ (void)_dumpCredentialsOfSecClass:(CFTypeRef)secClass
+					 printSelector:(SEL)printSelector
 {
 	OSStatus err;
 	CFArrayRef result;
@@ -424,19 +593,24 @@
 + (void)dumpCredentials
 {
     fprintf(stderr, "identities:\n");	
-    [self _dumpCredentialsOfSecClass :kSecClassIdentity printSelector:@selector(_printIdentity:attributes:)];
+    [self _dumpCredentialsOfSecClass:kSecClassIdentity
+					   printSelector:@selector(_printIdentity:attributes:)];
 
     fprintf(stderr, "certificates:\n");	
-    [self _dumpCredentialsOfSecClass :kSecClassCertificate printSelector:@selector(_printCertificate:attributes:)];
+    [self _dumpCredentialsOfSecClass:kSecClassCertificate
+					   printSelector:@selector(_printCertificate:attributes:)];
 
     fprintf(stderr, "keys:\n");
-    [self _dumpCredentialsOfSecClass :kSecClassKey printSelector:@selector(_printKey:attributes:)];
+    [self _dumpCredentialsOfSecClass:kSecClassKey
+					   printSelector:@selector(_printKey:attributes:)];
 
     fprintf(stderr, "generic passwords:\n");	
-    [self _dumpCredentialsOfSecClass :kSecClassGenericPassword printSelector:@selector(_printPassword:attributes:)];
+    [self _dumpCredentialsOfSecClass:kSecClassGenericPassword
+					   printSelector:@selector(_printPassword:attributes:)];
 
     fprintf(stderr, "internet passwords:\n");
-    [self _dumpCredentialsOfSecClass :kSecClassInternetPassword printSelector:@selector(_printPassword:attributes:)];
+    [self _dumpCredentialsOfSecClass:kSecClassInternetPassword
+					   printSelector:@selector(_printPassword:attributes:)];
 }
 
 @end
