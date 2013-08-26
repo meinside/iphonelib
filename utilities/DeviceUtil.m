@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 15.
 //
-//  last update: 12.05.31.
+//  last update: 13.08.26.
 //
 
 #import "DeviceUtil.h"
@@ -77,11 +77,11 @@
 #pragma mark -
 #pragma mark get device's attributes/information
 
-// is now deprecated
-//+ (NSString*)UDID
-//{
-//	return [[UIDevice currentDevice] uniqueIdentifier];
-//}
++ (NSString*)UDID
+{
+//	return [[UIDevice currentDevice] uniqueIdentifier];	//deprecated since iOS 5.0
+	return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+}
 
 //referenced: http://www.iphonedevsdk.com/forum/iphone-sdk-development/4970-iphone-mac-address.html
 + (NSString*)MACAddress
