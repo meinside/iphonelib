@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 3. 5.
 //
-//  last update: 10.07.21.
+//  last update: 13.10.31.
 //
 
 #import "UIImage+Extension.h"
@@ -92,7 +92,7 @@
 	}
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();	//must be released later (3)
-	CGContextRef bitmapContext = CGBitmapContextCreate(rgba, width, height, 8, 4 * width, colorSpace, alphaInfo);	//must be released later (4)
+	CGContextRef bitmapContext = CGBitmapContextCreate(rgba, width, height, 8, 4 * width, colorSpace, (CGBitmapInfo)alphaInfo);	//must be released later (4)
 	CFRelease(colorSpace);	//released (3)
 	
 	CGImageRef convertedImage = CGBitmapContextCreateImage(bitmapContext);	//must be released later (5)
