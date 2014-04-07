@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 12.08.03.
+//  last update: 2014.04.07.
 //
 
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
@@ -88,7 +88,7 @@ void propertyCallback(void* inUserData, AudioQueueRef inAQ, AudioQueuePropertyID
 		OSStatus result = AudioQueueGetProperty(inAQ, inID, &propertyIsRunning, &propertySize);
 		if(result != noErr)
 		{
-			DebugLog(@"AudioQueueGetProperty failed: %ld", result);
+			DebugLog(@"AudioQueueGetProperty failed: %d", (int)result);
 		}
 		
 		AudioQueuePlayer* wrapper = (AudioQueuePlayer*)inUserData;
@@ -145,7 +145,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 
 	*outNumPacketsToRead = *outBufferSize / maxPacketSize;
 
-	DebugLog(@"bufferByteSize = %ld, numPacketsToRead = %ld", *outBufferSize, *outNumPacketsToRead);
+	DebugLog(@"bufferByteSize = %u, numPacketsToRead = %u", (unsigned int)*outBufferSize, (unsigned int)*outNumPacketsToRead);
 }
 
 #pragma mark -
@@ -161,13 +161,13 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//open audio file
 		OSStatus result = AudioFileOpenURL((CFURLRef)url, kAudioFileReadPermission, 0, &audioFile);
 		if(result != noErr)
-			DebugLog(@"AudioFileOpenURL failed: %ld", result);
+			DebugLog(@"AudioFileOpenURL failed: %d", (int)result);
 		
 		//get given audio file's data format
 		UInt32 dataFormatSize = sizeof(dataFormat);
 		result = AudioFileGetProperty(audioFile, kAudioFilePropertyDataFormat, &dataFormatSize, &dataFormat);
 		if(result != noErr)
-			DebugLog(@"AudioFileGetProperty failed: %ld", result);
+			DebugLog(@"AudioFileGetProperty failed: %d", (int)result);
 		
 		//alter sampling rate
 		if(multiplier > 0.0f && multiplier != 1.0f)
@@ -179,7 +179,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//new audio queue for output
 		result = AudioQueueNewOutput(&dataFormat, outputCallback, self, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, 0, &queue);
 		if(result != noErr)
-			DebugLog(@"AudioQueueNewOutput failed: %ld", result);
+			DebugLog(@"AudioQueueNewOutput failed: %d", (int)result);
 		
 		UInt32 maxPacketSize;
 		UInt32 propertySize = sizeof(maxPacketSize);
@@ -187,7 +187,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//get upper bound of packet size
 		result = AudioFileGetProperty(audioFile, kAudioFilePropertyPacketSizeUpperBound, &propertySize, &maxPacketSize);
 		if(result != noErr)
-			DebugLog(@"AudioFileGetProperty failed: %ld", result);
+			DebugLog(@"AudioFileGetProperty failed: %d", (int)result);
 		
 		//calculate optimal buffer size
 		calcBufferSize(dataFormat, maxPacketSize, BUFFER_DURATION, &bufferByteSize, &numPacketsToRead);
@@ -212,11 +212,11 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 			char* magicCookie = (char*)malloc(cookieSize);
 			result = AudioFileGetProperty(audioFile, kAudioFilePropertyMagicCookieData, &cookieSize, magicCookie);
 			if(result != noErr)
-				DebugLog(@"AudioFileGetProperty failed: %ld", result);
+				DebugLog(@"AudioFileGetProperty failed: %d", (int)result);
 			
 			result = AudioQueueSetProperty(queue, kAudioQueueProperty_MagicCookie, magicCookie, cookieSize);
 			if(result != noErr)
-				DebugLog(@"AudioQueueSetProperty failed: %ld", result);
+				DebugLog(@"AudioQueueSetProperty failed: %d", (int)result);
 			
 			free(magicCookie);
 		}
@@ -226,13 +226,13 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		{
 			result = AudioQueueAllocateBuffer(queue, bufferByteSize, (AudioQueueBufferRef*)&buffers[i]);
 			if(result != noErr)
-				DebugLog(@"AudioQueueAllocateBuffer failed: %ld", result);
+				DebugLog(@"AudioQueueAllocateBuffer failed: %d", (int)result);
 		}
 		
 		//add a property change listener
 		result = AudioQueueAddPropertyListener(queue, kAudioQueueProperty_IsRunning, propertyCallback, self);
 		if(result != noErr)
-			DebugLog(@"AudioQueueAddPropertyListener failed: %ld", result);
+			DebugLog(@"AudioQueueAddPropertyListener failed: %d", (int)result);
 
 		currentPacket = 0;
 
@@ -304,18 +304,18 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 	
 	result = AudioQueueCreateTimeline(queue, &timeline);
 	if(result != noErr)
-		DebugLog(@"AudioQueueCreateTimeline failed: %ld", result);
+		DebugLog(@"AudioQueueCreateTimeline failed: %d", (int)result);
 	else
 	{
 		Boolean discontinuity;
 
 		result = AudioQueueGetCurrentTime(queue, timeline, &timestamp, &discontinuity);
 		if(result != noErr)
-			DebugLog(@"AudioQueueGetCurrentTime failed: %ld", result);
+			DebugLog(@"AudioQueueGetCurrentTime failed: %d", (int)result);
 		
 		result = AudioQueueDisposeTimeline(queue, timeline);
 		if(result != noErr)
-			DebugLog(@"AudioQueueDisposeTimeine failed: %ld", result);
+			DebugLog(@"AudioQueueDisposeTimeine failed: %d", (int)result);
 	}
 	
 	return timestamp.mSampleTime / dataFormat.mSampleRate;
@@ -326,7 +326,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 	float volume = -1.0f;
 	OSStatus result = AudioQueueGetParameter(queue, kAudioQueueParam_Volume, &volume);
 	if(result != noErr)
-		DebugLog(@"AudioQueueGetParameter failed: %ld", result);
+		DebugLog(@"AudioQueueGetParameter failed: %d", (int)result);
 	
 	return volume;
 }
@@ -335,7 +335,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 {
 	OSStatus result = AudioQueueSetParameter(queue, kAudioQueueParam_Volume, volume);
 	if(result != noErr)
-		DebugLog(@"AudioQueueSetParameter failed: %ld", result);
+		DebugLog(@"AudioQueueSetParameter failed: %d", (int)result);
 }
 
 - (void)play
@@ -372,7 +372,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//start audio queue
 		OSStatus result = AudioQueueStart(queue, timestamp);
 		if(result != noErr)
-			DebugLog(@"AudioQueueStart failed: %ld", result);
+			DebugLog(@"AudioQueueStart failed: %d", (int)result);
 	}
 }
 
@@ -402,7 +402,7 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 		//stop audio queue
 		OSStatus result = AudioQueueStop(queue, immediate);
 		if(result != noErr)
-			DebugLog(@"AudioQueueStop failed: %ld", result);
+			DebugLog(@"AudioQueueStop failed: %d", (int)result);
 	}
 }
 
@@ -415,11 +415,11 @@ void calcBufferSize(AudioStreamBasicDescription desc, UInt32 maxPacketSize, Floa
 	
 	result = AudioQueueDispose(queue, YES);
 	if(result != noErr)
-		DebugLog(@"AudioQueueDispose failed: %ld", result);
+		DebugLog(@"AudioQueueDispose failed: %d", (int)result);
 	
 	result = AudioFileClose(audioFile);
 	if(result != noErr)
-		DebugLog(@"AudioFileClose failed: %ld", result);
+		DebugLog(@"AudioFileClose failed: %d", (int)result);
 	
 	if(packetDescs)
 		free(packetDescs);

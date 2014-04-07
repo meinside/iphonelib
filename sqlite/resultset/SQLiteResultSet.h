@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 10.07.21.
+//  last update: 2014.04.07.
 //
 
 #pragma once
@@ -24,7 +24,7 @@
 
 - (void)addResultRow:(SQLiteResultRow*)row;
 
-- (int)rowCount;
+- (NSUInteger)rowCount;
 
 - (SQLiteResultRow*)rowAtIndex:(int)index;
 

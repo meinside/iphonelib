@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 11.04.28.
+//  last update: 2014.04.07.
 //
 
 #import "SQLiteResultSet.h"
@@ -39,7 +39,7 @@
 #pragma mark -
 #pragma mark getter functions
 
-- (int)rowCount
+- (NSUInteger)rowCount
 {
 	return [rows count];
 }

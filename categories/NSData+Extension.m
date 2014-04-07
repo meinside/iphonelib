@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 4.
 //
-//  last update: 13.03.28.
+//  last update: 2014.04.07.
 //
 
 #import "NSData+Extension.h"
@@ -20,7 +20,7 @@
 - (NSData*)aesEncryptWithKey:(NSString *)key
 			   initialVector:(NSString*)iv
 {
-	int keyLength = [key length];
+	size_t keyLength = [key length];
 	if(keyLength != kCCKeySizeAES128 && keyLength != kCCKeySizeAES192 && keyLength != kCCKeySizeAES256)
 	{
 		DebugLog(@"key length is not 128/192/256-bits long");
@@ -58,7 +58,7 @@
 - (NSData*)aesDecryptWithKey:(NSString *)key
 			   initialVector:(NSString*)iv
 {
-	int keyLength = [key length];
+	size_t keyLength = [key length];
 	if(keyLength != kCCKeySizeAES128 && keyLength != kCCKeySizeAES192 && keyLength != kCCKeySizeAES256)
 	{
 		DebugLog(@"key length is not 128/192/256-bits long");
@@ -99,7 +99,7 @@
 - (NSData*)desEncryptWithKey:(NSString *)key
 			   initialVector:(NSString*)iv
 {
-	int keyLength = [key length];
+	size_t keyLength = [key length];
 	if(keyLength != kCCKeySizeDES)
 	{
 		DebugLog(@"key length is not 64-bits long");
@@ -137,7 +137,7 @@
 - (NSData*)desDecryptWithKey:(NSString *)key
 			   initialVector:(NSString*)iv
 {
-	int keyLength = [key length];
+	size_t keyLength = [key length];
 	if(keyLength != kCCKeySizeDES)
 	{
 		DebugLog(@"key length is not 64-bits long");

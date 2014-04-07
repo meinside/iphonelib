@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 1. 10.
 //
-//  last update: 10.10.14.
+//  last update: 2014.04.07.
 //
 
 #import "OAuthProvider+Twitter.h"
@@ -40,7 +40,7 @@
 	
 	if([status length] > TWITTER_MESSAGE_MAX_LENGTH)
 	{
-		DebugLog(@"status is too long (%d)", [status length]);
+		DebugLog(@"status is too long (%lu)", [status length]);
 		return nil;
 	}
 
@@ -144,7 +144,7 @@
 	
 	if([message length] > TWITTER_MESSAGE_MAX_LENGTH)
 	{
-		DebugLog(@"message is too long (%d)", [message length]);
+		DebugLog(@"message is too long (%lu)", (unsigned long)[message length]);
 		return nil;
 	}
 	
@@ -162,7 +162,7 @@
 	
 	if([message length] > TWITTER_MESSAGE_MAX_LENGTH)
 	{
-		DebugLog(@"message is too long (%d)", [message length]);
+		DebugLog(@"message is too long (%lu)", (unsigned long)[message length]);
 		return nil;
 	}
 

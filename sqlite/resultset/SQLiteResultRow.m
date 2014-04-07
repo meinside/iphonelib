@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 11.04.28.
+//  last update: 2014.04.07.
 //
 
 #import "SQLiteResultRow.h"
@@ -50,7 +50,7 @@
 
 - (int)columnCount
 {
-	return [columnsArray count];
+	return (int)[columnsArray count];
 }
 
 - (NSArray*)columnNames

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 12. 20.
 //
-//  last update: 12.05.17.
+//  last update: 2014.04.07.
 //
 
 #import "SQLiteInsertQuery.h"
@@ -109,13 +109,13 @@
 
 - (int)columnCount
 {
-	return [array count];
+	return (int)[array count];
 }
 
 - (NSString*)queryString
 {
 	NSMutableString* queryString = [NSMutableString string];
-	int columnCount = [array count];
+	int columnCount = (int)[array count];
 	
 	if(replace)
 	{

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 12.08.03.
+//  last update: 2014.04.07.
 //
 
 #import "AVUtil.h"
@@ -67,10 +67,10 @@
 		if(err == noErr)
 			return seconds;
 		else
-			DebugLog(@"AudioFileGetProperty failed: %ld", err);
+			DebugLog(@"AudioFileGetProperty failed: %d", err);
 	}
 	else
-		DebugLog(@"AudioFileOpenURL failed: %ld", err);
+		DebugLog(@"AudioFileOpenURL failed: %d", (int)err);
 	
 	return 0;
 }

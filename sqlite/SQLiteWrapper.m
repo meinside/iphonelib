@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 10. 10.
 //
-//  last update: 12.08.03.
+//  last update: 2014.04.07.
 //
 
 #import "SQLiteWrapper.h"
@@ -119,7 +119,7 @@
 							sqlite3_bind_double(stmt, i+1, [(NSNumber*)value doubleValue]);
 							break;
 						case SQLiteBlob:
-							sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], [(NSData*)value length], SQLITE_STATIC);
+							sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], (int)[(NSData*)value length], SQLITE_STATIC);
 							break;
 						case SQLiteNull:
 							sqlite3_bind_null(stmt, i+1);
@@ -175,7 +175,7 @@
 - (bool)insertWithQuery:(SQLiteInsertQuery*)query
 {
 	NSString* queryString = [query queryString];
-	int columnCount = [query columnCount];	
+	int columnCount = (int)[query columnCount];
 	sqlite3_stmt *stmt = NULL;
 	bool success = NO;
 
@@ -198,7 +198,7 @@
 						sqlite3_bind_double(stmt, i+1, [(NSNumber*)value doubleValue]);
 						break;
 					case SQLiteBlob:
-						sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], [(NSData*)value length], SQLITE_STATIC);
+						sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], (int)[(NSData*)value length], SQLITE_STATIC);
 						break;
 					case SQLiteNull:
 						sqlite3_bind_null(stmt, i+1);
@@ -268,7 +268,7 @@
 							sqlite3_bind_double(stmt, i+1, [(NSNumber*)value doubleValue]);
 							break;
 						case SQLiteBlob:
-							sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], [(NSData*)value length], SQLITE_STATIC);
+							sqlite3_bind_blob(stmt, i+1, [(NSData*)value bytes], (int)[(NSData*)value length], SQLITE_STATIC);
 							break;
 						case SQLiteNull:
 							sqlite3_bind_null(stmt, i+1);

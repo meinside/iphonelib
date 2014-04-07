@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 06.
 //
-//  last update: 12.12.04.
+//  last update: 2014.04.07.
 //
 
 #import "HTTPUtil.h"
@@ -409,12 +409,12 @@ didReceiveResponse:(NSURLResponse *)response
 	@synchronized(self)
 	{
 		//send asyncResultData to async result handler
-		int statusCode = [(NSHTTPURLResponse*)asyncResponse statusCode];
+		NSInteger statusCode = [(NSHTTPURLResponse*)asyncResponse statusCode];
 		NSString* mime = [asyncResponse MIMEType];
 		NSString* encoding = [asyncResponse textEncodingName];
 		NSDictionary* headerFields = [(NSHTTPURLResponse*)asyncResponse allHeaderFields];
 		NSDictionary* resultValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-																		  [NSNumber numberWithInt:statusCode],
+																		  [NSNumber numberWithInteger:statusCode],
 																		  asyncResultData == nil ? [NSData data] : asyncResultData,
 																		  mime == nil ? @"" : mime,
 																		  encoding == nil ? @"" : encoding,

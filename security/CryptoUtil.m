@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 16.
 //
-//  last update: 12.07.16.
+//  last update: 2014.04.07.
 //
 
 #import "CryptoUtil.h"
@@ -78,12 +78,12 @@
 	
 	//(1) calculate lengths
 	//- length of modulus
-	int lenMod = [modulus length];
+	int lenMod = (int)[modulus length];
 	if(modulusBytes[0] >= 0x80)
 		lenMod ++;	//place for UNSIGNED_FLAG_FOR_BIGNUM
 	int lenModHeader = 2 + (lenMod >= 0x80 ? 1 : 0) + (lenMod >= 0x0100 ? 1 : 0);
 	//- length of exponent
-	int lenExp = exponent == nil ? sizeof(DEFAULT_EXPONENT) : [exponent length];
+	int lenExp = exponent == nil ? sizeof(DEFAULT_EXPONENT) : (int)[exponent length];
 	int lenExpHeader = 2;
 	//- length of body
 	int lenBody = lenModHeader + lenMod + lenExpHeader + lenExp;

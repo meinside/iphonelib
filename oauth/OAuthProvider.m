@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 9. 13.
 //
-//  last update: 11.03.14.
+//  last update: 2014.04.07.
 //
 //	(based on OAuth 1.0 revision A)
 //
@@ -248,7 +248,7 @@
 	else
 	{
 		NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		DebugLog(@"auth token request error: %d (%@)", [response statusCode], resultString);
+		DebugLog(@"auth token request error: %ld (%@)", (long)[response statusCode], resultString);
 		[resultString release];
 	}
 
@@ -285,7 +285,7 @@
 	else
 	{
 		NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
-		DebugLog(@"access token request error: %d (%@)", [response statusCode], resultString);
+		DebugLog(@"access token request error: %ld (%@)", (long)[response statusCode], resultString);
 		[resultString release];
 	}
 	
@@ -373,12 +373,12 @@
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 	
-	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInteger:[httpResponse statusCode]], resultString, nil];
 	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
 	
 	if([httpResponse statusCode] != 200)
 	{
-		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
+		DebugLog(@"error: %ld\n%@", (long)[httpResponse statusCode], resultString);
 	}
 	[resultString release];
 	
@@ -455,12 +455,12 @@
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 
-	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInteger:[httpResponse statusCode]], resultString, nil];
 	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
 
 	if([httpResponse statusCode] != 200)
 	{
-		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
+		DebugLog(@"error: %ld\n%@", (long)[httpResponse statusCode], resultString);
 	}
 	[resultString release];
 	
@@ -538,12 +538,12 @@
 	NSString* resultString = [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
 	NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
 	
-	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInt:[httpResponse statusCode]], resultString, nil];
+	NSArray* values = [NSArray arrayWithObjects:[NSNumber numberWithInteger:[httpResponse statusCode]], resultString, nil];
 	NSArray* keys = [NSArray arrayWithObjects:kOAUTH_RESPONSE_STATUSCODE, kOAUTH_RESPONSE_RESULT, nil];
 	
 	if([httpResponse statusCode] != 200)
 	{
-		DebugLog(@"error: %d\n%@", [httpResponse statusCode], resultString);
+		DebugLog(@"error: %ld\n%@", (long)[httpResponse statusCode], resultString);
 	}
 	[resultString release];
 	
@@ -599,7 +599,7 @@
  */
 + (NSString*)nonce
 {
-	srandom(time(NULL));
+	srandom((unsigned int)time(NULL));
 	return [[NSString stringWithFormat:@"%ld", random()] md5Digest];
 }
 

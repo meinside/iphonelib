@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 19.
 //
-//  last update: 13.04.02.
+//  last update: 2014.04.07.
 //
 
 #import "KeychainUtil.h"
@@ -337,7 +337,7 @@
 	else if(status == errSecDecode)
 		return @"unable to decode data";
 	else
-		return [NSString stringWithFormat:@"%ld", status];
+		return [NSString stringWithFormat:@"%d", (int)status];
 }
 
 #pragma mark -

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 10. 11.
 //
-//  last update: 12.10.22.
+//  last update: 2014.04.07.
 //
 
 #import "NSString+Extension.h"
@@ -77,7 +77,7 @@
 	unsigned char result[CC_MD5_DIGEST_LENGTH] = {
 		0,
 	};
-	CC_MD5(cStr, strlen(cStr), result);
+	CC_MD5(cStr, (unsigned int)strlen(cStr), result);
 	
 	return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 			result[0], result[1], result[2], result[3],

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 09. 07. 13.
 //
-//  last update: 11.04.28.
+//  last update: 2014.04.07.
 //
 
 #import "HTTPParam.h"
@@ -99,7 +99,7 @@
 	NSMutableString* description = [NSMutableString string];
 	[description appendFormat:@"%@ {", [self class]];
 
-	[description appendFormat:@"paramType = %d", paramType];
+	[description appendFormat:@"paramType = %ld", (long)paramType];
 	[description appendString:@", "];
 	[description appendFormat:@"paramName = %@", paramName];
 	[description appendString:@", "];

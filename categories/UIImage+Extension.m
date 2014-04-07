@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 3. 5.
 //
-//  last update: 13.10.31.
+//  last update: 2014.04.07.
 //
 
 #import "UIImage+Extension.h"
@@ -25,30 +25,30 @@
 	CGImageRef imageRef = self.CGImage;
 	CFDataRef imageData = CGDataProviderCopyData(CGImageGetDataProvider(imageRef));	//must be released later (1)
 	
-	int bytesPerRow = CGImageGetBytesPerRow(imageRef);
-	int bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
-	int width = CGImageGetWidth(imageRef);
-	int height = CGImageGetHeight(imageRef);
+	size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+	size_t bitsPerPixel = CGImageGetBitsPerPixel(imageRef);
+	size_t width = CGImageGetWidth(imageRef);
+	size_t height = CGImageGetHeight(imageRef);
 	CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef);
 	
 	//get bitmap bytes array
 	unsigned char* pixels = (unsigned char*)CFDataGetBytePtr(imageData);
-	int bytesWidth = bytesPerRow / (bitsPerPixel / 8);	//FIXXX: calculated width of bytes array is different from the width obtained from imageRef (seems to be Framework's bug or something)
+	size_t bytesWidth = bytesPerRow / (bitsPerPixel / 8);	//FIXXX: calculated width of bytes array is different from the width obtained from imageRef (seems to be Framework's bug or something)
 	
 	//apply filter
 	switch(type)
 	{
 		case FilterType1x1:
-			Filter1x1(pixels, bytesPerRow, bitsPerPixel, width, height, filter);
+			Filter1x1(pixels, (int)bytesPerRow, (int)bitsPerPixel, (int)width, (int)height, filter);
 			break;
 		case FilterType3x3:
-			Filter3x3(pixels, bytesPerRow, bitsPerPixel, width, height, filter);
+			Filter3x3(pixels, (int)bytesPerRow, (int)bitsPerPixel, (int)width, (int)height, filter);
 			break;
 		case FilterType5x5:
-			Filter5x5(pixels, bytesPerRow, bitsPerPixel, width, height, filter);
+			Filter5x5(pixels, (int)bytesPerRow, (int)bitsPerPixel, (int)width, (int)height, filter);
 			break;
 		case FilterTypeIC:
-			Filter1C(pixels, bytesPerRow, bitsPerPixel, width, height, filter);
+			Filter1C(pixels, (int)bytesPerRow, (int)bitsPerPixel, (int)width, (int)height, filter);
 			break;
 		default:
 			//do nothing
@@ -67,7 +67,8 @@
 		case 24:	//RRRRRRRRGGGGGGGGBBBBBBBB
 			alphaInfo = kCGImageAlphaNoneSkipLast;
 			rgba = (unsigned char*)malloc(width * height * 4);	//must be released later (2)
-			int i = 0, x, y, originPos, newPos;
+			int i = 0, x, y;
+			size_t originPos, newPos;
 			for(y=0; y < height; y++)
 			{
 				for(x=0; x < width; x++)
