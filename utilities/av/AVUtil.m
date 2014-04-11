@@ -67,7 +67,7 @@
 		if(err == noErr)
 			return seconds;
 		else
-			DebugLog(@"AudioFileGetProperty failed: %d", err);
+			DebugLog(@"AudioFileGetProperty failed: %d", (int)err);
 	}
 	else
 		DebugLog(@"AudioFileOpenURL failed: %d", (int)err);

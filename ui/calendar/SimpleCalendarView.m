@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 2012.12.13.
+//  last update: 2014.04.11.
 //
 
 #import "SimpleCalendarView.h"
@@ -249,9 +249,9 @@
 																   toYear:selectedYear 
 																	month:selectedMonth 
 																	  day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)gotoNextDay:(id)sender
@@ -263,9 +263,9 @@
 																   toYear:selectedYear 
 																	month:selectedMonth 
 																	  day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)gotoPreviousMonth:(id)sender
@@ -277,9 +277,9 @@
 																	 toYear:selectedYear 
 																	  month:selectedMonth 
 																		day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)gotoNextMonth:(id)sender
@@ -291,9 +291,9 @@
 																	 toYear:selectedYear 
 																	  month:selectedMonth 
 																		day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)gotoPreviousYear:(id)sender
@@ -305,9 +305,9 @@
 																	toYear:selectedYear 
 																	 month:selectedMonth 
 																	   day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)gotoNextYear:(id)sender
@@ -319,18 +319,18 @@
 																	toYear:selectedYear 
 																	 month:selectedMonth 
 																	   day:selectedDay];
-	[self refreshWithYear:[dateComp year] 
-					month:[dateComp month] 
-					  day:[dateComp day]];
+	[self refreshWithYear:(int)[dateComp year]
+					month:(int)[dateComp month]
+					  day:(int)[dateComp day]];
 }
 
 - (void)refresh;	//refresh calendar for today
 {
 	int year, month, day;
 	NSDateComponents* dateComp = [[NSCalendar autoupdatingCurrentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
-	year = [dateComp year];
-	month = [dateComp month];
-	day = [dateComp day];
+	year = (int)[dateComp year];
+	month = (int)[dateComp month];
+	day = (int)[dateComp day];
 	
 	[self refreshWithYear:year month:month day:day];
 }
@@ -354,7 +354,7 @@
 	[dateComp setMonth:selectedMonth];
 	[dateComp setDay:1];
 	NSDate* day1 = [calendar dateFromComponents:dateComp];
-	int firstWeekday = [[calendar components:NSWeekdayCalendarUnit fromDate:day1] weekday];
+	int firstWeekday = (int)[[calendar components:NSWeekdayCalendarUnit fromDate:day1] weekday];
 	[dateComp release];
 
 	//DebugLog(@"first week day of this month = %d, %@", firstWeekday, day1);
@@ -368,11 +368,11 @@
 	NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit 
 								   inUnit:NSMonthCalendarUnit 
 								  forDate:previousMonth];
-	int numDaysOfPrevMonth = range.length;
+	int numDaysOfPrevMonth = (int)range.length;
 	range = [calendar rangeOfUnit:NSDayCalendarUnit 
 						   inUnit:NSMonthCalendarUnit 
 						  forDate:day1];
-	int numDaysOfCurrentMonth = range.length;
+	int numDaysOfCurrentMonth = (int)range.length;
 	[dateComp release];
 
 	//DebugLog(@"number of days in current/previous month = %d/%d", numDaysOfCurrentMonth, numDaysOfPrevMonth);
@@ -437,9 +437,9 @@
 																			day:1];
 		
 		//move to previous month & selected day
-		[self refreshWithYear:[dateComp year] 
-						month:[dateComp month] 
-						  day:[sender day]];
+		[self refreshWithYear:(int)[dateComp year]
+						month:(int)[dateComp month]
+						  day:[(SimpleCalendarCellView*)sender day]];
 	}
 	else if([sender cellType] == CalendarCellTypeNextMonth)
 	{
@@ -449,15 +449,15 @@
 																			day:1];
 		
 		//move to next month & selected day
-		[self refreshWithYear:[dateComp year] 
-						month:[dateComp month] 
-						  day:[sender day]];
+		[self refreshWithYear:(int)[dateComp year]
+						month:(int)[dateComp month]
+						  day:[(SimpleCalendarCellView*)sender day]];
 	}
 	else	//if([pressed cellType] == CalendarCellTypeCurrentMonth)
 	{
 		lastSelectedCell = currentSelectedCell;
 		currentSelectedCell = sender;
-		selectedDay = [sender day];
+		selectedDay = [(SimpleCalendarCellView*)sender day];
 
 		[lastSelectedCell setCellStatus:CalendarCellStatusNone];
 		[currentSelectedCell setCellStatus:CalendarCellStatusSelected];

@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 2012.12.13.
+//  last update: 2014.04.11.
 //
 
 #import "UILabel+Extension.h"
@@ -55,7 +55,7 @@
 	CGFloat labelHeight = 0.0f;
 	UIFont* font = self.font;
 
-	for(CGFloat f = initialFontSize; f > self.minimumFontSize; f -= 1.0f)
+	for(CGFloat f = initialFontSize; f > self.minimumScaleFactor; f -= 1.0f)
 	{
 		font = [font fontWithSize:f];
 		CGSize constraintSize = CGSizeMake(self.frame.size.width, MAXFLOAT);

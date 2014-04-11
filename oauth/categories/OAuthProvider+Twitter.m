@@ -40,7 +40,7 @@
 	
 	if([status length] > TWITTER_MESSAGE_MAX_LENGTH)
 	{
-		DebugLog(@"status is too long (%lu)", [status length]);
+		DebugLog(@"status is too long (%lu)", (unsigned long)[status length]);
 		return nil;
 	}
 

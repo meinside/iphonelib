@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 01. 24.
 //
-//  last update: 12.08.28.
+//  last update: 14.04.11.
 //
 
 #import "AsyncImageView.h"
@@ -133,10 +133,10 @@
 		{
 			self.image = nil;
 			
-			DebugLog(@"exception after receiving image data: %@ (%@ / %d bytes)", 
+			DebugLog(@"exception after receiving image data: %@ (%@ / %lu bytes)", 
 					 [e description], 
 					 [response objectForKey:kHTTP_ASYNC_RESULT_CONTENTTYPE], 
-					 [imageData length]);
+					 (unsigned long)[imageData length]);
 		}
 	}
 	[self setNeedsLayout];
