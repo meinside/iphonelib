@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 2012.12.13.
+//  last update: 2014.08.14.
 //
 
 #import "SimpleCalendarCellView.h"
@@ -103,10 +103,21 @@
 		{
 			[QuartzHelper setFillColorOfContext:context withColor:fgColor];
 		}
+		
+		//FIX - drawInRect:withFont:lineBreakMode:alignment: deprecated in iOS 7
+//		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
+//													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
+//											   lineBreakMode:NSLineBreakByWordWrapping 
+//												   alignment:NSTextAlignmentRight];
+		NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+		paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+		paragraphStyle.alignment = NSTextAlignmentRight;
 		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
-													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
-											   lineBreakMode:NSLineBreakByWordWrapping 
-												   alignment:NSTextAlignmentRight];
+											  withAttributes:@{
+															   NSFontAttributeName: [UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)],
+															   NSParagraphStyleAttributeName: paragraphStyle,
+															   }];
+		[paragraphStyle release];
 	}
 }
 

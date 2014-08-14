@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 1. 21.
 //
-//  last update: 11.01.21.
+//  last update: 2014.08.14.
 //
 
 #import "BadgeLabel.h"
@@ -28,7 +28,9 @@
 		UIFont* font = [UIFont systemFontOfSize:8.0];
 		
 		CGRect buttonRect = self.frame;
-		CGSize textSize = [badgeString sizeWithFont:font];
+		//FIX - sizeWithFont: deprecated in iOS 7
+//		CGSize textSize = [badgeString sizeWithFont:font];
+		CGSize textSize = [badgeString sizeWithAttributes:@{NSFontAttributeName: font}];
 		CGRect badgeRect = CGRectMake(buttonRect.size.width - (textSize.width + BADGE_HORIZONTAL_MARGIN * 2), BADGE_VERTICAL_MARGIN * 2, textSize.width, textSize.height);
 		CGRect badgeBgRect = CGRectMake(buttonRect.size.width - (textSize.width + BADGE_HORIZONTAL_MARGIN * 3), BADGE_VERTICAL_MARGIN, textSize.width + BADGE_HORIZONTAL_MARGIN * 2, textSize.height + BADGE_VERTICAL_MARGIN * 2);
 		
@@ -58,7 +60,13 @@
 		CGContextSetRGBStrokeColor(ref, 1.0f, 1.0f, 1.0f, 1.0f);
 		CGContextSetTextDrawingMode(ref, kCGTextFillStroke);
 		CGContextStrokeEllipseInRect(ref, badgeBgRect);
-		[badgeString drawInRect:badgeRect withFont:font];
+
+		//FIX - drawInRect:withFont: deprecated in iOS 7
+//		[badgeString drawInRect:badgeRect withFont:font];
+		[badgeString drawInRect:badgeRect
+				 withAttributes:@{
+								  NSFontAttributeName: font,
+								  }];
 	}
 }
 

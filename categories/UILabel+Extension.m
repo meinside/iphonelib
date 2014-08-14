@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 7. 16.
 //
-//  last update: 2014.04.11.
+//  last update: 2014.08.14.
 //
 
 #import "UILabel+Extension.h"
@@ -59,9 +59,22 @@
 	{
 		font = [font fontWithSize:f];
 		CGSize constraintSize = CGSizeMake(self.frame.size.width, MAXFLOAT);
-		CGSize labelSize = [self.text sizeWithFont:font 
-								 constrainedToSize:constraintSize 
-									 lineBreakMode:NSLineBreakByWordWrapping];
+		
+		//FIX - sizeWithFont:constrainedToSize:lineBreakMode: deprecated in iOS 7
+//		CGSize labelSize = [self.text sizeWithFont:font
+//								 constrainedToSize:constraintSize
+//									 lineBreakMode:NSLineBreakByWordWrapping];
+		NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+		paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+		CGRect textRect = [self.text boundingRectWithSize:constraintSize
+												  options:NSStringDrawingUsesLineFragmentOrigin
+											   attributes:@{
+															NSFontAttributeName: font,
+															NSParagraphStyleAttributeName: paragraphStyle,
+															}
+												  context:nil];
+		CGSize labelSize = textRect.size;
+		[paragraphStyle release];
 
 		labelHeight = labelSize.height;
 		if(labelHeight <= originalLabelHeight)
