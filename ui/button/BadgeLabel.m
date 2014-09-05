@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 11. 1. 21.
 //
-//  last update: 2014.08.14.
+//  last update: 2014.09.05.
 //
 
 #import "BadgeLabel.h"
@@ -29,8 +29,11 @@
 		
 		CGRect buttonRect = self.frame;
 		//FIX - sizeWithFont: deprecated in iOS 7
-//		CGSize textSize = [badgeString sizeWithFont:font];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
 		CGSize textSize = [badgeString sizeWithAttributes:@{NSFontAttributeName: font}];
+#else
+		CGSize textSize = [badgeString sizeWithFont:font];
+#endif
 		CGRect badgeRect = CGRectMake(buttonRect.size.width - (textSize.width + BADGE_HORIZONTAL_MARGIN * 2), BADGE_VERTICAL_MARGIN * 2, textSize.width, textSize.height);
 		CGRect badgeBgRect = CGRectMake(buttonRect.size.width - (textSize.width + BADGE_HORIZONTAL_MARGIN * 3), BADGE_VERTICAL_MARGIN, textSize.width + BADGE_HORIZONTAL_MARGIN * 2, textSize.height + BADGE_VERTICAL_MARGIN * 2);
 		

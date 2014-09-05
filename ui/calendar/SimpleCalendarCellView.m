@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 2014.08.14.
+//  last update: 2014.09.05.
 //
 
 #import "SimpleCalendarCellView.h"
@@ -105,10 +105,7 @@
 		}
 		
 		//FIX - drawInRect:withFont:lineBreakMode:alignment: deprecated in iOS 7
-//		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
-//													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)] 
-//											   lineBreakMode:NSLineBreakByWordWrapping 
-//												   alignment:NSTextAlignmentRight];
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0
 		NSMutableParagraphStyle* paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
 		paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 		paragraphStyle.alignment = NSTextAlignmentRight;
@@ -118,6 +115,12 @@
 															   NSParagraphStyleAttributeName: paragraphStyle,
 															   }];
 		[paragraphStyle release];
+#else
+		[[NSString stringWithFormat:@"%02d", day] drawInRect:rect
+													withFont:[UIFont fontWithName:DAY_FONT size:(rect.size.width / DIVIDER_FOR_DAY_FONT_SIZE)]
+											   lineBreakMode:NSLineBreakByWordWrapping
+												   alignment:NSTextAlignmentRight];
+#endif
 	}
 }
 
