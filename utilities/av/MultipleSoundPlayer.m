@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 12. 07. 18.
 //
-//  last update: 12.08.07.
+//  last update: 2014.09.22.
 //
 
 #import "MultipleSoundPlayer.h"
@@ -229,8 +229,8 @@ static MultipleSoundPlayer* _mplayer;
 		self.player.enableRate = YES;
 		self.player.rate = rate;
 #endif
+
 		[self.player prepareToPlay];
-		
 		[self.player play];
 		
 		[delegate player:self didStartPlayingFilepath:filepath];
@@ -435,10 +435,15 @@ static MultipleSoundPlayer* _mplayer;
 	}
 	else
 	{
-		DebugLog(@"did finish playing unsuccessfully");
+		DebugLog(@"did finish playing unsuccessfully: %@", self.lastPlayedFilepath);
 		
 		[delegate player:self didFinishPlayingSuccessfully:NO];
 	}
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
+{
+	DebugLog(@"decode error: %@", error);
 }
 
 - (void)audioPlayerBeginInterruption:(AVAudioPlayer *)aPlayer
