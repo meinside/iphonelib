@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 05. 22.
 //
-//  last update: 2014.04.07.
+//  last update: 2014.12.10.
 //
 
 #pragma GCC diagnostic ignored "-Wmissing-prototypes"
@@ -39,8 +39,8 @@ void outputCallback(void* userData, AudioQueueRef inAudioQueue, AudioQueueBuffer
 	UInt32 numPackets = wrapper.numPacketsToRead;
 	
 //	DebugLog(@"currentPacket = %d", wrapper.currentPacket);
-	
-	OSStatus result = AudioFileReadPackets(wrapper.audioFile, false, &numBytesReadFromFile, wrapper.packetDescs, wrapper.currentPacket, &numPackets, inBuffer->mAudioData);
+
+	OSStatus result = AudioFileReadPacketData(wrapper.audioFile, false, &numBytesReadFromFile, wrapper.packetDescs, wrapper.currentPacket, &numPackets, inBuffer->mAudioData);
 	if(result != noErr)
 		DebugLog(@"AudioFileReadPackets failed");
 	

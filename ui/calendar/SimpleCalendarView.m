@@ -5,7 +5,7 @@
 //
 //  Created by meinside on 10. 07. 01.
 //
-//  last update: 2014.04.11.
+//  last update: 2014.12.10.
 //
 
 #import "SimpleCalendarView.h"
@@ -188,7 +188,7 @@
 	[dateComp release];
 	
 	//return added date component
-	return [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
+	return [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
 					   fromDate:addedDay];
 }
 
@@ -212,7 +212,7 @@
 	[dateComp release];
 	
 	//return added date component
-	return [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
+	return [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
 					   fromDate:addedMonth];
 }
 
@@ -236,7 +236,7 @@
 	[dateComp release];
 	
 	//return added date component
-	return [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit 
+	return [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
 					   fromDate:addedYear];
 }
 
@@ -327,7 +327,8 @@
 - (void)refresh;	//refresh calendar for today
 {
 	int year, month, day;
-	NSDateComponents* dateComp = [[NSCalendar autoupdatingCurrentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:[NSDate date]];
+	NSDateComponents* dateComp = [[NSCalendar autoupdatingCurrentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay
+																			 fromDate:[NSDate date]];
 	year = (int)[dateComp year];
 	month = (int)[dateComp month];
 	day = (int)[dateComp day];
@@ -354,7 +355,8 @@
 	[dateComp setMonth:selectedMonth];
 	[dateComp setDay:1];
 	NSDate* day1 = [calendar dateFromComponents:dateComp];
-	int firstWeekday = (int)[[calendar components:NSWeekdayCalendarUnit fromDate:day1] weekday];
+	int firstWeekday = (int)[[calendar components:NSCalendarUnitWeekday
+										 fromDate:day1] weekday];
 	[dateComp release];
 
 	//DebugLog(@"first week day of this month = %d, %@", firstWeekday, day1);
@@ -365,12 +367,12 @@
 	NSDate* previousMonth = [calendar dateByAddingComponents:dateComp 
 													  toDate:day1 
 													 options:0];
-	NSRange range = [calendar rangeOfUnit:NSDayCalendarUnit 
-								   inUnit:NSMonthCalendarUnit 
+	NSRange range = [calendar rangeOfUnit:NSCalendarUnitDay
+								   inUnit:NSCalendarUnitMonth
 								  forDate:previousMonth];
 	int numDaysOfPrevMonth = (int)range.length;
-	range = [calendar rangeOfUnit:NSDayCalendarUnit 
-						   inUnit:NSMonthCalendarUnit 
+	range = [calendar rangeOfUnit:NSCalendarUnitDay
+						   inUnit:NSCalendarUnitMonth 
 						  forDate:day1];
 	int numDaysOfCurrentMonth = (int)range.length;
 	[dateComp release];
